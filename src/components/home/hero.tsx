@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Maximize2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -42,16 +42,28 @@ export function Hero() {
         </div>
 
         <figure className="hero__product" data-reveal>
-          <Image
-            alt="AXIO 店群运营控制台全景"
-            className="hero__product-image"
-            data-testid="hero-product-evidence"
-            height={1258}
-            priority
-            sizes="(max-width: 960px) 100vw, 48vw"
-            src={heroEvidenceSrc}
-            width={1543}
-          />
+          <a
+            aria-label="全景查看 AXIO 店群运营控制台"
+            className="hero__product-link"
+            href={heroEvidenceSrc}
+            rel="noreferrer"
+            target="_blank"
+          >
+            <Image
+              alt="AXIO 店群运营控制台全景"
+              className="hero__product-image"
+              data-testid="hero-product-evidence"
+              height={1258}
+              priority
+              sizes="(max-width: 960px) 100vw, (max-width: 1199px) 58vw, 72vw"
+              src={heroEvidenceSrc}
+              width={1543}
+            />
+            <span aria-hidden="true" className="hero__product-expand">
+              <Maximize2 size={16} strokeWidth={2} />
+              查看全景
+            </span>
+          </a>
         </figure>
       </div>
     </section>

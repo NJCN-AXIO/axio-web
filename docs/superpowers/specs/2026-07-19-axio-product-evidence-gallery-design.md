@@ -66,3 +66,12 @@ Use thin semantic borders and page rhythm, not nested cards, fake browser chrome
 - 2048x1024, 1440x900, 1024x768, and 390x844 have no crop, overlap, or overflow.
 - Light and dark visual reviews pass.
 - Unit tests, Playwright regressions, static export, formatting, TypeScript, and lint complete successfully.
+## 2026-07-20 Positioning And Hero Iteration
+
+- The desktop hero is a full-viewport composition with the control-center screenshot as the dominant visual. At 2048px and 1440px widths, the rendered image must be at least 1080px and 900px wide respectively.
+- The hero provides a base-path-safe full-resolution link named 全景查看 AXIO 店群运营控制台.
+- Public proof copy describes Shopee 店群运营, 妙手 ERP 协同, and 自动化精准控价 instead of private store, site, or market-platform counts.
+- AXIO is positioned as primarily serving Shopee and using 妙手 ERP to carry out batch execution.
+- The transparent formula evidence explicitly states that site fees, exchange rates, shipping, and target profit are reverse-calculated for automated batch precision pricing.
+- Risk-control and pricing-formula media use a light screenshot-matching backdrop so intrinsic-width images do not expose black side bars.
+- The /solutions page uses qualitative operating stages and multi-site language instead of fixed store-count ranges.

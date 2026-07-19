@@ -92,7 +92,7 @@
 
 .hero {
   display: block;
-  min-height: min(850px, calc(100svh - 40px));
+  min-height: 100svh;
   padding-top: 72px;
   overflow: hidden;
   background: var(--surface);
@@ -100,18 +100,18 @@
 
 .hero__inner {
   display: grid;
-  width: min(100%, 1760px);
-  min-height: min(778px, calc(100svh - 112px));
-  padding-top: 48px;
-  padding-bottom: 56px;
+  width: min(100%, 1920px);
+  min-height: calc(100svh - 72px);
+  padding-top: 24px;
+  padding-bottom: 32px;
   align-items: center;
-  grid-template-columns: minmax(0, 0.8fr) minmax(440px, 1.2fr);
-  gap: clamp(32px, 4vw, 76px);
+  grid-template-columns: minmax(280px, 0.5fr) minmax(0, 1.5fr);
+  gap: clamp(24px, 3vw, 56px);
 }
 
 .hero__copy {
-  max-width: 650px;
-  padding-top: 54px;
+  max-width: 520px;
+  padding-top: 32px;
   align-self: start;
 }
 
@@ -160,17 +160,58 @@
   display: flex;
   width: 100%;
   min-width: 0;
+  height: min(920px, calc(100svh - 128px));
   margin: 0;
   align-items: center;
   justify-content: center;
   overflow: hidden;
 }
 
+.hero__product-link {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  color: var(--page);
+}
+
+.hero__product-link:focus-visible {
+  outline: 3px solid var(--brand);
+  outline-offset: 4px;
+}
+
+.hero__product-expand {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  display: inline-flex;
+  min-height: 44px;
+  padding: 0 14px;
+  align-items: center;
+  border: 1px solid rgb(255 255 255 / 0.22);
+  border-radius: 4px;
+  background: rgb(20 22 27 / 0.88);
+  color: #f8f8f6;
+  font-size: 13px;
+  font-weight: 750;
+  gap: 8px;
+  transition:
+    background-color 160ms ease,
+    transform 160ms ease;
+}
+
+.hero__product-link:hover .hero__product-expand {
+  background: var(--brand);
+  transform: translateY(-2px);
+}
+
 .hero__product-image {
   display: block;
-  width: 100%;
+  width: auto;
   max-width: 100%;
-  height: auto;
+  height: 100%;
   object-fit: contain;
 }
 
@@ -431,7 +472,7 @@
   overflow: hidden;
   border: 1px solid var(--border);
   border-radius: 4px;
-  background: #08090c;
+  background: #f5f6f8;
   cursor: zoom-in;
 }
 
@@ -751,6 +792,10 @@
 }
 
 @media (max-width: 1199px) {
+  .hero__inner {
+    grid-template-columns: minmax(280px, 0.82fr) minmax(0, 1.18fr);
+  }
+
   .home-band__inner {
     padding-top: 96px;
     padding-bottom: 96px;

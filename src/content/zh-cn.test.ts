@@ -15,10 +15,13 @@ describe("Simplified Chinese site content", () => {
 
   it("owns the approved proof, package, and local-client boundary copy", () => {
     expect(zhCN.proofValues.map((proof) => proof.value)).toEqual([
-      "116 家店铺",
-      "6 个 Shopee 站点",
-      "4 个市场信号平台",
+      "Shopee 店群运营",
+      "妙手 ERP 协同",
+      "自动化精准控价",
     ]);
+    expect(zhCN.hero.subtitle).toContain("Shopee");
+    expect(zhCN.hero.description).toContain("妙手 ERP");
+    expect(JSON.stringify(zhCN)).not.toMatch(/116 店|六站点|6 个 Shopee 站点/);
     expect(zhCN.packages.map((item) => item.name)).toEqual([
       "Starter",
       "Professional",

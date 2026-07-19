@@ -17,7 +17,9 @@ it("renders the approved homepage identity, proof, and capability boundaries", (
   expect(
     screen.getByRole("heading", { level: 1, name: "AXIO 智核" }),
   ).toBeVisible();
-  expect(screen.getByText("跨境电商店群全自动化运营系统")).toBeVisible();
+  expect(
+    screen.getByText("面向 Shopee 的跨境电商店群全自动化运营系统"),
+  ).toBeVisible();
   expect(screen.getByRole("link", { name: "预约产品演示" })).toHaveAttribute(
     "href",
     "/demo",
@@ -33,9 +35,18 @@ it("renders the approved homepage identity, proof, and capability boundaries", (
   expect(document.querySelector("canvas")).not.toBeInTheDocument();
   expect(screen.getAllByText("NOW")).toHaveLength(21);
   expect(screen.getAllByText("NEXT")).toHaveLength(3);
-  expect(screen.getByText("116 家店铺")).toBeVisible();
-  expect(screen.getByText("6 个 Shopee 站点")).toBeVisible();
-  expect(screen.getByText("4 个市场信号平台")).toBeVisible();
+  expect(screen.getByText("Shopee 店群运营")).toBeVisible();
+  expect(screen.getByText("妙手 ERP 协同")).toBeVisible();
+  expect(screen.getByText("自动化精准控价")).toBeVisible();
+  expect(screen.queryByText("116 家店铺")).not.toBeInTheDocument();
+  expect(screen.queryByText("6 个 Shopee 站点")).not.toBeInTheDocument();
+  expect(screen.queryByText("4 个市场信号平台")).not.toBeInTheDocument();
+  expect(
+    screen.getByRole("link", { name: "全景查看 AXIO 店群运营控制台" }),
+  ).toHaveAttribute(
+    "href",
+    expect.stringContaining("/images/product-evidence/control-center.webp"),
+  );
   expect(
     screen.getByRole("heading", {
       name: "核心功能：新建任务采集上架流程",
@@ -75,9 +86,11 @@ it("shows all four real product interfaces without a hidden gallery", () => {
     ).toHaveAttribute("href", expect.stringContaining(path));
   }
 
-  expect(within(evidence).getByText("透明定价公式")).toBeVisible();
+  expect(within(evidence).getByText("透明公式批量精准控价")).toBeVisible();
   expect(
-    within(evidence).getByText("站点费率、汇率、运费与目标利润逐项反算"),
+    within(evidence).getByText(
+      "逐项反算站点费率、汇率、运费与目标利润，应用于自动化系统批量精准控价",
+    ),
   ).toBeVisible();
   expect(within(evidence).getByText("违禁管控")).toBeVisible();
   expect(

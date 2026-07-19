@@ -17,7 +17,7 @@ const publicRoutes = [
   },
   {
     Page: SolutionsPage,
-    heading: "从 1 家店到 200 家店",
+    heading: "按经营阶段扩展自动化",
     metadata: solutionsMetadata,
   },
   {
@@ -81,8 +81,12 @@ it("renders all approved capability groups and delivery statuses", () => {
   expect(screen.getAllByText("NEXT")).toHaveLength(3);
 });
 
-it("segments solutions by seller operating scale", () => {
+it("segments solutions by seller operating stage", () => {
   render(<SolutionsPage />);
+
+  expect(document.body).not.toHaveTextContent(
+    /\d+\s*至\s*\d+\s*家店|从\s*\d+\s*家店到\s*\d+\s*家店|六站点/,
+  );
 
   for (const audience of ["起步卖家", "成长团队", "店群与服务商"]) {
     expect(screen.getByRole("heading", { name: audience })).toBeVisible();

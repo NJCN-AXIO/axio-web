@@ -13,7 +13,7 @@ export const capabilityGroups = [
   },
   {
     id: "discovery",
-    title: "四平台选品与关键词增长",
+    title: "多平台市场信号与关键词增长",
     items: [
       { label: "Shopee、Temu、TikTok、Amazon 市场信号入口", status: "NOW" },
       { label: "买家搜索词与供应链找品词双向补全", status: "NOW" },
@@ -28,7 +28,7 @@ export const capabilityGroups = [
       { label: "一句话拆解商品、数量、站点、店群与策略", status: "NOW" },
       { label: "多来源采集与可编辑任务参数", status: "NOW" },
       { label: "自动匹配、指定店铺与 P0/P1/P2 筛选", status: "NOW" },
-      { label: "六站点成本、费率、物流、折扣与利润反算", status: "NOW" },
+      { label: "多站点成本、费率、物流、折扣与利润反算", status: "NOW" },
     ],
   },
   {
@@ -55,8 +55,8 @@ export const capabilityGroups = [
     id: "matrix",
     title: "矩阵运营与私有化交付",
     items: [
-      { label: "G1/G2 分组与六站点运营", status: "NOW" },
-      { label: "116 店矩阵经营证据", status: "NOW" },
+      { label: "店群分组与多站点运营", status: "NOW" },
+      { label: "店群矩阵经营与结果回读", status: "NOW" },
       { label: "本地 Windows 客户端", status: "NOW" },
       { label: "源码交付与私有化部署", status: "NOW" },
     ],
@@ -64,7 +64,7 @@ export const capabilityGroups = [
 ] as const satisfies readonly CapabilityGroup[];
 
 export const zhCN: SiteContent = {
-  brand: { name: "AXIO 智核", subtitle: "跨境电商店群全自动化运营系统" },
+  brand: { name: "AXIO 智核", subtitle: "Shopee 店群全自动化运营系统" },
   navigation: [
     { label: "产品能力", href: "/product" },
     { label: "解决方案", href: "/solutions" },
@@ -74,16 +74,16 @@ export const zhCN: SiteContent = {
   ],
   hero: {
     title: "AXIO 智核",
-    subtitle: "跨境电商店群全自动化运营系统",
+    subtitle: "面向 Shopee 的跨境电商店群全自动化运营系统",
     description:
-      "从市场信号到店群执行，把选品、定价、上架与存量经营编排成可预览、可确认、可回读的运营闭环。",
+      "主要服务于 Shopee 平台，并借助妙手 ERP 承接批量执行，将选品、精准定价、上架与存量经营编排成可预览、可确认、可回读的自动化闭环。",
     primaryCta: { label: "预约产品演示", href: "/demo" },
     secondaryCta: { label: "查看产品能力", href: "#capabilities" },
   },
   proofValues: [
-    { value: "116 家店铺", label: "匿名化矩阵经营证据" },
-    { value: "6 个 Shopee 站点", label: "统一成本与运营口径" },
-    { value: "4 个市场信号平台", label: "覆盖多源选品入口" },
+    { value: "Shopee 店群运营", label: "主要服务平台与经营场景" },
+    { value: "妙手 ERP 协同", label: "承接批量上架与运营执行" },
+    { value: "自动化精准控价", label: "透明公式驱动批量控价" },
   ],
   operatingLoop: [
     "市场信号",
@@ -102,7 +102,7 @@ export const zhCN: SiteContent = {
     {
       name: "Professional",
       audience: "成长型多站点团队",
-      description: "面向 10 至 200 店规模，统一店群编排、风险控制与经营回读。",
+      description: "面向成长型多店铺团队，统一店群编排、风险控制与经营回读。",
     },
     {
       name: "Enterprise",
@@ -130,8 +130,9 @@ export const zhCN: SiteContent = {
         iconKey: "collection",
       },
       {
-        label: "透明定价公式",
-        detail: "站点费率、汇率、运费与目标利润逐项反算",
+        label: "透明公式批量精准控价",
+        detail:
+          "逐项反算站点费率、汇率、运费与目标利润，应用于自动化系统批量精准控价",
         iconKey: "pricing",
       },
       {

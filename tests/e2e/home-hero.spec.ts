@@ -33,14 +33,47 @@ test.describe("homepage hero", () => {
     const headingBox = await page
       .getByRole("heading", { level: 1 })
       .boundingBox();
-    const proofBox = await page.locator(".proof-strip").boundingBox();
 
     expect(headingBox).not.toBeNull();
-    expect(proofBox).not.toBeNull();
     expect(headingBox!.y / 1024).toBeLessThan(0.32);
-    expect(proofBox!.y).toBeLessThan(1024);
     await expectNoHorizontalOverflow(page);
   });
+
+  for (const viewport of [
+    { width: 2048, height: 1024, minimumImageWidth: 1080 },
+    { width: 1440, height: 900, minimumImageWidth: 900 },
+  ]) {
+    test(
+      "makes the control center the full-viewport hero at " +
+        viewport.width +
+        "px",
+      async ({ page }) => {
+        await page.setViewportSize(viewport);
+        await page.goto("./");
+
+        const evidence = await expectEvidenceLoaded(page);
+        const heroBox = await page.locator(".hero").boundingBox();
+        const imageBox = await evidence.boundingBox();
+        expect(heroBox).not.toBeNull();
+        expect(imageBox).not.toBeNull();
+        expect(heroBox!.height).toBeGreaterThanOrEqual(viewport.height - 1);
+        expect(imageBox!.width).toBeGreaterThanOrEqual(
+          viewport.minimumImageWidth,
+        );
+        await expect(
+          page.getByRole("link", {
+            name: "全景查看 AXIO 店群运营控制台",
+          }),
+        ).toHaveAttribute(
+          "href",
+          expect.stringContaining(
+            "/images/product-evidence/control-center.webp",
+          ),
+        );
+        await expectNoHorizontalOverflow(page);
+      },
+    );
+  }
 
   test("preserves the responsive split and complete image", async ({
     page,

@@ -126,6 +126,29 @@ test.describe("homepage product evidence", () => {
       bottomBorder: "0px",
     });
   });
+  test("uses light screenshot backdrops instead of black side bars", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 2048, height: 1024 });
+    await page.goto("./");
+    await page.getByTestId("product-evidence").scrollIntoViewIfNeeded();
+
+    for (const name of [
+      "AXIO 违禁管控与风险词库界面",
+      "AXIO 站点定价公式与利润反算界面",
+    ]) {
+      const channels = await page
+        .getByRole("img", { name })
+        .locator("..")
+        .evaluate((media) =>
+          (getComputedStyle(media).backgroundColor.match(/[\d.]+/g) ?? [])
+            .slice(0, 3)
+            .map(Number),
+        );
+      expect(Math.min(...channels)).toBeGreaterThan(220);
+    }
+  });
+
   test("keeps inverse CTA copy readable in both themes", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
 
