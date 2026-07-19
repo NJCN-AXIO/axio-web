@@ -1,12 +1,4 @@
 import { render, screen } from "@testing-library/react";
-import { vi } from "vitest";
-
-vi.mock("../components/home/operations-canvas", () => ({
-  OperationsCanvas: () => (
-    <canvas aria-hidden="true" data-canvas-ready="true" />
-  ),
-}));
-
 import HomePage from "./page";
 
 it("renders the approved homepage identity, proof, and capability boundaries", () => {
@@ -24,6 +16,13 @@ it("renders the approved homepage identity, proof, and capability boundaries", (
     "href",
     "#capabilities",
   );
+  const productEvidence = screen.getByRole("img", {
+    name: "AXIO 新建上架任务与精准定价工作台",
+  });
+  expect(
+    decodeURIComponent(productEvidence.getAttribute("src") ?? ""),
+  ).toContain("/images/product-evidence/task-pricing.webp");
+  expect(document.querySelector("canvas")).not.toBeInTheDocument();
   expect(screen.getAllByText("NOW")).toHaveLength(21);
   expect(screen.getAllByText("NEXT")).toHaveLength(3);
   expect(screen.getByText("116 家店铺")).toBeVisible();

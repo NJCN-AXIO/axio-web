@@ -1,9 +1,15 @@
 import { defineConfig, devices } from "@playwright/test";
 
+const rawExternalBaseUrl = process.env.PLAYWRIGHT_BASE_URL;
+const externalBaseUrl =
+  rawExternalBaseUrl && !rawExternalBaseUrl.endsWith("/")
+    ? `${rawExternalBaseUrl}/`
+    : rawExternalBaseUrl;
+
 export default defineConfig({
   testDir: "./tests/e2e",
   use: {
-    baseURL: "http://127.0.0.1:3000",
+    baseURL: externalBaseUrl ?? "http://127.0.0.1:3000",
     trace: "on-first-retry",
   },
   projects: [
@@ -19,9 +25,11 @@ export default defineConfig({
       use: devices["Pixel 7"],
     },
   ],
-  webServer: {
-    command: "npm run dev -- --hostname 127.0.0.1",
-    reuseExistingServer: !process.env.CI,
-    url: "http://127.0.0.1:3000",
-  },
+  webServer: externalBaseUrl
+    ? undefined
+    : {
+        command: "npm run dev -- --hostname 127.0.0.1",
+        reuseExistingServer: false,
+        url: "http://127.0.0.1:3000",
+      },
 });

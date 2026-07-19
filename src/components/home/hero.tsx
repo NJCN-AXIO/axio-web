@@ -1,20 +1,27 @@
 import { ArrowRight } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
+import { withBasePath } from "../../config/site-path";
 import { getSiteContent } from "../../content";
-import { OperationsCanvas } from "./operations-canvas";
 
 const content = getSiteContent();
+const heroEvidenceSrc = withBasePath(
+  "/images/product-evidence/task-pricing.webp",
+);
 
 export function Hero() {
   return (
-    <section className="home-band hero" data-testid="hero" id="top">
-      <div className="hero__canvas" role="presentation">
-        <OperationsCanvas />
-      </div>
+    <section
+      aria-labelledby="home-hero-title"
+      className="home-band hero"
+      data-testid="hero"
+      id="top"
+    >
       <div className="home-band__inner hero__inner">
         <div className="hero__copy" data-reveal>
-          <h1>{content.hero.title}</h1>
+          <p className="hero__eyebrow">AXIO / OPERATIONS SYSTEM</p>
+          <h1 id="home-hero-title">{content.hero.title}</h1>
           <p className="hero__subtitle">{content.hero.subtitle}</p>
           <p className="hero__description">{content.hero.description}</p>
           <div className="hero__actions">
@@ -34,28 +41,18 @@ export function Hero() {
           </div>
         </div>
 
-        <div
-          aria-label="AXIO 运营链路"
-          className="hero__operations"
-          data-reveal
-        >
-          <p className="hero__operations-label">OPERATION FIELD / LIVE</p>
-          <ol>
-            <li>
-              <span>01</span> 市场信号接入
-            </li>
-            <li>
-              <span>02</span> 任务与定价编排
-            </li>
-            <li>
-              <span>03</span> 店群受控执行
-            </li>
-            <li>
-              <span>04</span> 经营结果回读
-            </li>
-          </ol>
-          <p className="hero__boundary">凭证与浏览器配置保留在本地环境</p>
-        </div>
+        <figure className="hero__product" data-reveal>
+          <Image
+            alt="AXIO 新建上架任务与精准定价工作台"
+            className="hero__product-image"
+            data-testid="hero-product-evidence"
+            height={1823}
+            priority
+            sizes="(max-width: 960px) 100vw, 46vw"
+            src={heroEvidenceSrc}
+            width={1600}
+          />
+        </figure>
       </div>
     </section>
   );
