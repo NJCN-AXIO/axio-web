@@ -65,10 +65,10 @@ test.describe("homepage hero", () => {
       }),
     );
     expect(imageGeometry).toMatchObject({
-      naturalWidth: 1600,
-      naturalHeight: 1823,
-      width: "1600",
-      height: "1823",
+      naturalWidth: 1543,
+      naturalHeight: 1258,
+      width: "1543",
+      height: "1258",
       objectFit: "contain",
     });
 

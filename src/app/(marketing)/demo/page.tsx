@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { WechatContact } from "../../../components/contact/wechat-contact";
 import { DemoVideoPlayer } from "../../../components/media/demo-video-player";
 import { DemoForm } from "../../../components/marketing/demo-form";
 import { MarketingCta } from "../../../components/marketing/marketing-cta";
@@ -62,7 +63,10 @@ export default function DemoPage() {
             <h2>说明你的店群经营场景</h2>
             <p>我们会结合站点、店铺规模和团队协作方式安排产品沟通。</p>
           </header>
-          <DemoForm />
+          <div className="demo-booking-layout">
+            <DemoForm />
+            <WechatContact className="demo-booking__wechat" />
+          </div>
         </div>
       </section>
       <MarketingCta

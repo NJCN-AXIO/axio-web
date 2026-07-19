@@ -403,6 +403,24 @@
   background: var(--brand);
 }
 
+.demo-booking-layout {
+  display: grid;
+  align-items: start;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 0.38fr);
+  gap: clamp(36px, 5vw, 76px);
+}
+
+.demo-booking__wechat {
+  padding: 24px 0;
+  border-top: 2px solid var(--brand);
+  border-bottom: 1px solid var(--border);
+  grid-template-columns: 1fr;
+}
+
+.demo-booking__wechat .wechat-contact__qr {
+  width: min(240px, 100%);
+}
+
 .demo-form {
   display: grid;
   padding: 38px;
@@ -486,7 +504,7 @@
 
 .marketing-cta p {
   margin-top: 18px;
-  color: var(--border);
+  color: var(--inverse-muted);
 }
 
 .marketing-cta .button {
@@ -509,6 +527,20 @@
 
   .marketing-hero__aside {
     width: min(100%, 720px);
+  }
+}
+
+@media (max-width: 900px) {
+  .demo-booking-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .demo-booking__wechat {
+    grid-template-columns: 190px minmax(0, 1fr);
+  }
+
+  .demo-booking__wechat .wechat-contact__qr {
+    width: 190px;
   }
 }
 
@@ -594,6 +626,14 @@
     bottom: 10px;
     padding-inline: 12px;
     font-size: 12px;
+  }
+
+  .demo-booking__wechat {
+    grid-template-columns: 1fr;
+  }
+
+  .demo-booking__wechat .wechat-contact__qr {
+    width: min(220px, 100%);
   }
 
   .demo-form {

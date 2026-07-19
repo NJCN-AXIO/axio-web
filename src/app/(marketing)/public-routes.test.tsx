@@ -124,6 +124,10 @@ it("orders the overview position, core workflow video, then booking form", () =>
   expect(
     within(form).getByRole("button", { name: "预约通道配置中" }),
   ).toBeDisabled();
+  expect(within(form).getByText("微信咨询 · 楠 Nay")).toBeVisible();
+  expect(
+    within(form).getByRole("img", { name: "楠 Nay 的微信二维码" }),
+  ).toBeVisible();
 });
 
 it("states the privacy boundary for marketplace credentials", () => {

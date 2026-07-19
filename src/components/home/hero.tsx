@@ -7,7 +7,7 @@ import { getSiteContent } from "../../content";
 
 const content = getSiteContent();
 const heroEvidenceSrc = withBasePath(
-  "/images/product-evidence/task-pricing.webp",
+  "/images/product-evidence/control-center.webp",
 );
 
 export function Hero() {
@@ -43,14 +43,14 @@ export function Hero() {
 
         <figure className="hero__product" data-reveal>
           <Image
-            alt="AXIO 新建上架任务与精准定价工作台"
+            alt="AXIO 店群运营控制台全景"
             className="hero__product-image"
             data-testid="hero-product-evidence"
-            height={1823}
+            height={1258}
             priority
-            sizes="(max-width: 960px) 100vw, 46vw"
+            sizes="(max-width: 960px) 100vw, 48vw"
             src={heroEvidenceSrc}
-            width={1600}
+            width={1543}
           />
         </figure>
       </div>
