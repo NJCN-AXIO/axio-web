@@ -7,6 +7,7 @@ export function getSiteContent(locale: Locale = "zh-CN"): SiteContent {
   return zhCN;
 }
 
+export { capabilityGroups } from "./zh-cn";
 export type {
   CapabilityGroup,
   CapabilityItem,
