@@ -1,3 +1,4 @@
+import { withBasePath } from "../config/site-path";
 import { demoVideos } from "./videos";
 
 it("keeps the two demo positions in one typed registry", () => {
@@ -5,7 +6,7 @@ it("keeps the two demo positions in one typed registry", () => {
     id: "overview",
     title: "AXIO 全局功能演示",
     status: "pending",
-    poster: "/images/video-posters/axio-overview-cover.webp",
+    poster: withBasePath("/images/video-posters/axio-overview-cover.webp"),
     src: null,
     durationSeconds: null,
   });
@@ -13,8 +14,8 @@ it("keeps the two demo positions in one typed registry", () => {
     id: "core-workflow",
     title: "核心功能：新建任务采集上架流程",
     status: "available",
-    poster: "/images/video-posters/axio-core-task-workflow.webp",
-    src: "/videos/axio-core-task-workflow.mp4",
+    poster: withBasePath("/images/video-posters/axio-core-task-workflow.webp"),
+    src: withBasePath("/videos/axio-core-task-workflow.mp4"),
     durationSeconds: 56.7,
   });
 });

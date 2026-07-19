@@ -1,9 +1,8 @@
 import type { NextConfig } from "next";
 
-const configuredBasePath = process.env.NEXT_PUBLIC_BASE_PATH?.trim() ?? "";
-const basePath = configuredBasePath
-  ? `/${configuredBasePath.replace(/^\/+|\/+$/g, "")}`
-  : "";
+import { normalizeBasePath } from "./src/config/site-path";
+
+const basePath = normalizeBasePath(process.env.NEXT_PUBLIC_BASE_PATH ?? "");
 
 const nextConfig: NextConfig = {
   assetPrefix: basePath || undefined,

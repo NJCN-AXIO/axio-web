@@ -48,12 +48,7 @@ jobs:
         run: npm ci
 
       - name: Verify static site
-        run: |
-          npm run lint
-          npm run typecheck
-          npm run format:check
-          npm test
-          npm run build
+        run: npm run verify
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4

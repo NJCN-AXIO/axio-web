@@ -11,13 +11,10 @@ it("renders an accessible native player for the completed core workflow", () => 
   expect(player).toHaveAttribute("playsinline");
   expect(player).toHaveAttribute("preload", "metadata");
   expect(player).not.toHaveAttribute("autoplay");
-  expect(player).toHaveAttribute(
-    "poster",
-    "/images/video-posters/axio-core-task-workflow.webp",
-  );
+  expect(player).toHaveAttribute("poster", demoVideos.coreWorkflow.poster);
   expect(player.querySelector("source")).toHaveAttribute(
     "src",
-    "/videos/axio-core-task-workflow.mp4",
+    demoVideos.coreWorkflow.src,
   );
 });
 

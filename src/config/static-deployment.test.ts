@@ -61,7 +61,7 @@ describe("Pages release workflow", () => {
 
     expect(existsSync(workflowPath)).toBe(true);
     const workflow = readFileSync(workflowPath, "utf8");
-    expect(workflow).toContain("npm run build");
+    expect(workflow).toContain("npm run verify");
     expect(workflow).toContain("path: ./out");
     expect(workflow).toContain("actions/deploy-pages@v4");
   });
@@ -74,5 +74,8 @@ describe("static asset paths", () => {
       "/axio-web/videos/demo.mp4",
     );
     expect(withBasePath("/videos/demo.mp4", "")).toBe("/videos/demo.mp4");
+    expect(withBasePath("/videos/demo.mp4", " /axio-web/ ")).toBe(
+      "/axio-web/videos/demo.mp4",
+    );
   });
 });
