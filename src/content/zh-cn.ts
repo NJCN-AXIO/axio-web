@@ -71,7 +71,6 @@ export const zhCN: SiteContent = {
     { label: "能力矩阵", href: "/#capabilities" },
     { label: "版本方案", href: "/pricing" },
     { label: "预约演示", href: "/demo" },
-    { label: "登录", href: "/login" },
   ],
   hero: {
     title: "AXIO 智核",

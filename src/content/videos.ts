@@ -1,3 +1,5 @@
+import { withBasePath } from "../config/site-path";
+
 export type DemoVideoStatus = "available" | "pending";
 
 type DemoVideoBase = {
@@ -26,7 +28,7 @@ export const demoVideos = {
     summary:
       "完整演示将串联市场信号、选品、任务、定价、上架、存量经营与风险回读。视频正在制作，当前先保留同尺寸实机封面。",
     status: "pending",
-    poster: "/images/video-posters/axio-overview-cover.webp",
+    poster: withBasePath("/images/video-posters/axio-overview-cover.webp"),
     src: null,
     durationSeconds: null,
   },
@@ -36,8 +38,8 @@ export const demoVideos = {
     summary:
       "从新建任务、配置采集与店铺范围，到确认参数并进入上架流程，查看 AXIO 如何把一次运营动作拆成可检查的步骤。",
     status: "available",
-    poster: "/images/video-posters/axio-core-task-workflow.webp",
-    src: "/videos/axio-core-task-workflow.mp4",
+    poster: withBasePath("/images/video-posters/axio-core-task-workflow.webp"),
+    src: withBasePath("/videos/axio-core-task-workflow.mp4"),
     durationSeconds: 56.7,
   },
 } as const satisfies Record<"overview" | "coreWorkflow", DemoVideo>;

@@ -35,10 +35,7 @@ describe("SiteHeader", () => {
       "href",
       "/demo",
     );
-    expect(screen.getByRole("link", { name: "登录" })).toHaveAttribute(
-      "href",
-      "/login",
-    );
+    expect(screen.queryByRole("link", { name: "登录" })).toBeNull();
     expect(screen.getByRole("link", { name: "预约产品演示" })).toHaveAttribute(
       "href",
       "/demo",

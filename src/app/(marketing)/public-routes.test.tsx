@@ -120,7 +120,10 @@ it("orders the overview position, core workflow video, then booking form", () =>
   expect(core.nextElementSibling).toBe(form);
   expect(
     within(form).getByRole("form", { name: "预约产品演示" }),
-  ).toHaveAttribute("action", "/api/demo-requests");
+  ).not.toHaveAttribute("action", "/api/demo-requests");
+  expect(
+    within(form).getByRole("button", { name: "预约通道配置中" }),
+  ).toBeDisabled();
 });
 
 it("states the privacy boundary for marketplace credentials", () => {
