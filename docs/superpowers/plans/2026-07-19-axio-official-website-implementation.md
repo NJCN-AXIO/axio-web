@@ -6,7 +6,7 @@
 
 **Architecture:** A Next.js App Router application server-renders marketing content and limits client components to theme state, Canvas motion, forms, and authenticated interactions. Domain services depend on narrow repository and mailer interfaces; Prisma/PostgreSQL, SMTP, and Auth.js are adapters, so the public site and unit suite run without a database while database integration is gated by an externally supplied `TEST_DATABASE_URL`.
 
-**Tech Stack:** Node.js 24, npm 11, Next.js 16, React 19, TypeScript 5, semantic CSS, GSAP, Canvas 2D, Lucide React, Auth.js 5, PostgreSQL, Prisma 6, Zod, Node-RS Argon2, Nodemailer, Vitest, Testing Library, and Playwright.
+**Tech Stack:** Node.js 24, npm 11, Next.js 16, React 19, TypeScript 5, semantic CSS, GSAP, Canvas 2D, Lucide React, Auth.js 5, PostgreSQL, Prisma 6, Zod, Node-RS Argon2, isolated Nodemailer 9 SMTP transport, Vitest, Testing Library, and Playwright.
 
 ## Global Constraints
 
@@ -56,8 +56,8 @@
 ```powershell
 npm init -y
 npm pkg set name=axio-official-website private=true engines.node=">=24 <25"
-npm install next@16 react@19 react-dom@19 gsap@3 lucide-react zod@3 next-auth@5.0.0-beta.30 @prisma/client@6 @node-rs/argon2@2 nodemailer@6
-npm install -D typescript@5 @types/node@24 @types/react@19 @types/react-dom@19 @types/nodemailer@6 eslint@9 eslint-config-next@16 eslint-config-prettier@10 prettier@3 vitest@3 @vitejs/plugin-react@4 jsdom@26 @testing-library/react@16 @testing-library/jest-dom@6 @playwright/test@1 prisma@6 sharp@0.34
+npm install next@16 react@19 react-dom@19 gsap@3 lucide-react zod@3 next-auth@5.0.0-beta.30 @prisma/client@6 @node-rs/argon2@2
+npm install -D typescript@5 @types/node@24 @types/react@19 @types/react-dom@19 eslint@9 eslint-config-next@16 eslint-config-prettier@10 prettier@3 vitest@3 @vitejs/plugin-react@4 jsdom@26 @testing-library/react@16 @testing-library/jest-dom@6 @playwright/test@1 prisma@6 sharp@0.34
 ```
 
 Expected: `npm ls --depth=0` exits 0 and `package-lock.json` is created.
@@ -341,7 +341,7 @@ Expected: build lists `/product`, `/solutions`, `/pricing`, `/demo`, `/privacy`,
 
 ### Task 5: Add PostgreSQL Schema And Shared Security Adapters
 
-**Files:** Create `prisma/schema.prisma`, `prisma/migrations/20260719_initial_account_and_conversion/migration.sql`, `src/server/db.ts`, `src/server/http/origin.ts`, `src/server/security/rate-limit.ts`, `src/server/security/tokens.ts`, `src/server/security/password.ts`, `src/server/security/normalize-email.ts`, `src/server/email/mailer.ts`, `src/server/email/templates.ts`; test `src/server/http/origin.test.ts`, `src/server/security/rate-limit.test.ts`, `src/server/security/tokens.test.ts`, `src/server/security/password.test.ts`, `src/server/security/normalize-email.test.ts`, `tests/db/schema.test.ts`.
+**Files:** Create `prisma/schema.prisma`, `prisma/migrations/20260719_initial_account_and_conversion/migration.sql`, `src/server/db.ts`, `src/server/http/origin.ts`, `src/server/security/rate-limit.ts`, `src/server/security/tokens.ts`, `src/server/security/password.ts`, `src/server/security/normalize-email.ts`, `src/server/email/mailer.ts`, `src/server/email/templates.ts`, `src/types/nodemailer-safe.d.ts`; test `src/server/http/origin.test.ts`, `src/server/security/rate-limit.test.ts`, `src/server/security/tokens.test.ts`, `src/server/security/password.test.ts`, `src/server/security/normalize-email.test.ts`, `tests/db/schema.test.ts`.
 
 **Interfaces:** `normalizeEmail(string): string`; `hashPassword(string): Promise<string>`; `verifyPassword(hash,string): Promise<boolean>`; `issueOpaqueToken(): { raw: string; hash: string }`; `assertSameOrigin(request: Request): void`; `consumeRateLimit(input: { scope: string; key: string; limit: number; windowMs: number }): Promise<boolean>`.
 
@@ -378,7 +378,16 @@ No model contains marketplace, browser-profile, AI-provider, API-key, cookie, or
 
 - [ ] **Step 3: Implement adapters and environment contract**
 
-`.env.example` contains syntactically valid keys only: `DATABASE_URL`, `AUTH_SECRET`, `AUTH_TRUST_HOST`, `APP_BASE_URL`, SMTP host/port/secure/user/password/from, `SALES_NOTIFICATION_EMAIL`, `CLIENT_STORAGE_BASE_URL`, `AXIO_PROTOCOL_ENABLED=false`, and `NEXT_PUBLIC_DEMO_VIDEO_URL`. `getServerEnv()` validates server-only variables when a server feature is invoked, not during static marketing builds.
+Install the SMTP package under an isolated alias so Auth.js optional Nodemailer peers remain absent from the root dependency tree:
+
+```powershell
+npm install nodemailer-safe@npm:nodemailer@9.0.3
+npm install -D @types/nodemailer@7
+```
+
+Create `src/types/nodemailer-safe.d.ts` to map the alias to the `nodemailer` type declarations. The mail adapter imports `createTransport` from `nodemailer-safe`, never from `nodemailer`.
+
+`.env.example` contains syntactically valid keys only: `DATABASE_URL`, `AUTH_SECRET`, `APP_BASE_URL`, SMTP host/port/secure/user/password/from, `SALES_NOTIFICATION_EMAIL`, `CLIENT_STORAGE_BASE_URL`, `AXIO_PROTOCOL_ENABLED=false`, and `NEXT_PUBLIC_DEMO_VIDEO_URL`. `AUTH_TRUST_HOST` is absent by default and is set to `true` only behind a verified production proxy. `getServerEnv()` validates server-only variables when a server feature is invoked, not during static marketing builds.
 
 Rate limiting hashes the supplied key with SHA-256, deletes expired events for that scope/key in a transaction, counts the remaining window, and creates one event only when below the limit. SMTP uses pooled Nodemailer transport and never logs credentials or raw verification tokens.
 
