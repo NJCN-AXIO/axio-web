@@ -18,6 +18,11 @@ export type CapabilityGroup = {
   readonly items: readonly CapabilityItem[];
 };
 
+export type OperatingLoopStep = {
+  readonly title: string;
+  readonly detail: string;
+};
+
 export type ProofValue = {
   readonly value: string;
   readonly label: string;
@@ -68,7 +73,7 @@ export type SiteContent = {
     readonly secondaryCta: NavigationLink;
   };
   readonly proofValues: readonly ProofValue[];
-  readonly operatingLoop: readonly string[];
+  readonly operatingLoop: readonly OperatingLoopStep[];
   readonly packages: readonly PackageOption[];
   readonly capabilityGroups: readonly CapabilityGroup[];
   readonly home: HomeContent;

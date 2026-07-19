@@ -57,6 +57,23 @@ it("renders the approved homepage identity, proof, and capability boundaries", (
   ).toBeVisible();
 });
 
+it("explains all six operating stages beyond their short labels", () => {
+  render(<HomePage />);
+
+  const loop = screen.getByTestId("operating-loop");
+  expect(within(loop).getAllByRole("listitem")).toHaveLength(6);
+  for (const detail of [
+    "汇总 Shopee 经营数据与多平台趋势，识别需求变化、竞争强度与供给机会。",
+    "把买家搜索词映射为供应链找品词，沉淀可追溯、可复核的商品候选。",
+    "将站点、店铺、数量和运营策略拆成任务参数，并按成本公式反算目标售价。",
+    "集中校验图片、SKU、风险词和利润边界，高风险写入在执行前人工确认。",
+    "借助妙手 ERP 与受控脚本批量上架、改价和优化，过程持续记录任务状态。",
+    "回收执行结果、异常和经营数据，形成下一轮选品、定价与库存处理依据。",
+  ]) {
+    expect(within(loop).getByText(detail)).toBeVisible();
+  }
+});
+
 it("shows all four real product interfaces without a hidden gallery", () => {
   render(<HomePage />);
 

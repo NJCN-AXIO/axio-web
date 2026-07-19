@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { getSiteContent } from "../../content";
 import { ThemeToggle } from "../theme/theme-toggle";
+import { ActiveNavigation } from "./active-navigation";
 import { MobileNavigation } from "./mobile-navigation";
 
 const content = getSiteContent();
@@ -17,13 +18,11 @@ export function SiteHeader() {
         >
           <span>{content.brand.name}</span>
         </Link>
-        <nav aria-label="主导航" className="site-header__desktop-nav">
-          {content.navigation.map((link) => (
-            <Link href={link.href} key={link.href}>
-              {link.label}
-            </Link>
-          ))}
-        </nav>
+        <ActiveNavigation
+          ariaLabel="主导航"
+          className="site-header__desktop-nav"
+          links={content.navigation}
+        />
         <div className="site-header__actions">
           <ThemeToggle />
           <Link

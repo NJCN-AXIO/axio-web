@@ -1,8 +1,12 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import Link from "next/link";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { MobileNavigation } from "./mobile-navigation";
+
+vi.mock("next/navigation", () => ({
+  usePathname: () => "/product",
+}));
 
 describe("MobileNavigation", () => {
   afterEach(() => {
@@ -107,6 +111,7 @@ describe("MobileNavigation", () => {
     expect(demoLink).toHaveFocus();
 
     const productLink = screen.getByRole("link", { name: "产品能力" });
+    expect(productLink).toHaveAttribute("aria-current", "page");
     productLink.addEventListener("click", (event) => event.preventDefault());
     fireEvent.click(productLink);
     expect(

@@ -223,9 +223,34 @@ button {
   font-weight: 650;
 }
 
+.site-header__desktop-nav a {
+  position: relative;
+}
+
+.site-header__desktop-nav a::after {
+  position: absolute;
+  right: 0;
+  bottom: 2px;
+  left: 0;
+  height: 2px;
+  background: var(--brand);
+  content: "";
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 180ms ease;
+}
+
 .site-header__desktop-nav a:hover,
 .site-footer__links a:hover {
   color: var(--link-hover);
+}
+
+.site-header__desktop-nav a[aria-current] {
+  color: var(--brand);
+}
+
+.site-header__desktop-nav a[aria-current]::after {
+  transform: scaleX(1);
 }
 
 .site-header__actions {
@@ -281,9 +306,15 @@ button {
   display: flex;
   align-items: center;
   min-height: 52px;
+  padding: 0 12px;
   border-bottom: 1px solid var(--border);
   font-size: 16px;
   font-weight: 700;
+}
+
+.mobile-navigation__links a[aria-current] {
+  background: color-mix(in srgb, var(--brand) 10%, transparent);
+  color: var(--brand);
 }
 
 .mobile-navigation__cta {

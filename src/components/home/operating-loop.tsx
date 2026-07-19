@@ -1,5 +1,3 @@
-import { ArrowRight } from "lucide-react";
-
 import { getSiteContent } from "../../content";
 
 const content = getSiteContent();
@@ -19,14 +17,12 @@ export function OperatingLoop() {
         </header>
         <ol className="operating-loop" data-reveal>
           {content.operatingLoop.map((step, index) => (
-            <li key={step}>
+            <li key={step.title}>
               <span className="operating-loop__number">
                 {String(index + 1).padStart(2, "0")}
               </span>
-              <strong>{step}</strong>
-              {index < content.operatingLoop.length - 1 ? (
-                <ArrowRight aria-hidden="true" size={18} />
-              ) : null}
+              <strong>{step.title}</strong>
+              <p className="operating-loop__detail">{step.detail}</p>
             </li>
           ))}
         </ol>

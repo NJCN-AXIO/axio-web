@@ -1,8 +1,12 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { ThemeProvider } from "../theme/theme-provider";
 import { SiteHeader } from "./site-header";
+
+vi.mock("next/navigation", () => ({
+  usePathname: () => "/solutions",
+}));
 
 describe("SiteHeader", () => {
   it("exposes public navigation and conversion", () => {
@@ -19,9 +23,11 @@ describe("SiteHeader", () => {
       "href",
       "/product",
     );
-    expect(screen.getByRole("link", { name: "解决方案" })).toHaveAttribute(
-      "href",
-      "/solutions",
+    const solutions = screen.getByRole("link", { name: "解决方案" });
+    expect(solutions).toHaveAttribute("href", "/solutions");
+    expect(solutions).toHaveAttribute("aria-current", "page");
+    expect(screen.getByRole("link", { name: "产品能力" })).not.toHaveAttribute(
+      "aria-current",
     );
     expect(screen.getByRole("link", { name: "能力矩阵" })).toHaveAttribute(
       "href",
@@ -31,10 +37,7 @@ describe("SiteHeader", () => {
       "href",
       "/pricing",
     );
-    expect(screen.getByRole("link", { name: "预约演示" })).toHaveAttribute(
-      "href",
-      "/demo",
-    );
+    expect(screen.queryByRole("link", { name: "预约演示" })).toBeNull();
     expect(screen.queryByRole("link", { name: "登录" })).toBeNull();
     expect(screen.getByRole("link", { name: "预约产品演示" })).toHaveAttribute(
       "href",

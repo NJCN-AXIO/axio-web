@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { getSiteContent } from "../../content";
+import { ActiveNavigation } from "./active-navigation";
 
 const content = getSiteContent();
 const focusableSelector =
@@ -30,6 +31,7 @@ export function MobileNavigation() {
   useEffect(() => {
     if (!isOpen) return;
     const dialog = dialogRef.current;
+    const trigger = triggerRef.current;
     const previousOverflow = document.body.style.overflow;
     const backgroundStates = Array.from(
       document.querySelectorAll<HTMLElement>(backgroundSelector),
@@ -81,7 +83,7 @@ export function MobileNavigation() {
         if (ariaHidden === null) element.removeAttribute("aria-hidden");
         else element.setAttribute("aria-hidden", ariaHidden);
       }
-      triggerRef.current?.focus();
+      trigger?.focus();
     };
   }, [close, isOpen]);
 
@@ -121,13 +123,12 @@ export function MobileNavigation() {
                 <X aria-hidden="true" size={22} />
               </button>
             </div>
-            <nav aria-label="移动端主导航" className="mobile-navigation__links">
-              {content.navigation.map((link) => (
-                <Link href={link.href} key={link.href} onClick={close}>
-                  {link.label}
-                </Link>
-              ))}
-            </nav>
+            <ActiveNavigation
+              ariaLabel="移动端主导航"
+              className="mobile-navigation__links"
+              links={content.navigation}
+              onNavigate={close}
+            />
             <Link
               className="button button--primary mobile-navigation__cta"
               href={content.hero.primaryCta.href}
