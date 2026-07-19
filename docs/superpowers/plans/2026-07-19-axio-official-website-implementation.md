@@ -18,6 +18,8 @@
 - First visit is light mode. Persist the complete dark register. Use semantic CSS variables, Shopee orange, and `#C43B20` for accessible filled CTAs.
 - Use system-ui, Segoe UI, PingFang SC, Microsoft YaHei, Arial, sans-serif. Visible text is at least 12px, body copy is 15-17px, and letter spacing is zero.
 - Render exactly six capability groups with 21 `NOW` items and 3 `NEXT` items. Controlled execution, marketing-image generation, platform image writeback, and production browser-to-client exchange are not current capabilities.
+- Video narrative: show the completed core workflow video immediately after the operating loop; reserve the full-product overview position after capability and safety context; `/demo` presents overview, core workflow, then booking.
+- Responsive video behavior: verify 1440x900 wide desktop, 1024x768 narrow desktop, and 390x844 mobile; never crop, stretch, autoplay, clip native controls, or create document overflow.
 - Never expose the Flask operations UI publicly or store marketplace credentials, API keys, browser profiles, signatures, or local AXIO secrets.
 - Use Node-RS Argon2 hashes, verified-email credentials login, Auth.js signed JWT sessions, secure HTTP-only same-site cookies in production, and no `Session` table in V1.
 - Use an externally supplied PostgreSQL URL. Docker is not a prerequisite and database commands must never target an unconfirmed production URL.
@@ -31,9 +33,11 @@
 - Root UI: `src/app/layout.tsx`, `src/app/globals.css`, `src/app/not-found.tsx`, `src/components/site/{site-header,mobile-navigation,site-footer}.tsx`.
 - Theme: `src/components/theme/{theme-script,theme-provider,theme-toggle}.tsx`.
 - Content: `src/content/types.ts`, `src/content/zh-cn.ts`, `src/content/index.ts`.
-- Homepage: `src/app/page.tsx`, `src/components/home/{hero,operations-canvas,proof-strip,operating-loop,product-evidence,capability-system,safety-deployment,demo-band,package-band,final-cta,progress-rail}.tsx`.
+- Homepage: `src/app/page.tsx`, `src/components/home/{hero,operations-canvas,proof-strip,operating-loop,core-workflow-video,product-evidence,capability-system,safety-deployment,demo-band,package-band,final-cta,progress-rail}.tsx`.
+- Shared media: `src/components/media/demo-video-player.tsx`, `src/content/videos.ts`, `scripts/check-video-assets.mjs`.
 - Public routes: `src/app/(marketing)/{product,solutions,pricing,demo,privacy,terms}/page.tsx`, `src/components/marketing/{capability-list,package-comparison,demo-form}.tsx`.
 - Evidence: `scripts/capture-product-evidence.mjs`, `public/images/product-evidence/{supervisor,task-pricing,image-workspace,matrix-pricing}.webp`.
+- Video assets: `public/videos/axio-core-task-workflow.mp4`, `public/images/video-posters/axio-core-task-workflow.webp`, `public/images/video-posters/axio-overview-cover.webp`.
 - Data: `prisma/schema.prisma`, `prisma/migrations/*/migration.sql`, `src/server/db.ts`.
 - Shared server controls: `src/server/http/origin.ts`, `src/server/security/{rate-limit,tokens,password}.ts`, `src/server/email/{mailer,templates}.ts`.
 - Demo domain: `src/server/demo/{schema,repository,service,prisma-repository}.ts`, `src/app/api/demo-requests/route.ts`.
@@ -210,9 +214,9 @@ Expected: tests pass with six groups, 21 `NOW`, 3 `NEXT`, and light mode as the 
 
 ### Task 3: Build The Full-Screen Homepage And Canvas Engine
 
-**Files:** Modify `src/app/page.tsx`, `src/app/page.test.tsx`; create `src/components/home/hero.tsx`, `src/components/home/operations-canvas.tsx`, `src/components/home/proof-strip.tsx`, `src/components/home/operating-loop.tsx`, `src/components/home/product-evidence.tsx`, `src/components/home/capability-system.tsx`, `src/components/home/safety-deployment.tsx`, `src/components/home/demo-band.tsx`, `src/components/home/package-band.tsx`, `src/components/home/final-cta.tsx`, `src/components/home/progress-rail.tsx`; test `src/components/home/operations-canvas.test.tsx`.
+**Files:** Modify `src/app/page.tsx`, `src/app/page.test.tsx`, `src/content/types.ts`, `src/content/zh-cn.ts`; create `src/components/home/hero.tsx`, `src/components/home/operations-canvas.tsx`, `src/components/home/proof-strip.tsx`, `src/components/home/operating-loop.tsx`, `src/components/home/core-workflow-video.tsx`, `src/components/home/product-evidence.tsx`, `src/components/home/capability-system.tsx`, `src/components/home/safety-deployment.tsx`, `src/components/home/demo-band.tsx`, `src/components/home/package-band.tsx`, `src/components/home/final-cta.tsx`, `src/components/home/progress-rail.tsx`, `src/components/media/demo-video-player.tsx`, `src/content/videos.ts`, `scripts/check-video-assets.mjs`, `public/videos/axio-core-task-workflow.mp4`, `public/images/video-posters/axio-core-task-workflow.webp`, `public/images/video-posters/axio-overview-cover.webp`; test `src/components/home/operations-canvas.test.tsx`, `src/components/media/demo-video-player.test.tsx`, `src/content/videos.test.ts`.
 
-**Interfaces:** `OperationsCanvas({ reducedMotion?: boolean }): JSX.Element`; canvas reads `--brand`, `--text`, `--muted`, `--border`, and `--surface` after every theme mutation. `CapabilitySystem({ groups }: { groups: CapabilityGroup[] })` renders status labels verbatim.
+**Interfaces:** `OperationsCanvas({ reducedMotion?: boolean }): JSX.Element`; canvas reads `--brand`, `--text`, `--muted`, `--border`, and `--surface` after every theme mutation. `CapabilitySystem({ groups }: { groups: CapabilityGroup[] })` renders status labels verbatim. `type DemoVideoStatus = "available" | "pending"`; `type DemoVideo = { id: "overview" | "core-workflow"; title: string; summary: string; status: DemoVideoStatus; poster: string; src: string | null; durationSeconds: number | null }`; `DemoVideoPlayer({ video }: { video: DemoVideo }): JSX.Element` renders a native player only for `available` entries.
 
 - [ ] **Step 1: Write the failing homepage contract**
 
@@ -227,6 +231,26 @@ expect(screen.getAllByText("NEXT")).toHaveLength(3);
 expect(screen.getByText("116 家店铺")).toBeVisible();
 expect(screen.getByText("6 个 Shopee 站点")).toBeVisible();
 expect(screen.getByText("4 个市场信号平台")).toBeVisible();
+expect(screen.getByRole("heading", { name: "核心功能：新建任务采集上架流程" })).toBeVisible();
+expect(screen.getByRole("heading", { name: "AXIO 全局功能演示" })).toBeVisible();
+```
+
+The media tests define the exact available/pending behavior:
+
+```tsx
+render(<DemoVideoPlayer video={demoVideos.coreWorkflow} />);
+const player = screen.getByLabelText("播放核心功能：新建任务采集上架流程");
+expect(player).toHaveAttribute("controls");
+expect(player).toHaveAttribute("playsinline");
+expect(player).toHaveAttribute("preload", "metadata");
+expect(player).not.toHaveAttribute("autoplay");
+expect(player).toHaveAttribute("poster", "/images/video-posters/axio-core-task-workflow.webp");
+expect(player.querySelector("source")).toHaveAttribute("src", "/videos/axio-core-task-workflow.mp4");
+
+render(<DemoVideoPlayer video={demoVideos.overview} />);
+expect(screen.queryByLabelText(/播放 AXIO 全局功能演示/)).not.toBeInTheDocument();
+expect(screen.queryByRole("button", { name: /播放/ })).not.toBeInTheDocument();
+expect(screen.getByRole("img", { name: "AXIO 全局功能演示封面" })).toBeVisible();
 ```
 
 Run: `npm test -- src/app/page.test.tsx src/components/home/operations-canvas.test.tsx`
@@ -239,7 +263,25 @@ Use one full-bleed `<canvas aria-hidden="true">`. Cap device pixel ratio at 2, s
 
 The unit test stubs Canvas 2D methods and asserts `fillRect`, `arc`, and `stroke` are called, animation is canceled on unmount, and a theme mutation triggers another frame.
 
-- [ ] **Step 3: Compose the exact homepage order**
+- [ ] **Step 3: Prepare and verify the completed video assets**
+
+Create the output directories, encode the supplied recording without cropping, and extract two safe real-product frames:
+
+```powershell
+New-Item -ItemType Directory -Force public\videos | Out-Null
+New-Item -ItemType Directory -Force public\images\video-posters | Out-Null
+ffmpeg -y -i "D:\文件传输助手\lv_0_20260703211804.mp4" -vf "scale=1280:-2:flags=lanczos" -c:v libx264 -preset medium -crf 24 -pix_fmt yuv420p -c:a aac -b:a 128k -movflags +faststart -map_metadata -1 public\videos\axio-core-task-workflow.mp4
+ffmpeg -y -ss 00:00:05 -i public\videos\axio-core-task-workflow.mp4 -frames:v 1 -vf "scale=1280:-2:flags=lanczos" -c:v libwebp -quality 82 public\images\video-posters\axio-core-task-workflow.webp
+ffmpeg -y -ss 00:00:20 -i public\videos\axio-core-task-workflow.mp4 -frames:v 1 -vf "scale=1280:-2:flags=lanczos" -c:v libwebp -quality 82 public\images\video-posters\axio-overview-cover.webp
+ffprobe -v error -show_entries format=duration,size:stream=codec_name,codec_type,width,height,pix_fmt -of json public\videos\axio-core-task-workflow.mp4
+node scripts/check-video-assets.mjs
+```
+
+Expected: H.264 video is 1280x696/yuv420p with AAC audio, duration remains 56.7 seconds within 0.2 seconds, `moov` metadata is front-loaded, both posters are 1280x696 WebP, and the private source path is absent from output metadata. Inspect both posters with the local image viewer; abort staging if either exposes an account, store, order, margin, credential, signature, or complete product record.
+
+`check-video-assets.mjs` invokes `ffprobe` with an argument array, validates the exact codec/dimension/duration contract, checks all three output files exist and are nonempty, and scans tracked source/content files to ensure the private ingestion path is not present outside the approved spec/plan documents.
+
+- [ ] **Step 4: Compose the exact homepage and media order**
 
 ```tsx
 export default function HomePage() {
@@ -247,10 +289,11 @@ export default function HomePage() {
     <Hero />
     <ProofStrip />
     <OperatingLoop />
+    <CoreWorkflowVideo video={demoVideos.coreWorkflow} />
     <ProductEvidence />
     <CapabilitySystem groups={getSiteContent().capabilityGroups} />
     <SafetyDeployment />
-    <DemoBand />
+    <DemoBand video={demoVideos.overview} />
     <PackageBand />
     <FinalCta />
     <ProgressRail />
@@ -258,15 +301,17 @@ export default function HomePage() {
 }
 ```
 
-Hero height is `min-height: 100svh` with 72px reserved for the fixed header and a visible 32px cue for the next band. Major bands use `min-height: min(900px, 92svh)` on desktop, full-width backgrounds, and constrained inner content. Mobile uses normal document flow and one-column reading order. GSAP reveals only opacity/translate of supporting elements; required content is present before animation and reduced motion calls `gsap.set` to final states.
+Hero height is `min-height: 100svh` with 72px reserved for the fixed header and a visible 32px cue for the next band. Major non-video bands use `min-height: min(900px, 92svh)` on wide desktop, full-width backgrounds, and constrained inner content. Video bands use content-driven height at 1199px and below. At 768-1199px, video copy/media/CTA are one column; at less than 768px, each player uses the full content width, `object-fit: contain`, fixed breakpoint typography, and no negative inline margins. `/demo` later preserves overview, core workflow, booking order at every width. GSAP reveals only opacity/translate of supporting elements; required content is present before animation and reduced motion calls `gsap.set` to final states.
 
-- [ ] **Step 4: Verify and commit**
+- [ ] **Step 5: Verify and commit**
 
 ```powershell
 npm test -- src/app/page.test.tsx src/components/home
+npm test -- src/components/media src/content/videos.test.ts
+node scripts/check-video-assets.mjs
 npm run lint
 npm run typecheck
-git add src/app src/components/home
+git add src/app src/components/home src/components/media src/content scripts/check-video-assets.mjs public/videos/axio-core-task-workflow.mp4 public/images/video-posters
 git commit -m "feat: build full-screen AXIO homepage"
 ```
 
@@ -274,7 +319,7 @@ Expected: all homepage assertions pass and no database is accessed.
 
 ### Task 4: Add Public Routes And Real Anonymized Product Evidence
 
-**Files:** Create `src/app/(marketing)/product/page.tsx`, `src/app/(marketing)/solutions/page.tsx`, `src/app/(marketing)/pricing/page.tsx`, `src/app/(marketing)/demo/page.tsx`, `src/app/(marketing)/privacy/page.tsx`, `src/app/(marketing)/terms/page.tsx`, `src/components/marketing/capability-list.tsx`, `src/components/marketing/package-comparison.tsx`, `src/components/marketing/demo-form.tsx`, `scripts/capture-product-evidence.mjs`, `public/images/product-evidence/supervisor.webp`, `public/images/product-evidence/task-pricing.webp`, `public/images/product-evidence/image-workspace.webp`, `public/images/product-evidence/matrix-pricing.webp`; test `src/app/(marketing)/public-routes.test.tsx`.
+**Files:** Create `src/app/(marketing)/product/page.tsx`, `src/app/(marketing)/solutions/page.tsx`, `src/app/(marketing)/pricing/page.tsx`, `src/app/(marketing)/demo/page.tsx`, `src/app/(marketing)/privacy/page.tsx`, `src/app/(marketing)/terms/page.tsx`, `src/components/marketing/capability-list.tsx`, `src/components/marketing/package-comparison.tsx`, `src/components/marketing/demo-form.tsx`, `scripts/capture-product-evidence.mjs`, `public/images/product-evidence/supervisor.webp`, `public/images/product-evidence/task-pricing.webp`, `public/images/product-evidence/image-workspace.webp`, `public/images/product-evidence/matrix-pricing.webp`; modify `src/content/videos.ts`; test `src/app/(marketing)/public-routes.test.tsx`.
 
 **Interfaces:** `PackageComparison` receives three packages and never renders currency; `DemoForm` initially posts to `/api/demo-requests`; `capture-product-evidence.mjs --base-url http://127.0.0.1:8080 --out public/images/product-evidence` produces exactly four WebP files.
 
@@ -287,7 +332,7 @@ Use a table test that imports each page and checks:
 | `/product` | `一套可验证的店群经营系统` | six capability headings and status labels |
 | `/solutions` | `从 1 家店到 200 家店` | `起步卖家`, `成长团队`, `店群与服务商` |
 | `/pricing` | `按经营规模选择交付方式` | Starter, Professional, Enterprise, `不支持在线付款` |
-| `/demo` | `预约 AXIO 产品演示` | form and demo-cover region |
+| `/demo` | `预约 AXIO 产品演示` | overview position first, core workflow video second, booking form third |
 | `/privacy` | `隐私政策` | no marketplace credential collection |
 | `/terms` | `服务条款` | local-client responsibility and no payment claim |
 
@@ -297,7 +342,7 @@ Expected: FAIL because route modules do not exist.
 
 - [ ] **Step 2: Implement server-rendered public routes**
 
-Each route exports unique title/description metadata, one H1, breadcrumb-free direct content, final demo CTA, and shared footer. `/demo` reserves a 16:9 stable media region; until `NEXT_PUBLIC_DEMO_VIDEO_URL` is a valid HTTPS URL, it renders `supervisor.webp` with play controls absent. Pricing has feature comparison and contact CTAs but no numeric price, checkout, cart, or payment language.
+Each route exports unique title/description metadata, one H1, breadcrumb-free direct content, final demo CTA, and shared footer. `/demo` consumes `demoVideos`, renders the pending overview cover first without a video or fake play control, renders the available core workflow native player second, and places `DemoForm` after both. The route keeps this vertical order on 1440x900, 1024x768, and 390x844. Pricing has feature comparison and contact CTAs but no numeric price, checkout, cart, or payment language.
 
 - [ ] **Step 3: Capture product evidence from the local-only Flask UI**
 
@@ -632,7 +677,7 @@ Expected: feature-off tests create no code; generated links contain only the opa
 
 ### Task 11: Add Static Safety, SEO, Accessibility, And Browser Tests
 
-**Files:** Create `scripts/check-content-boundaries.mjs`, `scripts/check-sensitive-content.mjs`, `scripts/check-internal-links.mjs`, `tests/e2e/helpers/visual-audit.ts`, `tests/e2e/public-site.spec.ts`, `tests/e2e/auth-member.spec.ts`, `tests/e2e/visual-integrity.spec.ts`, `src/app/not-found.tsx`, `src/app/robots.ts`, `src/app/sitemap.ts`; modify `src/app/layout.tsx`, `src/app/globals.css`, `src/components/home/operations-canvas.tsx`, `src/components/site/site-header.tsx`, `src/components/site/mobile-navigation.tsx`.
+**Files:** Create `scripts/check-content-boundaries.mjs`, `scripts/check-sensitive-content.mjs`, `scripts/check-internal-links.mjs`, `tests/e2e/helpers/visual-audit.ts`, `tests/e2e/public-site.spec.ts`, `tests/e2e/auth-member.spec.ts`, `tests/e2e/visual-integrity.spec.ts`, `src/app/not-found.tsx`, `src/app/robots.ts`, `src/app/sitemap.ts`; modify `src/app/layout.tsx`, `src/app/globals.css`, `src/components/home/operations-canvas.tsx`, `src/components/media/demo-video-player.tsx`, `src/components/site/site-header.tsx`, `src/components/site/mobile-navigation.tsx`.
 
 **Interfaces:** `auditPage(page): Promise<{ smallText: string[]; overflow: string[]; overlaps: string[] }>`; `canvasVariance(locator): Promise<number>` must exceed 8; static checks exit nonzero on content/status drift, public sensitive strings, broken links, or missing metadata.
 
@@ -654,7 +699,7 @@ test("light default, dark persistence, full-screen hero, and working routes", as
 });
 ```
 
-Visual tests run desktop 1440x900, mobile 390x844, and wide 1920x1080 in light/dark/reduced-motion. They assert font size at least 12px, no document horizontal overflow, no intersecting visible text/control boxes, stable media dimensions, zero console/page errors, Canvas variance above 8, theme recoloring, and a frozen reduced-motion frame.
+Visual tests run wide desktop 1440x900, narrow desktop 1024x768, mobile 390x844, and wide 1920x1080 in light/dark/reduced-motion. They assert font size at least 12px, no document horizontal overflow, no intersecting visible text/control boxes, stable media dimensions, zero console/page errors, Canvas variance above 8, theme recoloring, and a frozen reduced-motion frame. Media assertions verify the core player has controls/playsInline/metadata preload/no autoplay, reports a 1280x696 video frame without crop/stretch, and keeps native controls visible. The pending overview region must issue no video request and expose no play button. Homepage and `/demo` must return identical titles, statuses, posters, and source URLs from `demoVideos`.
 
 - [ ] **Step 2: Write authenticated DB E2E fixture**
 
@@ -727,7 +772,7 @@ Expected: migration reports database up to date; DB and authenticated browser su
 
 - [ ] **Step 4: Inspect production output and final Git scope**
 
-Start `npm run start` after build and inspect desktop/mobile light/dark screenshots, Canvas pixels, all four evidence images, registration, login, member states, and demo submission. Run `git status --short`, `git diff --stat HEAD`, and `git ls-files`; confirm `.env*` except `.env.example`, `.superpowers/`, `.next/`, reports, and product-repository files are absent.
+Start `npm run start` after build and inspect 1440x900, 1024x768, and 390x844 light/dark screenshots, Canvas pixels, both video positions, native player controls, both posters, all four evidence images, registration, login, member states, and demo submission. Run `git status --short`, `git diff --stat HEAD`, and `git ls-files`; confirm `.env*` except `.env.example`, `.superpowers/`, `.next/`, reports, private ingestion paths, and product-repository files are absent.
 
 - [ ] **Step 5: Commit final documentation and verified fixes**
 
@@ -746,5 +791,6 @@ Expected: final commit succeeds and the worktree is clean.
 - Environment coverage: Tasks 1-4 and non-database gates run on Node 24 without Docker or PostgreSQL; Tasks 5-12 clearly gate database mutation behind a supplied disposable `TEST_DATABASE_URL`.
 - Interface consistency: `DemoRequest` serves demo/support; launch uses active `License` and published `ClientRelease`; verification and launch store token hashes; Auth.js uses JWT and `session.user.id`; there is no `Session` model or Prisma adapter.
 - Content consistency: the registry has six groups, 21 `NOW`, 3 `NEXT`; pricing has no invented amount; deferred deep-link exchange and AI/platform image writes remain marked as future.
+- Video consistency: one typed registry drives homepage and `/demo`; core workflow is available and overview remains pending; wide desktop, narrow desktop, and mobile preserve the same narrative order without cropping, autoplay, clipped controls, or overflow.
 - Security consistency: public code never links to Flask, sensitive local/product values remain outside the website, and download URLs are server-authorized against the configured storage origin.
 - Git consistency: every task ends with a scoped atomic commit and no command stages the product repository.
