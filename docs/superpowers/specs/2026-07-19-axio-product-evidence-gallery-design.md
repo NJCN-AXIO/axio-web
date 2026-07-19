@@ -27,16 +27,16 @@ Cross-border automation brand site; industrial editorial plus real product evide
 
 ## Four-Image Evidence Gallery
 
-Display all four existing screenshots directly:
+Display all four screenshots directly:
 
 1. supervisor.webp - AI supervisor and task orchestration.
 2. task-pricing.webp - new listing task and precise pricing.
-3. image-workspace.webp - image workspace and identity checks.
-4. matrix-pricing.webp - site matrix and pricing evidence.
+3. risk-control.webp - prohibited-brand, keyword, replacement, and style-risk controls.
+4. pricing-formula.webp - transparent site-cost and target-profit calculation.
 
-Wide desktop uses two natural-height columns: supervisor then task pricing on the left, image workspace then matrix pricing on the right. Every image is visible without a click and remains uncropped. Tablet and mobile use one reading column.
+All viewports use one reading column. On 1440px and 2048px wide desktops, each image receives at least 1300 CSS pixels when its source permits and is never enlarged beyond its intrinsic width. Every image remains visible without a click, uncropped, and links to its base-path-safe original for close inspection.
 
-Use thin semantic borders and page rhythm, not nested cards, fake browser chrome, carousel controls, or invented application state.
+Use thin semantic borders and page rhythm, not nested cards, fake browser chrome, carousel controls, invented application state, or decorative hero guide lines.
 
 ## WeChat Contact
 
@@ -50,7 +50,7 @@ Use thin semantic borders and page rhythm, not nested cards, fake browser chrome
 ## Responsive, Theme, Accessibility, Performance
 
 - 2048x1024 and 1440x900: screenshots use available width and remain inspectable.
-- 1024x768: maintain legibility and collapse when two columns become too narrow.
+- 1024x768: preserve the same direct reading order without horizontal overflow.
 - 390x844: hero, four images, and QR follow one column without document overflow.
 - Existing semantic variables frame screenshots in both themes; screenshot pixels are not recolored.
 - Hero evidence loads eagerly. Gallery and QR images lazy-load with fixed dimensions.
@@ -61,7 +61,7 @@ Use thin semantic borders and page rhythm, not nested cards, fake browser chrome
 ## Acceptance Criteria
 
 - Hero uses control-center.webp rather than task-pricing.webp.
-- The evidence section contains all four approved screenshot paths and no icon-only evidence cards.
+- The evidence section contains supervisor.webp, task-pricing.webp, risk-control.webp, and pricing-formula.webp with no icon-only evidence cards.
 - Homepage and /demo both expose 微信咨询 · 楠 Nay and wechat-nay.webp.
 - 2048x1024, 1440x900, 1024x768, and 390x844 have no crop, overlap, or overflow.
 - Light and dark visual reviews pass.

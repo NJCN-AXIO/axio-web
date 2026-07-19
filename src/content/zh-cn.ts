@@ -130,13 +130,13 @@ export const zhCN: SiteContent = {
         iconKey: "collection",
       },
       {
-        label: "六站点定价",
-        detail: "成本、费率、物流与利润反算",
+        label: "透明定价公式",
+        detail: "站点费率、汇率、运费与目标利润逐项反算",
         iconKey: "pricing",
       },
       {
-        label: "风险证据",
-        detail: "品牌、图片与业务结果回读",
+        label: "违禁管控",
+        detail: "高危品牌、危险关键词、安全替换与款式风险集中治理",
         iconKey: "risk",
       },
     ],

@@ -8,6 +8,10 @@
 
 **Tech Stack:** Next.js App Router, React 19, TypeScript, CSS, Sharp, Vitest Testing Library, Playwright
 
+## Clarity Iteration
+
+Owner review replaced image-workspace.webp and matrix-pricing.webp with risk-control.webp and pricing-formula.webp. The approved gallery is now a single wide reading column at every viewport, keeps rendered width at or below intrinsic pixels, links every screenshot to its original asset, and removes decorative hero guide and frame lines. This amendment supersedes the two-column instructions below while preserving the original implementation history.
+
 ## Global Constraints
 
 - Preserve GitHub Pages static export and project base paths.

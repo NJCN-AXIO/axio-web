@@ -57,15 +57,34 @@ it("shows all four real product interfaces without a hidden gallery", () => {
       "/images/product-evidence/task-pricing.webp",
     ],
     [
-      "AXIO 图片工作台与身份校验界面",
-      "/images/product-evidence/image-workspace.webp",
+      "AXIO 违禁管控与风险词库界面",
+      "/images/product-evidence/risk-control.webp",
     ],
-    ["AXIO 六站点矩阵定价界面", "/images/product-evidence/matrix-pricing.webp"],
+    [
+      "AXIO 站点定价公式与利润反算界面",
+      "/images/product-evidence/pricing-formula.webp",
+    ],
   ] as const;
 
   for (const [name, path] of expectedImages) {
     expectImageSource(within(evidence).getByRole("img", { name }), path);
+    expect(
+      within(evidence).getByRole("link", {
+        name: "查看" + name + "高清原图",
+      }),
+    ).toHaveAttribute("href", expect.stringContaining(path));
   }
+
+  expect(within(evidence).getByText("透明定价公式")).toBeVisible();
+  expect(
+    within(evidence).getByText("站点费率、汇率、运费与目标利润逐项反算"),
+  ).toBeVisible();
+  expect(within(evidence).getByText("违禁管控")).toBeVisible();
+  expect(
+    within(evidence).getByText(
+      "高危品牌、危险关键词、安全替换与款式风险集中治理",
+    ),
+  ).toBeVisible();
 });
 
 it("offers direct WeChat contact from the homepage", () => {

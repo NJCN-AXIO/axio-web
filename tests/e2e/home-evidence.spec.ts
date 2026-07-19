@@ -32,66 +32,100 @@ test.describe("homepage product evidence", () => {
     { width: 2048, height: 1024 },
     { width: 1440, height: 900 },
   ]) {
-    test(`shows all four screenshots in two wide columns at ${viewport.width}px`, async ({
-      page,
-    }) => {
-      await page.setViewportSize(viewport);
-      await page.goto("./");
+    test(
+      "shows all four screenshots at a readable width at " +
+        viewport.width +
+        "px",
+      async ({ page }) => {
+        await page.setViewportSize(viewport);
+        await page.goto("./");
 
-      const images = await expectProductImagesLoaded(page);
-      const columns = page.locator(".evidence-showcase__column");
-      await expect(columns).toHaveCount(2);
+        const images = await expectProductImagesLoaded(page);
+        const shots = page.locator(".evidence-shot");
+        await expect(shots).toHaveCount(4);
 
-      const columnBoxes = await columns.evaluateAll((nodes) =>
-        nodes.map((node) => {
-          const box = node.getBoundingClientRect();
-          return { x: box.x, width: box.width };
-        }),
-      );
-      expect(columnBoxes[1].x).toBeGreaterThan(
-        columnBoxes[0].x + columnBoxes[0].width,
-      );
+        const shotBoxes = await shots.evaluateAll((nodes) =>
+          nodes.map((node) => {
+            const box = node.getBoundingClientRect();
+            return { x: box.x, width: box.width };
+          }),
+        );
+        expect(
+          shotBoxes.every(({ x }) => Math.abs(x - shotBoxes[0].x) < 2),
+        ).toBe(true);
+        expect(shotBoxes.every(({ width }) => width >= 1300)).toBe(true);
 
-      const imageGeometry = await images.evaluateAll((nodes) =>
-        nodes.map((node) => {
-          const image = node as HTMLImageElement;
-          const box = image.getBoundingClientRect();
-          return {
-            objectFit: getComputedStyle(image).objectFit,
-            renderedWidth: box.width,
-          };
-        }),
-      );
-      expect(
-        imageGeometry.every(({ objectFit }) => objectFit === "contain"),
-      ).toBe(true);
-      expect(
-        imageGeometry.every(({ renderedWidth }) => renderedWidth >= 520),
-      ).toBe(true);
-      await expectNoHorizontalOverflow(page);
-    });
+        const imageGeometry = await images.evaluateAll((nodes) =>
+          nodes.map((node) => {
+            const image = node as HTMLImageElement;
+            const box = image.getBoundingClientRect();
+            return {
+              naturalWidth: image.naturalWidth,
+              objectFit: getComputedStyle(image).objectFit,
+              renderedWidth: box.width,
+            };
+          }),
+        );
+        expect(
+          imageGeometry.every(({ objectFit }) => objectFit === "contain"),
+        ).toBe(true);
+        expect(
+          imageGeometry.every(
+            ({ naturalWidth, renderedWidth }) =>
+              renderedWidth >= 1300 && renderedWidth <= naturalWidth + 1,
+          ),
+        ).toBe(true);
+        await expect(page.locator(".evidence-shot__media")).toHaveCount(4);
+        await expectNoHorizontalOverflow(page);
+      },
+    );
   }
 
-  test("collapses evidence to one column on mobile", async ({ page }) => {
+  test("keeps evidence in one direct column on mobile", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("./");
 
     await expectProductImagesLoaded(page);
-    const columns = page.locator(".evidence-showcase__column");
-    const columnBoxes = await columns.evaluateAll((nodes) =>
-      nodes.map((node) => {
-        const box = node.getBoundingClientRect();
-        return { x: box.x, y: box.y, height: box.height };
-      }),
-    );
+    const shotBoxes = await page
+      .locator(".evidence-shot")
+      .evaluateAll((nodes) =>
+        nodes.map((node) => {
+          const box = node.getBoundingClientRect();
+          return { x: box.x, y: box.y, height: box.height };
+        }),
+      );
 
-    expect(Math.abs(columnBoxes[0].x - columnBoxes[1].x)).toBeLessThan(2);
-    expect(columnBoxes[1].y).toBeGreaterThan(
-      columnBoxes[0].y + columnBoxes[0].height,
+    expect(shotBoxes.every(({ x }) => Math.abs(x - shotBoxes[0].x) < 2)).toBe(
+      true,
     );
+    for (let index = 1; index < shotBoxes.length; index += 1) {
+      expect(shotBoxes[index].y).toBeGreaterThan(
+        shotBoxes[index - 1].y + shotBoxes[index - 1].height,
+      );
+    }
     await expectNoHorizontalOverflow(page);
   });
 
+  test("removes decorative hero guide lines", async ({ page }) => {
+    await page.setViewportSize({ width: 2048, height: 1024 });
+    await page.goto("./");
+
+    const guides = await page.locator(".hero").evaluate((hero) => {
+      const product = hero.querySelector(".hero__product") as HTMLElement;
+      const productStyles = getComputedStyle(product);
+      return {
+        pseudoContent: getComputedStyle(hero, "::before").content,
+        topBorder: productStyles.borderTopWidth,
+        bottomBorder: productStyles.borderBottomWidth,
+      };
+    });
+
+    expect(guides).toEqual({
+      pseudoContent: "none",
+      topBorder: "0px",
+      bottomBorder: "0px",
+    });
+  });
   test("keeps inverse CTA copy readable in both themes", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
 
