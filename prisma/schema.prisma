@@ -1,0 +1,140 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum DemoRequestType {
+  DEMO
+  SUPPORT
+}
+
+enum DemoRequestStatus {
+  NEW
+  CONTACTED
+  CLOSED
+}
+
+enum NotificationStatus {
+  PENDING
+  SENT
+  FAILED
+}
+
+enum LicenseEdition {
+  STARTER
+  PROFESSIONAL
+  ENTERPRISE
+}
+
+enum LicenseStatus {
+  PENDING
+  ACTIVE
+  EXPIRED
+  REVOKED
+}
+
+model User {
+  id                      String                   @id @default(cuid())
+  email                   String                   @unique
+  passwordHash            String
+  emailVerifiedAt         DateTime?
+  locale                  String                   @default("zh-CN")
+  createdAt               DateTime                 @default(now())
+  updatedAt               DateTime                 @updatedAt
+  emailVerificationTokens EmailVerificationToken[]
+  demoRequests            DemoRequest[]
+  licenses                License[]
+  launchCodes             LaunchCode[]
+}
+
+model EmailVerificationToken {
+  id        String    @id @default(cuid())
+  tokenHash String    @unique
+  userId    String
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, usedAt])
+  @@index([expiresAt])
+}
+
+model DemoRequest {
+  id                   String             @id @default(cuid())
+  userId               String?
+  type                 DemoRequestType
+  name                 String
+  email                String
+  company              String?
+  storeCountBand       String
+  contactMethod        String
+  contactValue         String
+  message              String
+  status               DemoRequestStatus  @default(NEW)
+  notificationStatus   NotificationStatus @default(PENDING)
+  notificationAttempts Int                @default(0)
+  notificationError    String?
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+  user                 User?              @relation(fields: [userId], references: [id], onDelete: SetNull)
+}
+
+model License {
+  id          String         @id @default(cuid())
+  userId      String
+  edition     LicenseEdition
+  status      LicenseStatus  @default(PENDING)
+  storeBand   String
+  seats       Int
+  issuedAt    DateTime
+  expiresAt   DateTime?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  launchCodes LaunchCode[]
+}
+
+model ClientRelease {
+  id                      String       @id @default(cuid())
+  version                 String       @unique
+  platform                String       @default("windows-x64")
+  installerUrl            String
+  checksum                String
+  releaseNotes            String
+  minimumSupportedVersion String
+  isPublished             Boolean      @default(false)
+  publishedAt             DateTime?
+  createdAt               DateTime     @default(now())
+  launchCodes             LaunchCode[]
+}
+
+model LaunchCode {
+  id              String         @id @default(cuid())
+  codeHash        String         @unique
+  userId          String
+  licenseId       String
+  clientReleaseId String?
+  expiresAt       DateTime
+  usedAt          DateTime?
+  createdAt       DateTime       @default(now())
+  user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  license         License        @relation(fields: [licenseId], references: [id], onDelete: Cascade)
+  clientRelease   ClientRelease? @relation(fields: [clientReleaseId], references: [id], onDelete: SetNull)
+
+  @@index([userId, usedAt])
+  @@index([expiresAt])
+}
+
+model RateLimitEvent {
+  id        String   @id @default(cuid())
+  scope     String
+  keyHash   String
+  createdAt DateTime @default(now())
+
+  @@index([scope, keyHash, createdAt])
+}
