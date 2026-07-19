@@ -1,7 +1,9 @@
 # AXIO Homepage Hero Redesign
 
 Date: 2026-07-19
-Status: Approved
+Status: Superseded on 2026-07-20
+
+> The narrow `task-pricing.webp` hero described here was replaced by the full-width `control-center.webp` product evidence. Current hero rules live in `2026-07-19-axio-product-evidence-gallery-design.md` and `docs/content-maintenance.md`.
 
 ## Objective
 

@@ -75,3 +75,14 @@ Use thin semantic borders and page rhythm, not nested cards, fake browser chrome
 - The transparent formula evidence explicitly states that site fees, exchange rates, shipping, and target profit are reverse-calculated for automated batch precision pricing.
 - Risk-control and pricing-formula media use a light screenshot-matching backdrop so intrinsic-width images do not expose black side bars.
 - The /solutions page uses qualitative operating stages and multi-site language instead of fixed store-count ranges.
+
+## 2026-07-20 Operating Loop And Active Navigation
+
+- Expand every operating stage from a short label into a title plus actionable explanation.
+- Use a 3x2 process matrix on wide desktop, 2x3 at tablet width, and one column on mobile.
+- Preserve real sequence numbering while removing decorative arrows that made borders appear accidental.
+- Desktop and mobile navigation share one active-state component.
+- Route links use `aria-current="page"`; the homepage capability anchor uses `aria-current="location"`.
+- Active state persists after click, reload, and browser navigation instead of depending on hover.
+- Keep the top-level demo CTA and remove the duplicate demo item from the primary nav; retain the demo link in the footer.
+- Verify light/dark themes, 1440x900 and 390x844 layouts, keyboard focus restoration, and zero document overflow.

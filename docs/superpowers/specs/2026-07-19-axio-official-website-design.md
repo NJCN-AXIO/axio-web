@@ -1,7 +1,9 @@
 # AXIO Official Website Design
 
 Date: 2026-07-19
-Status: Approved
+Status: Historical approved plan; superseded for the static master release on 2026-07-20
+
+> This document records the original full-stack direction. Registration, login, member-center, database, and client-launch sections are not part of the current GitHub Pages release. Use `docs/architecture.md`, `docs/operations/github-pages-deployment.md`, and `docs/operations/server-features-todo.md` as the current source of truth.
 
 ## 1. Objective
 
