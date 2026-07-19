@@ -112,6 +112,63 @@ export const zhCN: SiteContent = {
     },
   ],
   capabilityGroups,
+  home: {
+    loopTitle: "从经营意图到业务回读",
+    loopDescription:
+      "任务不是一次性的黑盒动作。AXIO 将每一步拆成可见的输入、判断、执行与结果证据。",
+    evidenceTitle: "真实流程，围绕经营证据展开",
+    evidenceDescription:
+      "所有公开能力来自现有 AXIO 工作流。店铺身份、订单、利润与平台凭证不会进入官网。",
+    evidenceItems: [
+      {
+        label: "AI 主管",
+        detail: "容量、任务目标与验收标准",
+        iconKey: "supervisor",
+      },
+      {
+        label: "自然语言任务",
+        detail: "商品来源、站点与店铺范围",
+        iconKey: "collection",
+      },
+      {
+        label: "六站点定价",
+        detail: "成本、费率、物流与利润反算",
+        iconKey: "pricing",
+      },
+      {
+        label: "风险证据",
+        detail: "品牌、图片与业务结果回读",
+        iconKey: "risk",
+      },
+    ],
+    capabilitiesTitle: "一套系统，覆盖店群运营关键链路",
+    capabilitiesDescription:
+      "当前能力与后续规划逐项标注，避免把路线图包装成已交付功能。",
+    safetyTitle: "自动化有边界，执行有证据",
+    safetyDescription:
+      "确定性脚本负责稳定执行，高风险动作保留预览与确认，结果通过业务数据回读。",
+    safetyPoints: [
+      {
+        title: "受控执行",
+        description: "从参数预览到任务确认，关键写入保留清晰的人机边界。",
+      },
+      {
+        title: "本地凭证",
+        description:
+          "Windows 客户端在卖家环境执行，平台凭证与浏览器配置不上传官网。",
+      },
+      {
+        title: "灵活交付",
+        description: "支持标准客户端、源码交付以及按组织边界规划的私有化部署。",
+      },
+    ],
+    packagesTitle: "按经营阶段选择交付方式",
+    packagesDescription:
+      "从建立标准流程到组织级私有化，以实际店群规模和协作边界确定方案。",
+    finalTitle: "把重复运营，变成可验证的系统流程",
+    finalDescription:
+      "预约演示，结合你的站点、店铺规模与团队协作方式查看适配路径。",
+  },
   footer: {
     boundary: "本地 Windows 客户端执行，敏感凭证留在客户环境",
     links: [

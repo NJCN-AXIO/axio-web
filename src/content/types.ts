@@ -29,6 +29,34 @@ export type PackageOption = {
   readonly description: string;
 };
 
+export type EvidenceIconKey = "supervisor" | "collection" | "pricing" | "risk";
+
+export type HomeEvidenceItem = {
+  readonly label: string;
+  readonly detail: string;
+  readonly iconKey: EvidenceIconKey;
+};
+
+export type HomeContent = {
+  readonly loopTitle: string;
+  readonly loopDescription: string;
+  readonly evidenceTitle: string;
+  readonly evidenceDescription: string;
+  readonly evidenceItems: readonly HomeEvidenceItem[];
+  readonly capabilitiesTitle: string;
+  readonly capabilitiesDescription: string;
+  readonly safetyTitle: string;
+  readonly safetyDescription: string;
+  readonly safetyPoints: readonly {
+    readonly title: string;
+    readonly description: string;
+  }[];
+  readonly packagesTitle: string;
+  readonly packagesDescription: string;
+  readonly finalTitle: string;
+  readonly finalDescription: string;
+};
+
 export type SiteContent = {
   readonly brand: { readonly name: string; readonly subtitle: string };
   readonly navigation: readonly NavigationLink[];
@@ -43,6 +71,7 @@ export type SiteContent = {
   readonly operatingLoop: readonly string[];
   readonly packages: readonly PackageOption[];
   readonly capabilityGroups: readonly CapabilityGroup[];
+  readonly home: HomeContent;
   readonly footer: {
     readonly boundary: string;
     readonly links: readonly NavigationLink[];
