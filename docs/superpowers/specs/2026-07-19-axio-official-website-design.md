@@ -96,7 +96,7 @@ Public routes:
 - `/product` - product capability overview
 - `/solutions` - solutions by team and store-group size
 - `/pricing` - package comparison without online payment
-- `/demo` - demo video and booking form
+- `/demo` - two-video demo center and booking form
 - `/login` - sign in
 - `/register` - email registration
 - `/verify-email` - verification result
@@ -119,12 +119,45 @@ The existing Flask operations interface is never exposed through the public webs
 2. Full-screen hero: AXIO 智核 as H1, the approved subtitle, short value proposition, two CTAs, and a live operations visual.
 3. Proof strip: 116 stores, six Shopee sites, four market-signal platforms, and controlled task monitoring.
 4. Operating loop: market signals, keywords and products, tasks and pricing, preview and confirmation, script execution, and result readback.
-5. Real product evidence: anonymized AXIO screenshots focusing on AI Supervisor, tasks, store matrix, pricing, and risk evidence.
-6. Capability system: six approved feature groups from the video script.
-7. Safety and deployment: deterministic scripts, human confirmation, business readback, local client, source delivery, and private deployment.
-8. Demo section: product screenshot cover until the video is ready, then the same slot hosts the final video.
-9. Package section: Starter, Professional, and Enterprise positioning with contact-led conversion and no invented prices.
-10. Final CTA and legal footer.
+5. Core workflow video: the completed new-task collection and publishing flow appears immediately after the operating loop as real operation evidence.
+6. Real product evidence: anonymized AXIO screenshots focusing on AI Supervisor, tasks, store matrix, pricing, and risk evidence.
+7. Capability system: six approved feature groups from the video script.
+8. Safety and deployment: deterministic scripts, human confirmation, business readback, local client, source delivery, and private deployment.
+9. Full-product demo: the reserved overview-video position appears after capability and safety context, followed by the demo-booking action.
+10. Package section: Starter, Professional, and Enterprise positioning with contact-led conversion and no invented prices.
+11. Final CTA and legal footer.
+
+### 5.1 Video Narrative And States
+
+The two videos have separate jobs and do not compete inside one side-by-side gallery.
+
+Core workflow video:
+
+- Public title: `核心功能：新建任务采集上架流程`.
+- Source evidence is the completed 56.7-second local recording supplied by the owner.
+- Homepage position is directly after the operating loop, before the broader screenshot and capability evidence.
+- The player uses native controls, `playsInline`, `preload="metadata"`, no autoplay, a stable aspect-ratio shell, and `object-fit: contain` so the 1920x1044 source is never cropped or stretched.
+- A dedicated WebP poster loads before video metadata. Required surrounding copy summarizes the workflow without inventing results.
+
+Full-product overview video:
+
+- Public title: `AXIO 全局功能演示`.
+- Homepage position is after capability, safety, and deployment context, where it leads into demo booking.
+- Until the final overview video exists, the reserved media region uses a real anonymized AXIO screenshot cover and a clear production state. It does not render a broken video source or a fake play button.
+- The final video replaces the cover in the same stable region without changing page rhythm.
+
+Demo route:
+
+- `/demo` presents the full-product overview position first, the completed core workflow video second, and the booking form after the media evidence.
+- Both positions use the same typed video-content registry as the homepage, so titles, status, poster, and media URL cannot drift between routes.
+
+### 5.2 Video Responsive Behavior
+
+- Wide desktop (`>=1200px`): each video keeps its own full-width narrative band; the player is the dominant visual and never shares a side-by-side gallery with the other video.
+- Narrow desktop and tablet (`768-1199px`): copy, media, and CTA collapse to one column. Video bands use content-driven height instead of a forced full viewport so 1024x768 and other low-height laptop screens never clip native controls.
+- Mobile (`<768px`): media uses the full available content width, preserves the source frame with contained letterboxing, and places title, summary, status, and CTA in a single reading order. No video label or control causes document-level horizontal scrolling.
+- Video typography changes only at explicit breakpoints and never scales with viewport width. All custom actions retain 44px touch targets; native player controls remain unobstructed.
+- `/demo` keeps overview, core workflow, and booking as a vertical sequence at every width. Wide screens may increase media width but do not reorder the three stages.
 
 ## 6. Public Capability Map
 
@@ -285,6 +318,8 @@ Member center:
 - Multi-column sections collapse to a single-column reading order on mobile.
 - Canvas caps device pixel ratio, pauses off-screen, and freezes for reduced motion.
 - Images use AVIF/WebP where practical, responsive sizing, fixed dimensions, and lazy loading.
+- Videos never autoplay, use metadata-only preload, reserve their intrinsic aspect ratio before loading, and use poster images to avoid layout shifts.
+- Responsive verification includes wide desktop at 1440x900, narrow desktop at 1024x768, and mobile at 390x844.
 - The initial page remains readable with JavaScript disabled; interactive enhancements degrade gracefully.
 - Target CLS is below 0.1.
 
@@ -309,13 +344,17 @@ Integration tests:
 Playwright tests:
 
 - homepage, registration, login, member center, and demo flow
-- desktop and mobile viewports
+- wide-desktop, narrow-desktop, and mobile viewports
 - light default and dark-mode toggle
 - no visible text below 12px
 - no horizontal document overflow or overlapping text
 - keyboard navigation and focus visibility
 - reduced-motion terminal state
 - nonblank Canvas pixel variance and correct theme recoloring
+- completed core-workflow video metadata loads without autoplay, preserves the source frame, and exposes native controls
+- pending overview-video position renders its real screenshot cover without a broken media request or fake play control
+- homepage and `/demo` consume identical video titles, statuses, posters, and media URLs
+- video bands do not clip controls or create document overflow at 1440x900, 1024x768, or 390x844
 
 Static checks:
 
@@ -329,7 +368,12 @@ Static checks:
 - Use anonymized screenshots from the existing AXIO product.
 - Hide shop names, account identifiers, orders, margins, credentials, signatures, and complete product records.
 - Use the approved video script as the source for feature claims and section order.
-- Until the final demo video exists, use a real anonymized AXIO screenshot as the video cover.
+- The private source path `D:\文件传输助手\lv_0_20260703211804.mp4` is an ingestion input only and never appears in public code, HTML, metadata, logs, or URLs.
+- Encode the completed core workflow recording as `public/videos/axio-core-task-workflow.mp4`: 1280x696, H.264, yuv420p, AAC audio, original frame preserved, and MP4 faststart enabled. Do not crop or stretch it.
+- Generate `public/images/video-posters/axio-core-task-workflow.webp` from a representative safe frame after checking it for account, store, order, margin, credential, and signature exposure.
+- Until the final overview video exists, use a real anonymized AXIO screenshot as `public/images/video-posters/axio-overview-cover.webp`; the cover is not presented as a playable video.
+- If the completed core video contains meaningful speech, publish synchronized Simplified Chinese WebVTT captions before production. If it has no meaningful speech, provide a nearby textual workflow summary and do not add an empty caption track.
+- Production may move video binaries to the configured S3-compatible origin; the typed content registry changes the stable HTTPS URL without changing components.
 - Use AXIO 智核 as a wordmark for the first release. A future logo can replace the wordmark without changing layout.
 - Do not publish fake precision metrics, invented testimonials, or invented prices.
 
@@ -340,6 +384,7 @@ First implementation milestone:
 - full public marketing site
 - responsive light and dark modes
 - anonymized product evidence slots
+- completed core workflow video plus the reserved full-product overview position
 - demo booking form
 - email registration, verification, login, and member center
 - license, download, and future launch-entry UI
@@ -376,8 +421,12 @@ Generated previews, secrets, build output, test reports, and dependencies are ig
 - Light mode is the first-visit default; dark mode switches the complete theme and persists.
 - The six approved feature groups from the demo script appear with current and future boundaries.
 - 116 stores, six Shopee sites, and four signal platforms are presented as real, anonymized proof.
+- The completed core workflow video appears after the operating loop, loads only metadata before user action, uses native controls, and is not cropped or stretched.
+- The pending full-product overview position appears after capability and safety context and never produces a broken media request or fake play state.
+- `/demo` presents the overview position first, the core workflow video second, and the booking form after both.
+- Both video positions remain usable without clipped controls, overlapping copy, or document overflow on wide desktop, narrow desktop, and mobile viewports.
 - Email registration, verification, login, and member center work end to end in a configured environment.
 - Demo requests persist without online payment.
 - The website stores no platform credentials and exposes no local Flask route.
-- Desktop and mobile Playwright checks pass without overlap, overflow, blank Canvas, console errors, or unreadable text.
+- Wide-desktop, narrow-desktop, and mobile Playwright checks pass without overlap, overflow, blank Canvas, clipped video controls, console errors, or unreadable text.
 - Every implementation milestone is committed automatically to the independent website repository.
