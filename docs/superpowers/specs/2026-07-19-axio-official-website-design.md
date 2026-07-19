@@ -1,7 +1,7 @@
 # AXIO Official Website Design
 
 Date: 2026-07-19
-Status: Approved design direction, pending written-spec review
+Status: Approved
 
 ## 1. Objective
 
@@ -218,7 +218,7 @@ Public pages label current and future capabilities clearly. Sensitive accounts, 
 
 - PostgreSQL for account, verification, demo request, license, and client release records
 - Prisma for typed database access and migrations
-- Auth.js for credentials-based sign-in and server-managed sessions
+- Auth.js for credentials-based sign-in and signed JWT sessions
 - standard SMTP transport configured by environment variables for verification and notifications
 - S3-compatible object storage with stable HTTPS URLs for screenshots, video, and client installers
 
@@ -233,7 +233,7 @@ Public pages label current and future capabilities clearly. Sensitive accounts, 
 ## 8. Core Data Model
 
 - User: id, email, password hash, email verification time, locale, theme preference metadata, created time
-- Session: server-managed session identity and expiry
+- Session: encrypted, HTTP-only Auth.js JWT cookie with bounded expiry; no Session table in V1
 - EmailVerificationToken: hashed token, user, expiry, used time
 - DemoRequest: user or visitor identity, company, store count band, contact preference, message, status, created time
 - License: user, product edition, status, seats or store band, issue time, expiry
