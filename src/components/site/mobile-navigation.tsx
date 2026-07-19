@@ -9,6 +9,14 @@ import { getSiteContent } from "../../content";
 const content = getSiteContent();
 const focusableSelector =
   'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+const backgroundSelector = [
+  "main",
+  ".site-footer",
+  ".site-header__brand",
+  ".site-header__desktop-nav",
+  ".theme-toggle",
+  ".site-header__cta",
+].join(",");
 
 export function MobileNavigation() {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,12 +25,27 @@ export function MobileNavigation() {
 
   const close = useCallback(() => {
     setIsOpen(false);
-    triggerRef.current?.focus();
   }, []);
 
   useEffect(() => {
     if (!isOpen) return;
     const dialog = dialogRef.current;
+    const previousOverflow = document.body.style.overflow;
+    const backgroundStates = Array.from(
+      document.querySelectorAll<HTMLElement>(backgroundSelector),
+      (element) => ({
+        ariaHidden: element.getAttribute("aria-hidden"),
+        element,
+        inert: element.getAttribute("inert"),
+      }),
+    );
+
+    document.body.style.overflow = "hidden";
+    for (const { element } of backgroundStates) {
+      element.setAttribute("inert", "");
+      element.setAttribute("aria-hidden", "true");
+    }
+
     dialog?.querySelectorAll<HTMLElement>(focusableSelector)[0]?.focus();
 
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -48,7 +71,18 @@ export function MobileNavigation() {
     };
 
     document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = previousOverflow;
+      for (const { ariaHidden, element, inert } of backgroundStates) {
+        if (inert === null) element.removeAttribute("inert");
+        else element.setAttribute("inert", inert);
+
+        if (ariaHidden === null) element.removeAttribute("aria-hidden");
+        else element.setAttribute("aria-hidden", ariaHidden);
+      }
+      triggerRef.current?.focus();
+    };
   }, [close, isOpen]);
 
   return (

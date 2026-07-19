@@ -20,6 +20,7 @@ body {
   --border: #d9dde3;
   --brand: #ee4d2d;
   --action: #c43b20;
+  --link-hover: #c43b20;
   --on-action: #ffffff;
   --success: #157a52;
   --warning: #9a5b00;
@@ -43,6 +44,7 @@ body {
   --border: #303640;
   --brand: #ff6a4d;
   --action: #c43b20;
+  --link-hover: #ff6a4d;
   --on-action: #ffffff;
   --success: #5cc69a;
   --warning: #f3b45b;
@@ -184,7 +186,7 @@ button {
 
 .site-header__desktop-nav a:hover,
 .site-footer__links a:hover {
-  color: var(--brand);
+  color: var(--link-hover);
 }
 
 .site-header__actions {
