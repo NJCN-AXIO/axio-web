@@ -1,5 +1,6 @@
 import { PREVIEW_WORKSPACES } from "./preview-data.mjs";
 import {
+  assertValidWorkspace,
   WORKFLOW_STAGES,
   createPreviewState,
   deriveSiteRoot,
@@ -61,6 +62,18 @@ function renderWorkspace() {
     ({ id }) => id === state.activeWorkspace,
   );
   if (!workspace) {
+    const failure = element("section", "preview-empty");
+    failure.append(
+      element("h1", "", "预览数据暂不可用"),
+      element("p", "", "请返回运营总览继续浏览。"),
+    );
+    main.replaceChildren(failure);
+    return;
+  }
+
+  try {
+    assertValidWorkspace(workspace);
+  } catch {
     const failure = element("section", "preview-empty");
     failure.append(
       element("h1", "", "预览数据暂不可用"),

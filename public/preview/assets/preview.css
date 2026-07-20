@@ -70,6 +70,9 @@ a {
   background: rgba(255, 255, 255, 0.96);
 }
 .preview-brand {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
   font-size: 18px;
   font-weight: 800;
 }

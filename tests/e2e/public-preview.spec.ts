@@ -6,6 +6,8 @@ test.describe("public product preview", () => {
   }) => {
     const productRequests: string[] = [];
     page.on("request", (request) => {
+      const framePath = new URL(request.frame().url()).pathname;
+      if (!framePath.includes("/preview/")) return;
       const method = request.method();
       if (
         ["fetch", "xhr", "websocket", "ping"].includes(
@@ -24,9 +26,6 @@ test.describe("public product preview", () => {
     await expect(
       page.getByRole("heading", { name: "今日运营计划" }),
     ).toBeVisible();
-    // The marketing page prefetches its own Next.js routes before the
-    // full-page preview navigation. Product-network tracking starts here.
-    productRequests.length = 0;
     await expect(page.locator("form")).toHaveCount(0);
 
     await page.getByRole("button", { name: "新建任务" }).click();
@@ -74,6 +73,9 @@ test.describe("public product preview", () => {
       .boundingBox();
     expect(bookingBox).not.toBeNull();
     expect(bookingBox?.height ?? 0).toBeGreaterThanOrEqual(44);
+    const brandBox = await page.locator(".preview-brand").boundingBox();
+    expect(brandBox).not.toBeNull();
+    expect(brandBox?.height ?? 0).toBeGreaterThanOrEqual(44);
     await menu.click();
     await expect(menu).toHaveAttribute("aria-expanded", "true");
     await expect(sidebar).toHaveJSProperty("inert", false);

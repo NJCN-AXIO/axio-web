@@ -9,6 +9,48 @@ export const WORKFLOW_STAGES = Object.freeze([
 
 const workspaceIds = new Set(PREVIEW_WORKSPACES.map(({ id }) => id));
 
+function isText(value) {
+  return typeof value === "string" && value.trim().length > 0;
+}
+
+export function assertValidWorkspace(workspace) {
+  if (!workspace || typeof workspace !== "object") {
+    throw new TypeError("Invalid workspace");
+  }
+  for (const field of ["id", "navLabel", "eyebrow", "title", "description"]) {
+    if (!isText(workspace[field])) {
+      throw new TypeError(`Invalid workspace ${field}`);
+    }
+  }
+  if (!Array.isArray(workspace.stats) || workspace.stats.length === 0) {
+    throw new TypeError("Invalid workspace stats");
+  }
+  if (
+    workspace.stats.some(
+      (pair) =>
+        !Array.isArray(pair) ||
+        pair.length !== 2 ||
+        pair.some((value) => !isText(value)),
+    )
+  ) {
+    throw new TypeError("Invalid workspace stats");
+  }
+  if (!Array.isArray(workspace.rows) || workspace.rows.length === 0) {
+    throw new TypeError("Invalid workspace rows");
+  }
+  if (
+    workspace.rows.some(
+      (row) =>
+        !Array.isArray(row) ||
+        row.length !== 3 ||
+        row.some((value) => !isText(value)),
+    )
+  ) {
+    throw new TypeError("Invalid workspace rows");
+  }
+  return workspace;
+}
+
 export function createPreviewState() {
   return { activeWorkspace: "dashboard", navOpen: false, taskStage: "draft" };
 }

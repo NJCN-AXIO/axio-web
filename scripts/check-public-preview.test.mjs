@@ -12,6 +12,7 @@ import { describe, expect, it } from "vitest";
 
 import { PREVIEW_WORKSPACES } from "../public/preview/assets/preview-data.mjs";
 import {
+  assertValidWorkspace,
   createPreviewState,
   deriveSiteRoot,
   reducePreviewState,
@@ -57,6 +58,16 @@ describe("public preview contract", () => {
     expect(deriveSiteRoot("/preview/")).toBe("/");
     expect(deriveSiteRoot("/axio-web/preview/")).toBe("/axio-web/");
     expect(() => deriveSiteRoot("/demo/")).toThrow(/preview path/i);
+  });
+
+  it("rejects malformed workspace rows before rendering", () => {
+    expect(() =>
+      assertValidWorkspace({
+        ...PREVIEW_WORKSPACES[0],
+        stats: [["broken"]],
+      }),
+    ).toThrow(/stats/i);
+    expect(() => assertValidWorkspace(PREVIEW_WORKSPACES[0])).not.toThrow();
   });
 
   it("uses an isolated relative-asset shell without an iframe", () => {
