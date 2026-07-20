@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="AXIO 智核公开交互预览" />
+    <title>产品预览 | AXIO 智核</title>
+    <link rel="stylesheet" href="./assets/preview.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#preview-main">跳到主要内容</a>
+    <header class="preview-bar">
+      <a class="preview-brand" data-site-home href="../">AXIO 智核</a>
+      <p>
+        <span class="status-dot" aria-hidden="true"></span>公开演示 ·
+        不连接真实店铺
+      </p>
+      <div class="preview-bar__actions">
+        <a class="button button--quiet" data-site-home href="../">返回官网</a>
+        <a class="button button--primary" data-book-demo href="../demo/"
+          >预约真实演示</a
+        >
+      </div>
+    </header>
+    <div class="preview-shell">
+      <aside class="preview-sidebar" data-preview-sidebar>
+        <div class="preview-sidebar__heading">
+          <span>PRODUCT TOUR</span>
+          <strong>经营与受控执行</strong>
+        </div>
+        <nav aria-label="产品预览" data-preview-nav></nav>
+        <p class="preview-sidebar__note">所有内容均为虚构示例数据</p>
+      </aside>
+      <main
+        class="preview-main"
+        data-preview-main
+        id="preview-main"
+        tabindex="-1"
+      ></main>
+    </div>
+    <button
+      aria-controls="preview-navigation"
+      aria-expanded="false"
+      aria-label="功能导航"
+      class="preview-menu-button"
+      data-menu-button
+      type="button"
+    >
+      <span aria-hidden="true">☰</span><span>功能导航</span>
+    </button>
+    <div class="preview-toast" data-preview-toast hidden role="status"></div>
+    <script src="./assets/preview.mjs" type="module"></script>
+  </body>
+</html>

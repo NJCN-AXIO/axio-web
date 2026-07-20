@@ -1,3 +1,6 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+
 import { describe, expect, it } from "vitest";
 
 import { PREVIEW_WORKSPACES } from "../public/preview/assets/preview-data.mjs";
@@ -43,5 +46,17 @@ describe("public preview contract", () => {
     expect(deriveSiteRoot("/preview/")).toBe("/");
     expect(deriveSiteRoot("/axio-web/preview/")).toBe("/axio-web/");
     expect(() => deriveSiteRoot("/demo/")).toThrow(/preview path/i);
+  });
+
+  it("uses an isolated relative-asset shell without an iframe", () => {
+    const html = readFileSync(
+      join(process.cwd(), "public/preview/index.html"),
+      "utf8",
+    );
+    expect(html).toContain('href="./assets/preview.css"');
+    expect(html).toContain('src="./assets/preview.mjs"');
+    expect(html).toContain("data-preview-main");
+    expect(html).toContain("data-preview-nav");
+    expect(html).not.toMatch(/<iframe|https?:\/\//i);
   });
 });
