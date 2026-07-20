@@ -5,27 +5,36 @@ import type { PackageOption } from "../../content";
 
 type PackageSet = readonly [PackageOption, PackageOption, PackageOption];
 
-const deliveryByPackage: Record<PackageOption["name"], string> = {
-  Starter: "标准客户端与基础流程落地",
-  Professional: "多站点协作与店群经营流程",
-  Team: "团队使用、优先支持与有限规则配置",
-};
-
 export function PackageComparison({ packages }: { packages: PackageSet }) {
   return (
     <div className="package-comparison" data-testid="package-comparison">
       <div className="package-comparison__grid">
         {packages.map((option, index) => (
-          <article className="package-comparison__option" key={option.name}>
-            <span>0{index + 1}</span>
+          <article
+            className="package-comparison__option"
+            data-featured={option.featured ? "true" : undefined}
+            data-testid={"package-" + option.name.toLowerCase()}
+            key={option.name}
+          >
+            <div className="package-comparison__index">
+              <span>0{index + 1}</span>
+              {option.featured ? <strong>推荐</strong> : null}
+            </div>
             <h2>{option.name}</h2>
-            <strong>{option.audience}</strong>
+            <p className="package-comparison__audience">{option.audience}</p>
+            <div className="package-comparison__price">
+              <span>
+                正式售价 <b>{option.regularPrice}</b> / 年
+              </span>
+              <div>
+                <strong>{option.launchPrice}</strong>
+                <small>/ 年 · {option.launchLabel}</small>
+              </div>
+            </div>
             <p>{option.description}</p>
-            <p className="package-comparison__delivery">
-              {deliveryByPackage[option.name]}
-            </p>
+            <p className="package-comparison__delivery">{option.delivery}</p>
             <Link href="/demo">
-              联系咨询
+              预约演示
               <ArrowRight aria-hidden="true" size={16} />
             </Link>
           </article>

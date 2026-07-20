@@ -22,7 +22,7 @@ const publicRoutes = [
   },
   {
     Page: PricingPage,
-    heading: "按经营规模选择交付方式",
+    heading: "首发版本方案",
     metadata: pricingMetadata,
   },
   {
@@ -93,15 +93,21 @@ it("segments solutions by seller operating stage", () => {
   }
 });
 
-it("compares three contact-led packages without currency pricing", () => {
+it("publishes the approved launch prices without online checkout", () => {
   render(<PricingPage />);
 
   const comparison = screen.getByTestId("package-comparison");
   for (const option of getSiteContent().packages) {
-    expect(within(comparison).getByText(option.name)).toBeVisible();
+    const card = within(comparison).getByTestId(
+      "package-" + option.name.toLowerCase(),
+    );
+    expect(within(card).getByText(option.regularPrice)).toBeVisible();
+    expect(within(card).getByText(option.launchPrice)).toBeVisible();
   }
+  expect(screen.getByText("首发仅限 20 席")).toBeVisible();
+  expect(screen.getByText("定制部署 ¥6,800 起")).toBeVisible();
+  expect(screen.getByText("源码交付单独报价")).toBeVisible();
   expect(screen.getByText("不支持在线付款")).toBeVisible();
-  expect(comparison).not.toHaveTextContent(/[¥￥$€£]\s*\d|\d\s*(元|美元)/);
   expect(screen.queryByRole("button", { name: /购买|付款|结算/ })).toBeNull();
 });
 

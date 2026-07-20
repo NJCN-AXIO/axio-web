@@ -639,6 +639,11 @@
   background: var(--surface);
 }
 
+.package-option[data-featured="true"] {
+  box-shadow: inset 0 3px 0 var(--brand);
+  background: var(--raised);
+}
+
 .package-option > span {
   color: var(--brand);
   font-size: 12px;
@@ -655,6 +660,37 @@
 .package-option strong {
   color: var(--text);
   font-size: 15px;
+}
+
+.package-option__price {
+  margin-top: 24px;
+  padding: 18px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.package-option__price > span {
+  display: block;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.package-option__price > div {
+  display: flex;
+  margin-top: 8px;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.package-option__price strong {
+  color: var(--brand);
+  font-size: 34px;
+  line-height: 1;
+}
+
+.package-option__price small {
+  color: var(--muted);
+  font-size: 13px;
 }
 
 .package-option p {
