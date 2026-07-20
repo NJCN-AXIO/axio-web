@@ -1,55 +1,1754 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="AXIO 智核公开交互预览" />
-    <title>产品预览 | AXIO 智核</title>
-    <link rel="stylesheet" href="./assets/preview.css" />
-  </head>
-  <body>
-    <a class="skip-link" href="#preview-main">跳到主要内容</a>
-    <header class="preview-bar">
-      <a class="preview-brand" data-site-home href="../">AXIO 智核</a>
-      <p>
-        <span class="status-dot" aria-hidden="true"></span>公开演示 ·
-        不连接真实店铺
-      </p>
-      <div class="preview-bar__actions">
-        <a class="button button--quiet" data-site-home href="../">返回官网</a>
-        <a class="button button--primary" data-book-demo href="../demo/"
-          >预约真实演示</a
-        >
-        <button
-          aria-controls="preview-navigation"
-          aria-expanded="false"
-          aria-label="功能导航"
-          class="preview-menu-button"
-          data-menu-button
-          title="功能导航"
-          type="button"
-        >
-          <span aria-hidden="true">☰</span>
-        </button>
-      </div>
-    </header>
-    <div class="preview-shell">
-      <aside class="preview-sidebar" data-preview-sidebar>
-        <div class="preview-sidebar__heading">
-          <span>PRODUCT TOUR</span>
-          <strong>经营与受控执行</strong>
-        </div>
-        <nav aria-label="产品预览" data-preview-nav></nav>
-        <p class="preview-sidebar__note">所有内容均为虚构示例数据</p>
-      </aside>
-      <main
-        class="preview-main"
-        data-preview-main
-        id="preview-main"
-        tabindex="-1"
-      ></main>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shopee 自动上架系统</title>
+<link rel="stylesheet" href="./assets/product.css">
+<link rel="stylesheet" href="./assets/supervisor.css">
+</head>
+<body>
+<nav class="sidebar">
+  <div class="sidebar-logo"><span class="icon">🛒</span><span>AXIO 智核</span></div>
+  <div class="sidebar-nav">
+    <div class="nav-group">
+      <div class="nav-divider">总览</div>
+      <div class="nav-item" data-page="dashboard" onclick="showPage('dashboard', this)"><span class="icon">📊</span><span>控制台</span></div>
+      <div class="nav-item" data-page="history" onclick="showPage('history', this)"><span class="icon">📋</span><span>任务历史</span></div>
     </div>
-    <div class="preview-toast" data-preview-toast hidden role="status"></div>
-    <script src="./assets/preview.mjs" type="module"></script>
-  </body>
+    <div class="nav-group">
+      <div class="nav-divider">任务执行</div>
+      <div class="nav-item active" data-page="task" onclick="showPage('task', this)"><span class="icon">🚀</span><span>新建任务</span></div>
+      <div class="nav-item" data-page="stores" onclick="showPage('stores', this)"><span class="icon">🏪</span><span>店铺管理</span></div>
+    </div>
+    <div class="nav-group">
+      <div class="nav-divider">选品决策</div>
+      <div class="nav-item" data-page="selection" onclick="showPage('selection', this)"><span class="icon">🎯</span><span>选品决策</span></div>
+      <div class="nav-subnav" data-parent-page="selection">
+        <div class="nav-subitem" data-selection-target="hotpick" onclick="showPage('hotpick', this)"><span class="icon">🔥</span><span>热销采集</span></div>
+        <div class="nav-subitem" data-selection-target="keywords" onclick="showPage('keywords', this)"><span class="icon">📝</span><span>关键词库</span></div>
+        <div class="nav-subitem" data-selection-target="orders" onclick="showPage('orders', this)"><span class="icon">📦</span><span>订单回流</span></div>
+        <div class="nav-subitem" data-selection-target="tianji" onclick="showPage('tianji', this)"><span class="icon">⚔️</span><span>田忌赛马</span></div>
+        <div class="nav-subitem" data-selection-target="candidates" onclick="showPage('scoring', this)"><span class="icon">🎯</span><span>候选池</span></div>
+      </div>
+    </div>
+    <div class="nav-group">
+      <div class="nav-divider">运营优化</div>
+      <div class="nav-item" data-page="shopboard" onclick="showPage('shopboard', this)"><span class="icon">📈</span><span>矩阵运营</span></div>
+      <div class="nav-item" data-page="optimize" onclick="showPage('optimize', this)"><span class="icon">🔧</span><span>智能优化</span></div>
+      <div class="nav-item" data-page="titlelearn" onclick="showPage('titlelearn', this)"><span class="icon">📚</span><span>标题学习</span></div>
+    </div>
+    <div class="nav-group">
+      <div class="nav-divider">系统设置</div>
+      <div class="nav-item" data-page="ipcontrol" onclick="showPage('ipcontrol', this)"><span class="icon">🛡️</span><span>违禁管控</span></div>
+      <div class="nav-item" data-page="config" onclick="showPage('config', this)"><span class="icon">⚙️</span><span>系统配置</span></div>
+    </div>
+  </div>
+  <div class="sidebar-footer">
+    <div class="ai-status" id="ai-status-bar" onclick="toggleAiPanel()">
+      <div class="ai-status-dot" id="ai-dot"></div>
+      <div class="ai-status-info">
+        <span class="ai-status-label" id="ai-label">AI: 加载中...</span>
+        <span class="ai-status-model" id="ai-model"></span>
+      </div>
+      <span class="ai-status-arrow" id="ai-arrow">▲</span>
+    </div>
+    <div class="ai-panel" id="ai-panel" style="display:none;">
+      <div class="ai-panel-title">切换 AI 厂商</div>
+      <div id="ai-provider-list"></div>
+    </div>
+  </div>
+</nav>
+
+<main class="main-content">
+  <!-- 控制台 -->
+  <div id="page-dashboard" class="page dashboard-page">
+    <div class="page-header dashboard-header">
+      <div>
+        <h1>📊 控制台</h1>
+        <p class="subtitle">Shopee 自动上架系统 · 116店矩阵管理</p>
+      </div>
+      <div class="dashboard-refresh">
+        <span>最后刷新</span>
+        <strong id="dashboard-last-refresh">--</strong>
+      </div>
+    </div>
+    <div class="stats-grid dashboard-kpi-grid">
+      <div class="stat-card"><div class="stat-icon">🏪</div><div class="stat-info"><div class="stat-value" id="dash-total-stores">--</div><div class="stat-label">总店铺数</div></div></div>
+      <div class="stat-card"><div class="stat-icon">📦</div><div class="stat-info"><div class="stat-value" id="dash-current-products">--</div><div class="stat-label">当前商品</div></div></div>
+      <div class="stat-card"><div class="stat-icon">📈</div><div class="stat-info"><div class="stat-value" id="dash-remaining-capacity">--</div><div class="stat-label">剩余容量</div></div></div>
+      <div class="stat-card"><div class="stat-icon">🎯</div><div class="stat-info"><div class="stat-value" id="dash-overall-saturation">--</div><div class="stat-label">整体饱和率</div></div></div>
+      <div class="stat-card"><div class="stat-icon">🚦</div><div class="stat-info"><div class="stat-value" id="dash-running-tasks">--</div><div class="stat-label">运行中任务</div></div></div>
+      <div class="stat-card"><div class="stat-icon">🤖</div><div class="stat-info"><div class="stat-value" id="dash-ai-calls">--</div><div class="stat-label">今日 AI 调用</div></div></div>
+    </div>
+    <div class="dashboard-op-strip">
+      <div><span>运行中</span><strong id="dash-op-running">--</strong></div>
+      <div><span>待确认</span><strong id="dash-op-waiting">--</strong></div>
+      <div><span>失败</span><strong id="dash-op-failed">--</strong></div>
+      <div><span>今日完成</span><strong id="dash-op-completed">--</strong></div>
+    </div>
+    <section class="supervisor-workspace" id="dashboard-supervisor-report" aria-labelledby="supervisor-title">
+      <header class="supervisor-header">
+        <div>
+          <h2 id="supervisor-title">AI 主管</h2>
+          <p id="supervisor-readiness">正在读取运营计划</p>
+        </div>
+        <button type="button" class="btn btn-primary" id="supervisor-generate">重新生成计划</button>
+        <div class="supervisor-authority-control" id="supervisor-authority-control" aria-label="AI supervisor authority mode">
+            <span class="supervisor-authority-label">Authority</span>
+            <div class="supervisor-authority-switch" id="supervisor-authority-switch" role="group">
+              <button type="button" class="supervisor-authority-option" data-authority-mode="analysis_only">Analysis</button>
+              <button type="button" class="supervisor-authority-option" data-authority-mode="plan_only">Plan</button>
+              <button type="button" class="supervisor-authority-option" data-authority-mode="controlled_execution">Controlled execution</button>
+            </div>
+            <strong id="supervisor-authority-current">Plan</strong>
+        </div>
+      </header>
+      <div class="supervisor-conversation" id="supervisor-conversation">
+        <form class="supervisor-natural-form" id="supervisor-natural-form">
+          <label for="supervisor-natural-input">指令或问题</label>
+          <div class="supervisor-natural-composer">
+            <input id="supervisor-natural-input" autocomplete="off" placeholder="例如：G1 今天上架了多少？">
+            <button type="submit" class="btn btn-primary" id="supervisor-send">发送</button>
+          </div>
+        </form>
+        <div class="supervisor-conversation-transcript" id="supervisor-conversation-transcript" aria-live="polite"></div>
+        <section class="supervisor-answer" id="supervisor-answer" hidden>
+          <div id="supervisor-answer-authority" class="supervisor-result-authority"></div>
+          <div id="supervisor-answer-text"></div>
+          <div id="supervisor-answer-sources"></div>
+          <div id="supervisor-answer-unknowns"></div>
+        </section>
+        <section class="supervisor-command-plan" id="supervisor-command-plan" hidden>
+          <div id="supervisor-plan-authority" class="supervisor-result-authority"></div>
+          <div class="supervisor-plan-band"><h3>目标</h3><div id="supervisor-plan-objective"></div></div>
+          <div class="supervisor-plan-band"><h3>范围</h3><div id="supervisor-plan-scope"></div></div>
+          <div class="supervisor-plan-band"><h3>证据</h3><div id="supervisor-plan-evidence"></div></div>
+          <div class="supervisor-plan-band"><h3>执行步骤</h3><div id="supervisor-plan-steps"></div></div>
+          <div class="supervisor-plan-band"><h3>前置条件与阻断</h3><div id="supervisor-plan-blockers"></div></div>
+          <div class="supervisor-plan-band"><h3>验收</h3><div id="supervisor-plan-acceptance"></div></div>
+          <div class="supervisor-plan-band"><h3>确认</h3><div id="supervisor-plan-confirmation"></div></div>
+          <div class="supervisor-plan-band"><h3>结果</h3><div id="supervisor-plan-result" aria-live="polite"></div></div>
+        </section>
+      </div>
+      <div class="supervisor-legacy-plan">
+      <div class="supervisor-summary" id="supervisor-plan-summary"></div>
+      <div class="supervisor-dependencies" id="supervisor-dependencies"></div>
+      <div class="supervisor-queue" id="supervisor-task-queue"></div>
+      <div id="supervisor-live-status" aria-live="polite"></div>
+      </div>
+    </section>
+    <div class="dashboard-grid">
+      <div class="dashboard-main">
+        <div class="card full-width">
+          <div class="card-header"><h3>⚡ 快捷开始</h3></div>
+          <div class="card-body">
+            <div class="quick-entry-grid">
+              <button class="quick-entry" onclick="goPage('task')"><span class="quick-icon">🚀</span><span class="quick-title">新建任务</span><span class="quick-desc">开始采集与上架流程</span></button>
+              <button class="quick-entry" onclick="goPage('hotpick')"><span class="quick-icon">🔥</span><span class="quick-title">热销采集</span><span class="quick-desc">采集热销商品与关键词</span></button>
+              <button class="quick-entry" onclick="goPage('keywords')"><span class="quick-icon">📝</span><span class="quick-title">关键词库</span><span class="quick-desc">维护关键词与裂变词池</span></button>
+              <button class="quick-entry" onclick="goPage('orders')"><span class="quick-icon">📦</span><span class="quick-title">订单分析</span><span class="quick-desc">分析历史订单并导入关键词</span></button>
+              <button class="quick-entry" onclick="goPage('tianji')"><span class="quick-icon">⚔️</span><span class="quick-title">商品策略</span><span class="quick-desc">引流/走量/利润分层</span></button>
+              <button class="quick-entry" onclick="goPage('scoring')"><span class="quick-icon">🎯</span><span class="quick-title">决策面板</span><span class="quick-desc">决定入库与上架优先级</span></button>
+            </div>
+          </div>
+        </div>
+        <div class="card full-width">
+          <div class="card-header"><h3>📈 容量机会榜</h3></div>
+          <div class="card-body"><div class="dashboard-opportunity-list" id="dashboard-opportunities"></div></div>
+        </div>
+        <div class="card full-width">
+          <div class="card-header"><h3>🌍 站点分布</h3></div>
+          <div class="card-body"><div class="site-grid" id="dashboard-site-grid"></div></div>
+        </div>
+      </div>
+      <div class="dashboard-side">
+        <div class="card">
+          <div class="card-header"><h3>⚠️ 风险提醒</h3></div>
+          <div class="card-body"><div class="dashboard-risk-list" id="dashboard-risks"></div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3>🕘 最近任务流</h3></div>
+          <div class="card-body"><div class="recent-list dashboard-task-list" id="dashboard-recent-tasks"></div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3>🏇 分组容量</h3></div>
+          <div class="card-body"><div class="dashboard-group-grid" id="dashboard-group-grid"></div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3>商品底账</h3></div>
+          <div class="card-body"><div class="dashboard-product-catalog-grid" id="dashboard-product-catalog"></div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3>🧭 数据新鲜度</h3></div>
+          <div class="card-body"><div class="dashboard-freshness-list" id="dashboard-freshness"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 新建任务 -->
+  <div id="page-task" class="page active page-width-normal task-workspace">
+    <div class="page-header">
+      <h1>🚀 新建上架任务</h1>
+      <p class="subtitle">输入关键词或自然语言指令，自动采集并上架</p>
+      <div id="pricing-shadow-status" class="pricing-shadow-status" data-state="loading">
+        <span class="pricing-shadow-indicator" aria-hidden="true"></span>
+        <div class="pricing-shadow-copy">
+          <strong id="pricing-shadow-summary">正在检查精确价格版本</strong>
+          <small id="pricing-shadow-meta">--</small>
+        </div>
+        <div class="pricing-shadow-actions">
+          <button type="button" class="icon-btn" id="pricing-shadow-refresh" onclick="loadPricingShadowState()" title="刷新价格版本状态" aria-label="刷新价格版本状态">↻</button>
+          <button type="button" class="btn btn-sm" id="pricing-shadow-approve" onclick="approveCurrentPricingShadow()" hidden>批准当前价格版本</button>
+        </div>
+      </div>
+      <div class="mobile-stack source-control-row" style="margin-top:12px;">
+        <div class="form-group">
+          <label>采集来源</label>
+          <select id="source-type" onchange="onSourceTypeChange()">
+            <option value="1688">1688货源</option>
+            <option value="shopee">Shopee跨境竞品</option>
+            <option value="pdd">拼多多货源</option>
+            <option value="miaoshou_multiplatform">妙手四平台选品</option>
+          </select>
+        </div>
+        <div class="form-group" id="source-mode-wrap">
+          <label>来源模式</label>
+          <select id="source-mode" onchange="onSourceModeChange()">
+            <option value="keyword">关键词采集</option>
+            <option value="collect_box">采集箱续跑</option>
+            <option value="shop_url">整店采集</option>
+            <option value="product_url">商品链接采集</option>
+          </select>
+        </div>
+        <div class="form-group" id="source-intent-wrap">
+          <label>任务目标</label>
+          <select id="source-intent">
+            <option value="listing">完整上架</option>
+            <option value="analysis">竞品分析</option>
+          </select>
+        </div>
+        <div class="form-group" id="source-site-wrap">
+          <label>来源站点</label>
+          <select id="source-site">
+            <option value="SG">SG</option>
+            <option value="MY">MY</option>
+            <option value="PH">PH</option>
+            <option value="TH">TH</option>
+            <option value="VN">VN</option>
+            <option value="BR">BR</option>
+          </select>
+        </div>
+        <div class="form-group" id="cross-border-wrap">
+          <label>跨境筛选</label>
+          <select id="cross-border-only">
+            <option value="true">只采跨境</option>
+            <option value="false">不过滤</option>
+          </select>
+        </div>
+      </div>
+      <div class="mobile-stack" id="source-target-row" style="display:none;margin-top:12px;">
+        <div class="form-group" style="min-width:420px;flex:1;">
+          <label id="source-target-label">目标链接</label>
+          <input type="text" id="source-target" placeholder="输入 Shopee 店铺链接 / 店铺ID / 商品链接">
+        </div>
+        <div class="form-group" id="collect-box-manual-actions" style="display:none;min-width:260px;">
+          <label>手动选择</label>
+          <div class="toolbar-row">
+            <button type="button" class="btn btn-sm" onclick="openCollectBoxManual()">打开采集箱手选</button>
+            <button type="button" class="btn btn-primary btn-sm" onclick="createTaskFromSelectedCollectBox()">读取已选并创建任务</button>
+          </div>
+        </div>
+      </div>
+      <div id="multiplatform-selection-panel" class="multiplatform-selection-panel" hidden>
+        <div class="multiplatform-heading">
+          <div>
+            <h2>四平台选品预览</h2>
+            <p>只读取 Shopee、Temu、TikTok 和 Amazon，确认候选后创建待处理任务。</p>
+          </div>
+          <span id="multiplatform-preview-status" class="multiplatform-preview-status" data-state="idle">待预览</span>
+        </div>
+
+        <div class="multiplatform-platform-grid" aria-label="平台扫描状态">
+          <div class="multiplatform-platform-state" data-platform="shopee">
+            <strong>Shopee</strong><span id="multiplatform-platform-shopee" data-state="idle">待扫描</span>
+          </div>
+          <div class="multiplatform-platform-state" data-platform="temu">
+            <strong>Temu</strong><span id="multiplatform-platform-temu" data-state="idle">待扫描</span>
+          </div>
+          <div class="multiplatform-platform-state" data-platform="tiktok">
+            <strong>TikTok</strong><span id="multiplatform-platform-tiktok" data-state="idle">待扫描</span>
+          </div>
+          <div class="multiplatform-platform-state" data-platform="amazon">
+            <strong>Amazon</strong><span id="multiplatform-platform-amazon" data-state="idle">待扫描</span>
+          </div>
+        </div>
+
+        <div class="multiplatform-control-grid">
+          <label>分组
+            <select id="multiplatform-group">
+              <option value="G1">G1 上等马</option>
+              <option value="G2">G2 中下等马</option>
+            </select>
+          </label>
+          <label>精确类目
+            <select id="multiplatform-category">
+              <option value="时尚饰品">时尚饰品</option>
+              <option value="家居生活">家居生活</option>
+              <option value="母婴玩具">母婴玩具</option>
+              <option value="美妆个护">美妆个护</option>
+              <option value="五金园艺">五金园艺</option>
+              <option value="3C数码">3C数码</option>
+            </select>
+          </label>
+          <label>候选数量
+            <input id="multiplatform-quantity" type="number" min="1" max="20" value="5">
+          </label>
+          <label>Shopee 站点
+            <select id="multiplatform-site-shopee">
+              <option value="SG">SG</option><option value="MY">MY</option><option value="TH">TH</option>
+              <option value="PH">PH</option><option value="VN">VN</option><option value="BR">BR</option>
+            </select>
+          </label>
+          <label>Temu 站点
+            <select id="multiplatform-site-temu"><option value="US">US</option><option value="GB">GB</option><option value="DE">DE</option></select>
+          </label>
+          <label>TikTok 站点
+            <select id="multiplatform-site-tiktok"><option value="US">US</option><option value="GB">GB</option><option value="SG">SG</option></select>
+          </label>
+        <div id='multiplatform-market-review' class='multiplatform-market-review' hidden>
+          <div class='multiplatform-review-heading'>
+            <div>
+              <h3>市场机会与 1688 货源</h3>
+              <p id='multiplatform-review-summary'>选择一个市场机会，再查找并确认对应的 1688 货源。</p>
+            </div>
+            <button type='button' class='btn btn-sm multiplatform-refresh' id='multiplatform-source-refresh' onclick='refreshMultiplatformPreview()' title='刷新来源审阅作业' aria-label='刷新来源审阅作业'>↻</button>
+          </div>
+          <div class='multiplatform-source-review-grid'>
+            <section class='multiplatform-review-pane' aria-labelledby='multiplatform-market-title'>
+              <div class='multiplatform-review-pane-heading'>
+                <h3 id='multiplatform-market-title'>1. 选择市场机会</h3>
+                <span>仅选择一项</span>
+              </div>
+              <div id='multiplatform-opportunity-list' class='multiplatform-opportunity-list'></div>
+              <label class='multiplatform-supplier-phrase'>
+                <span>1688 搜索词</span>
+                <input id='multiplatform-supplier-phrase' type='text' maxlength='80' autocomplete='off' placeholder='输入对应的中文货源词' oninput='updateMultiplatformSourceActions()'>
+              </label>
+              <button type='button' class='btn btn-primary' id='multiplatform-discover-sources' onclick='discoverMultiplatformSources()' disabled>查找 1688 货源</button>
+            </section>
+            <section class='multiplatform-review-pane' aria-labelledby='multiplatform-source-title'>
+              <div class='multiplatform-review-pane-heading'>
+                <h3 id='multiplatform-source-title'>2. 确认货源</h3>
+                <span id='multiplatform-source-review-meta'>等待查找</span>
+              </div>
+              <div id='multiplatform-source-candidate-list' class='multiplatform-source-candidate-list'>
+                <div class='multiplatform-review-empty'>尚未读取 1688 候选。</div>
+              </div>
+              <button type='button' class='btn btn-primary' id='multiplatform-confirm-source' onclick='confirmMultiplatformSource()' disabled>确认所选货源</button>
+            </section>
+          </div>
+        </div>
+          <label>Amazon 站点
+            <select id="multiplatform-site-amazon"><option value="US">US</option><option value="JP">JP</option><option value="GB">GB</option></select>
+          </label>
+          <div class="multiplatform-preview-action">
+            <button type="button" class="btn btn-primary" id="multiplatform-preview-button" onclick="runMultiplatformPreview()">生成预览</button>
+          </div>
+        </div>
+
+        <div id="multiplatform-rejections" class="multiplatform-rejections" hidden></div>
+        <div id="multiplatform-empty" class="multiplatform-empty" hidden></div>
+
+        <div id="multiplatform-results" class="multiplatform-results" hidden>
+          <div class="multiplatform-result-toolbar">
+            <div><span>结果哈希</span><code id="multiplatform-result-sha">-</code></div>
+            <button type="button" class="btn btn-sm multiplatform-refresh" onclick="refreshMultiplatformPreview()" title="刷新预览作业" aria-label="刷新预览作业">↻</button>
+          </div>
+          <div class="multiplatform-table-wrap table-shell">
+            <table id="multiplatform-candidate-table" class="data-table multiplatform-candidate-table">
+              <thead><tr>
+                <th class="multiplatform-check-cell"><input type="checkbox" id="multiplatform-select-all" onchange="toggleAllMultiplatformCandidates(this.checked)" aria-label="选择全部候选"></th>
+                <th>候选商品</th><th>平台</th><th>得分</th><th>田忌角色</th><th>USD 售价</th>
+              </tr></thead>
+              <tbody id="multiplatform-candidate-body"></tbody>
+            </table>
+          </div>
+          <div class="multiplatform-result-actions">
+            <span id="multiplatform-selection-count">已选 0 项</span>
+            <button type="button" class="btn btn-primary" id="multiplatform-create-pending" onclick="createMultiplatformPendingTask()" disabled>创建待处理任务</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="task-legacy-workbench" class="task-workbench">
+    <!-- 组合指令 -->
+    <div class="card full-width task-primary-entry task-panel task-command-band">
+      <div class="card-header" style="background:#f5f3ff;">
+        <h3 style="color:#7c3aed;">⚡ 组合指令 — 一句话批量铺货</h3>
+        <span style="font-size:12px;color:#666;">自动分配关键词+策略，批量创建任务</span>
+      </div>
+      <div class="card-body">
+        <div class="nl-input-row">
+          <input type="text" id="batch-command" placeholder="例：G1上20个 / G1时尚饰品上15个 / 全部上8个" class="input-lg" onkeydown="if(event.key==='Enter')parseBatch()">
+          <button class="btn" style="background:#7c3aed;color:#fff;" onclick="parseBatch()">解析批量</button>
+        </div>
+        <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;">
+          <button class="btn btn-sm" onclick="quickBatch('G1上20个')" style="font-size:11px;">G1各20</button>
+          <button class="btn btn-sm" onclick="quickBatch('G2上15个')" style="font-size:11px;">G2各15</button>
+          <button class="btn btn-sm" onclick="quickBatch('全部上10个')" style="font-size:11px;">全部各10</button>
+          <button class="btn btn-sm" onclick="quickBatch('G1时尚饰品上20个')" style="font-size:11px;">G1饰品20</button>
+          <button class="btn btn-sm" onclick="quickBatch('G2家居生活上15个')" style="font-size:11px;">G2家居15</button>
+        </div>
+        <div class="task-command-secondary">
+          <div class="task-support-panel task-panel">
+            <div class="task-side-title">当前工作流</div>
+            <div class="task-flow-steps">
+              <div><b>1</b><span>选来源与模式</span></div>
+              <div><b>2</b><span>组合指令或手动配置</span></div>
+              <div><b>3</b><span>预览店铺分配后执行</span></div>
+            </div>
+          </div>
+          <div class="task-support-panel task-panel task-secondary-entry task-natural-panel">
+            <div class="card-header"><h3>💬 自然语言指令</h3><span class="subtitle">自由描述，直接解析</span></div>
+            <div class="card-body">
+              <div class="nl-input-row">
+                <input type="text" id="nl-command" placeholder="例：找80个性价比高的手机壳，上到新加坡和马来，走量为主，G1，6折" class="input-lg">
+                <button class="btn btn-primary" onclick="parseNL()">解析自然语句</button>
+              </div>
+              <div id="nl-result" class="nl-result" style="display:none;"></div>
+            </div>
+          </div>
+        </div>
+        <div id="batch-result" style="display:none;margin-top:16px;">
+          <div id="batch-summary" style="padding:12px;background:#f8fafc;border-radius:8px;margin-bottom:12px;font-size:13px;"></div>
+          <div id="batch-stores" style="max-height:300px;overflow-y:auto;margin-bottom:12px;"></div>
+          <button class="btn btn-primary btn-lg" id="batch-execute-btn" onclick="executeBatch()">🚀 批量创建任务</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card full-width task-manual-config task-panel">
+      <div class="card-header"><h3>📝 手动配置</h3></div>
+      <div class="card-body">
+        <div class="task-config-grid">
+          <section class="task-config-group">
+            <div class="task-config-group-title">基础参数</div>
+          <div class="form-group full-row">
+            <label>关键词</label>
+            <input type="text" id="f-keywords" list="f-keyword-options" placeholder="选择该类目的买家搜索词">
+            <datalist id="f-keyword-options"></datalist>
+          </div>
+          <div class="form-group">
+            <label>组别</label>
+            <div class="radio-group">
+              <label class="radio-btn active" onclick="selectRadio(this,'f-group','G1')"><input type="radio" name="f-group" value="G1" checked> G1 上等马</label>
+              <label class="radio-btn" onclick="selectRadio(this,'f-group','G2')"><input type="radio" name="f-group" value="G2"> G2 中下等马</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>策略</label>
+            <select id="f-strategy" onchange="onStrategyChange()">
+              <option value="traffic">引流款（低价冲量）</option>
+              <option value="sales" selected>走量款（稳定出单）</option>
+              <option value="profit">利润款（高毛利）</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>类目</label>
+            <select id="f-category" onchange="refreshTaskKeywordOptions()">
+              <option value="" selected>请选择类目</option>
+              <option value="时尚饰品">时尚饰品</option>
+              <option value="家居生活">家居生活</option>
+              <option value="母婴玩具">母婴玩具</option>
+              <option value="美妆个护">美妆个护</option>
+              <option value="五金园艺">五金园艺</option>
+              <option value="3C数码">3C数码</option>
+            </select>
+          </div>
+          </section>
+          <section class="task-config-group">
+            <div class="task-config-group-title">价格与策略</div>
+          <div class="form-group">
+            <label>数量</label>
+            <input type="number" id="f-quantity" value="20" min="1" max="500">
+          </div>
+          <div class="form-group">
+            <label>折扣</label>
+            <select id="f-discount">
+              <option value="0.5">5折</option>
+              <option value="0.6" selected>6折（默认）</option>
+              <option value="0.7">7折</option>
+              <option value="0.8">8折</option>
+              <option value="0.9">9折</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>目标利润(CNY) <span style="color:#999;font-weight:normal;font-size:11px;">负数=引流亏损</span></label>
+            <input type="number" id="f-profit" value="15" step="1" min="-50" max="200">
+            <div id="f-profit-btns" style="display:flex;gap:4px;margin-top:4px;">
+              <button type="button" class="btn btn-sm" onclick="setProfit(-3)" data-val="-3" style="font-size:11px;">亏本¥-3</button>
+              <button type="button" class="btn btn-sm" onclick="setProfit(2)" data-val="2" style="font-size:11px;">引流¥2</button>
+              <button type="button" class="btn btn-sm" onclick="setProfit(15)" data-val="15" style="font-size:11px;">走量¥15</button>
+              <button type="button" class="btn btn-sm" onclick="setProfit(40)" data-val="40" style="font-size:11px;">利润¥40</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>可选费用</label>
+            <div style="display:flex;gap:8px;margin-top:4px;">
+              <label style="font-size:12px;display:flex;align-items:center;gap:4px;cursor:pointer;">
+                <input type="checkbox" id="f-return-loss"> 货损(~3%)
+              </label>
+              <label style="font-size:12px;display:flex;align-items:center;gap:4px;cursor:pointer;">
+                <input type="checkbox" id="f-activity-fee"> 活动费(~2%)
+              </label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>审核模式</label>
+            <select id="f-audit-mode">
+              <option value="auto" selected>30秒超时自动发布</option>
+              <option value="manual">手动确认才发布</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>饱和率筛选 <span style="color:#999;font-weight:normal;font-size:11px;">(可选)</span></label>
+            <select id="f-saturation">
+              <option value="" selected>不限</option>
+              <option value="<25">&lt;25% 急缺铺货</option>
+              <option value="25-50">25%~50% 有空间</option>
+              <option value=">=50">&ge;50% 接近饱和</option>
+            </select>
+          </div>
+          </section>
+          <section class="task-config-group">
+            <div class="task-config-group-title">发布范围</div>
+          <div class="form-group full-row">
+            <label>店铺范围</label>
+            <div id="f-store-scope" class="task-scope-segments" role="group" aria-label="店铺范围">
+              <label class="task-scope-segment active" onclick="setTaskStoreScope('auto',this)">
+                <input type="radio" name="f-store-scope-mode" value="auto" checked> 自动匹配
+              </label>
+              <label class="task-scope-segment" onclick="setTaskStoreScope('explicit',this)">
+                <input type="radio" name="f-store-scope-mode" value="explicit"> 指定店铺
+              </label>
+            </div>
+          </div>
+          <div id="f-explicit-stores" class="form-group full-row explicit-store-selector" hidden>
+            <div class="explicit-store-toolbar">
+              <input type="search" id="f-store-search" placeholder="搜索店铺ID、别名、站点或类目" oninput="filterExplicitStoreOptions()">
+              <span id="f-explicit-store-count" class="explicit-store-count">0 家可选</span>
+            </div>
+            <div id="f-selected-store-chips" class="explicit-store-chips" aria-live="polite"></div>
+            <div id="f-explicit-store-list" class="explicit-store-list"></div>
+          </div>
+          <div class="form-group">
+            <label>店铺等级 <span style="color:#999;font-weight:normal;font-size:11px;">(可选)</span></label>
+            <div class="radio-group" style="flex-wrap:wrap;">
+              <label class="check-btn"><input type="checkbox" name="f-grades" value="P0" onchange="this.parentElement.classList.toggle('active',this.checked)"> P0 核心</label>
+              <label class="check-btn"><input type="checkbox" name="f-grades" value="P1" onchange="this.parentElement.classList.toggle('active',this.checked)"> P1 常规</label>
+              <label class="check-btn"><input type="checkbox" name="f-grades" value="P2" onchange="this.parentElement.classList.toggle('active',this.checked)"> P2 次要</label>
+            </div>
+          </div>
+          <div class="form-group full-row">
+            <label>站点</label>
+            <div id="f-site-options" class="checkbox-group">
+              <label class="check-btn active"><input type="checkbox" value="SG" checked> 🇸🇬 SG</label>
+              <label class="check-btn active"><input type="checkbox" value="MY" checked> 🇲🇾 MY</label>
+              <label class="check-btn"><input type="checkbox" value="TH"> 🇹🇭 TH</label>
+              <label class="check-btn"><input type="checkbox" value="PH"> 🇵🇭 PH</label>
+              <label class="check-btn"><input type="checkbox" value="VN"> 🇻🇳 VN</label>
+              <label class="check-btn"><input type="checkbox" value="BR"> 🇧🇷 BR</label>
+            </div>
+          </div>
+          <div class="form-group full-row">
+            <label>发布模式</label>
+            <div class="radio-group">
+              <label class="radio-btn active" onclick="selectPublishMode('once',this)"><input type="radio" name="f-publish-mode" value="once" checked> 一次性发布</label>
+              <label class="radio-btn" onclick="selectPublishMode('batch',this)"><input type="radio" name="f-publish-mode" value="batch"> 分批次定时发布</label>
+            </div>
+          </div>
+          <div id="batch-config" class="form-group full-row" style="display:none;">
+            <label>批次设置</label>
+            <div id="golden-hours-info" style="padding:8px 12px;background:var(--primary-bg);border-radius:6px;font-size:13px;color:var(--primary);margin-bottom:8px;"></div>
+            <div id="batch-list"></div>
+            <div style="margin-top:8px;display:flex;gap:8px;">
+              <button type="button" class="btn" onclick="addBatch()" style="font-size:12px;">+ 添加批次</button>
+              <button type="button" class="btn" onclick="autoSplitBatches()" style="font-size:12px;">一键均分</button>
+            </div>
+          </div>
+          <div class="form-actions task-config-actions">
+            <button class="btn btn-primary btn-lg" onclick="startTask()">🚀 开始执行</button>
+          </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- 店铺管理 -->
+  <div id="page-stores" class="page page-width-normal">
+    <div class="page-header"><h1>🏪 店铺管理</h1><p class="subtitle">116家店铺 · G1(30) + G2(86)</p></div>
+    <div class="card full-width">
+      <div class="card-header">
+        <h3>店铺列表</h3>
+        <div class="card-actions">
+          <select id="filter-group" onchange="filterStores()">
+            <option value="">全部组别</option><option value="G1">G1</option><option value="G2">G2</option>
+          </select>
+          <select id="filter-site" onchange="filterStores()">
+            <option value="">全部站点</option>
+            <option value="SG">SG</option><option value="MY">MY</option><option value="TH">TH</option>
+            <option value="PH">PH</option><option value="VN">VN</option><option value="BR">BR</option>
+          </select>
+          <button class="btn btn-sm" onclick="scanStores()" style="background:#7c3aed;color:#fff;">🔍 自动查询</button>
+          <button class="btn btn-sm" onclick="cleanupProductDB()" style="color:#ef4444;border:1px solid #ef4444;">🗑 清理商品库</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="table-shell"><table class="data-table"><thead>
+          <tr><th>店铺ID</th><th>别名</th><th>组别</th><th>站点</th><th>类目</th><th>等级</th><th>架上商品</th><th>容量</th><th>饱和率</th></tr>
+        </thead><tbody id="stores-tbody"></tbody></table></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 任务历史 -->
+  <div id="page-history" class="page page-width-normal">
+    <div class="page-header"><h1>📋 任务历史</h1></div>
+    <div class="card full-width"><div class="card-body"><div id="task-list" class="task-list"><p class="empty-state">暂无任务记录</p></div></div></div>
+  </div>
+
+  <!-- 选品决策 Workspace -->
+  <div id="page-selection" class="page page-width-focused selection-page">
+    <div class="page-header selection-header">
+      <div>
+        <h1>🎯 选品决策</h1>
+        <p class="subtitle">统一查看热销、关键词、订单、田忌赛马和候选池</p>
+      </div>
+    </div>
+
+    <div class="selection-tabs" role="tablist">
+      <button class="selection-tab active" type="button" data-selection-tab="overview" onclick="showSelectionTab('overview')">决策总览</button>
+      <button class="selection-tab" type="button" data-selection-tab="tianji" onclick="showSelectionTab('tianji')">田忌赛马</button>
+      <button class="selection-tab" type="button" data-selection-tab="hotpick" onclick="showSelectionTab('hotpick')">热销采集</button>
+      <button class="selection-tab" type="button" data-selection-tab="keywords" onclick="showSelectionTab('keywords')">关键词库</button>
+      <button class="selection-tab" type="button" data-selection-tab="orders" onclick="showSelectionTab('orders')">订单回流</button>
+      <button class="selection-tab" type="button" data-selection-tab="candidates" onclick="showSelectionTab('candidates')">候选池</button>
+    </div>
+
+    <div class="selection-workspace">
+      <section class="selection-panel active" data-selection-panel="overview">
+        <div class="selection-summary-strip" id="selection-summary-strip">
+          <span>候选 0</span><span>引流 0</span><span>走量 0</span><span>利润 0</span>
+        </div>
+        <div class="selection-workflow-strip" aria-label="选品决策工作流">
+          <button type="button" class="selection-flow-step" data-flow-step="source" onclick="showSelectionTab('hotpick')">
+            <b>1. 来源采集</b><span>热销、关键词、订单进入候选</span>
+          </button>
+          <button type="button" class="selection-flow-step" data-flow-step="candidate" onclick="showSelectionTab('candidates')">
+            <b>2. 候选池</b><span>统一看分数、来源和理由</span>
+          </button>
+          <button type="button" class="selection-flow-step" data-flow-step="strategy" onclick="showSelectionTab('tianji')">
+            <b>3. 田忌赛马</b><span>按 4:3:3 定策略</span>
+          </button>
+          <button type="button" class="selection-flow-step" data-flow-step="library" onclick="showSelectionTab('keywords')">
+            <b>4. 关键词库</b><span>沉淀可复用关键词</span>
+          </button>
+          <button type="button" class="selection-flow-step" data-flow-step="task" onclick="showPage('tasks')">
+            <b>5. 新建任务</b><span>发起采集上架</span>
+          </button>
+        </div>
+        <div class="selection-overview-grid">
+          <div class="selection-overview-main">
+            <div class="selection-block">
+              <div class="selection-block-head">
+                <h3>优先处理候选</h3>
+                <button class="btn btn-sm" type="button" onclick="showSelectionTab('candidates')">查看候选池</button>
+              </div>
+              <div class="selection-priority-list" id="selection-priority-list">
+                <div class="selection-empty">加载候选中...</div>
+              </div>
+            </div>
+          </div>
+          <div class="selection-overview-side">
+            <div class="selection-block">
+              <div class="selection-block-head"><h3>来源分布</h3></div>
+              <div class="selection-source-mix" id="selection-source-mix"></div>
+            </div>
+            <div class="selection-block">
+              <div class="selection-block-head"><h3>4:3:3 状态</h3></div>
+              <div class="selection-strategy-balance" id="selection-strategy-balance"></div>
+            </div>
+          </div>
+        </div>
+        <div class="selection-balance" id="selection-balance"></div>
+      </section>
+      <section class="selection-panel" data-selection-panel="tianji">
+        <div id="selection-tianji-mount"></div>
+      </section>
+      <section class="selection-panel" data-selection-panel="hotpick">
+        <div id="selection-hotpick-mount"></div>
+      </section>
+      <section class="selection-panel" data-selection-panel="keywords">
+        <div id="selection-keywords-mount"></div>
+      </section>
+      <section class="selection-panel" data-selection-panel="orders">
+        <div id="selection-orders-mount"></div>
+      </section>
+      <section class="selection-panel" data-selection-panel="candidates">
+        <div class="selection-note selection-chain-note">候选池汇总热销采集、关键词库和订单回流；确认策略后导入关键词库，再从新建任务使用关键词执行采集上架。</div>
+        <div class="selection-table-wrap">
+          <table class="selection-table">
+            <thead>
+              <tr><th>关键词</th><th>来源</th><th>策略</th><th>评分</th><th>决策</th><th>操作</th></tr>
+            </thead>
+            <tbody id="selection-candidates-body"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- 订单分析 -->
+  <div id="page-orders" class="page page-width-wide">
+    <div class="page-header">
+      <h1>📦 订单数据分析</h1>
+      <p class="subtitle">上传订单数据 → 筛选热销品 → 一键导入关键词库</p>
+    </div>
+
+    <div class="card full-width" id="order-browser-sync" style="padding:16px;margin-bottom:16px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+        <div>
+          <h3 style="font-size:14px;margin-bottom:4px;">&#27983;&#35272;&#22120;&#35746;&#21333;&#21516;&#27493;</h3>
+          <div style="font-size:12px;color:#666;">&#33258;&#21160;&#21516;&#27493; G1/G2 &#24050;&#23436;&#25104;&#35746;&#21333;&#24182;&#26356;&#26032;&#21033;&#28070;&#19982;&#20851;&#38190;&#35789;</div>
+        </div>
+        <button class="btn btn-primary" onclick="syncAndAnalyzeOrders()">&#21516;&#27493;&#24182;&#20998;&#26512;&#35746;&#21333;</button>
+      </div>
+      <div id="order-sync-status" style="margin-top:8px;font-size:13px;"></div>
+    </div>
+
+    <div class="card full-width" id="order-upload-fallback" style="padding:16px;margin-bottom:16px;">
+      <h3 style="font-size:14px;margin-bottom:12px;">📤 上传订单数据</h3>
+      <div style="display:flex;gap:12px;align-items:end;">
+        <div class="form-group" style="flex:1;">
+          <label>选择文件(.xlsx 或 .html)</label>
+          <input type="file" id="order-file" accept=".xlsx,.html" style="padding:8px;">
+        </div>
+        <div class="form-group">
+          <label>最低利润(元)</label>
+          <input type="number" id="order-min-profit" value="0" min="0" style="width:100px;">
+        </div>
+        <div class="form-group">
+          <label>最低销量</label>
+          <input type="number" id="order-min-sales" value="1" min="1" style="width:80px;">
+        </div>
+        <button class="btn btn-primary" onclick="uploadOrders()">📤 上传分析</button>
+      </div>
+      <div id="upload-status" style="margin-top:8px;font-size:13px;"></div>
+    </div>
+
+    <div id=order-feedback-summary class='order-feedback-summary' style='display:none;'></div>
+    <a id=order-feedback-history-link class='order-feedback-history-link' href='#' style='display:none;'>订单回流历史已更新</a>
+
+    <div id="order-stats" class="stats-grid" style="grid-template-columns:repeat(5,1fr);margin-bottom:16px;display:none;"></div>
+
+    <div id="order-results" class="card full-width" style="display:none;">
+      <div class="card-header">
+        <h3>🔍 热销品列表</h3>
+        <div class="card-actions">
+          <select id="order-filter-strategy" onchange="filterOrders()">
+            <option value="">全部策略</option>
+            <option value="引流款">引流款</option>
+            <option value="走量款">走量款</option>
+            <option value="利润款">利润款</option>
+          </select>
+          <button class="btn btn-primary" onclick="importOrdersToKeywords()">📥 一键导入关键词库</button>
+        </div>
+      </div>
+      <div class="card-body" style="max-height:500px;overflow-y:auto;">
+        <div class="table-shell"><table class="data-table">
+          <thead>
+            <tr>
+              <th>排名</th><th>关键词</th><th>策略</th><th>销量</th>
+              <th>总营收¥</th><th>总利润¥</th><th>利润率</th>
+              <th>站点</th><th>来源链接</th>
+            </tr>
+          </thead>
+          <tbody id="order-tbody"></tbody>
+        </table></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 关键词库 -->
+  <div id="page-keywords" class="page page-width-wide keyword-workspace">
+    <div class="page-header">
+      <h1>📝 关键词库</h1>
+      <p class="subtitle">蓝海选品 · 4:3:3策略 · 关联任务自动流转</p>
+    </div>
+    <div class="stats-grid" id="kw-stats"></div>
+
+    <div class="card full-width kw-ai-intake-panel" id="kw-ai-intake-panel">
+      <div class="kw-ai-intake-head">
+        <div>
+          <h3>AI 手动分析入库</h3>
+          <p>输入一个想做的关键词，AI 补齐找品词，本地评分后再确认入库</p>
+        </div>
+      </div>
+      <div class="kw-ai-intake-form">
+        <input type="text" id="kw-ai-seed" placeholder="例如：热熔双面粘合衬布">
+        <select id="kw-ai-category">
+          <option value="">自动类目</option>
+          <option value="时尚饰品">时尚饰品</option>
+          <option value="家居生活">家居生活</option>
+          <option value="母婴玩具">母婴玩具</option>
+          <option value="美妆个护">美妆个护</option>
+          <option value="五金园艺">五金园艺</option>
+          <option value="3C数码">3C数码</option>
+        </select>
+        <select id="kw-ai-site">
+          <option value="SG">SG</option><option value="MY">MY</option><option value="TH">TH</option>
+          <option value="PH">PH</option><option value="VN">VN</option><option value="BR">BR</option>
+        </select>
+        <select id="kw-ai-strategy-mode">
+          <option value="auto">自动策略</option>
+          <option value="traffic">引流款</option>
+          <option value="sales">走量款</option>
+          <option value="profit">利润款</option>
+        </select>
+        <button class="btn btn-primary btn-sm" onclick="analyzeKeywordForIntake()">AI分析</button>
+      </div>
+      <div class="kw-ai-intake-result" id="kw-ai-intake-result"></div>
+    </div>
+
+    <div class="card full-width kw-analysis-panel" id="kw-analysis-panel">
+      <div class="kw-analysis-head">
+        <div>
+          <h3>词库质量分析</h3>
+          <p>按健康状态、运营评分和清理规则评估当前词库</p>
+        </div>
+        <button class="btn btn-sm" onclick="loadKeywordAnalysis()">重新分析</button>
+      </div>
+      <div class="kw-analysis-summary" id="kw-analysis-summary">
+        <span class="kw-analysis-muted">加载关键词后自动分析</span>
+      </div>
+      <div class="kw-analysis-samples" id="kw-analysis-samples"></div>
+    </div>
+
+    <!-- 策略比例条 -->
+    <div class="card full-width kw-strategy-panel" style="padding:16px;margin-bottom:16px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <h3 style="font-size:14px;">⚔️ 产品策略布局 — 4:3:3</h3>
+        <button class="btn btn-sm" onclick="autoAssignStrategy()" style="font-size:11px;">🔄 一键自动分配</button>
+      </div>
+      <div id="kw-strategy-bar" style="height:10px;background:#e8e8e8;border-radius:5px;overflow:hidden;display:flex;margin-bottom:8px;"></div>
+      <div style="display:flex;gap:16px;font-size:12px;color:#666;">
+        <span>🔴 引流 <b id="kw-t-count">0</b> (40%)</span>
+        <span>🔵 走量 <b id="kw-v-count">0</b> (30%)</span>
+        <span>🟣 利润 <b id="kw-p-count">0</b> (30%)</span>
+      </div>
+    </div>
+
+    <!-- 数据看板：类目分布 + Top10蓝海词 -->
+    <div class="responsive-grid two keyword-insights">
+      <div class="card" style="padding:16px;">
+        <h3 style="font-size:14px;margin-bottom:12px;">📊 各类目关键词分布</h3>
+        <div id="kw-cat-stats"></div>
+      </div>
+      <div class="card" style="padding:16px;">
+        <h3 style="font-size:14px;margin-bottom:12px;">🏆 Top 10 蓝海高分词</h3>
+        <div id="kw-top10"></div>
+      </div>
+    </div>
+
+    <!-- 策略速查卡 -->
+    <div class="responsive-grid three strategy-cards">
+      <div class="card" style="padding:14px;border-left:4px solid #ee4d2d;">
+        <h4 style="color:#ee4d2d;font-size:13px;margin-bottom:6px;">🔴 引流款 — 截流对方中等销量款</h4>
+        <p style="font-size:12px;color:#666;line-height:1.7;">保本/微利，撬流量稳销量<br>低单价(&lt;¥50)、高搜索、刚需<br>目标比例：<b style="color:#ee4d2d;">40%</b></p>
+      </div>
+      <div class="card" style="padding:14px;border-left:4px solid #0088cc;">
+        <h4 style="color:#0088cc;font-size:13px;margin-bottom:6px;">🔵 走量款 — 蚕食对方高利润款</h4>
+        <p style="font-size:12px;color:#666;line-height:1.7;">薄利多销，辅助稳量<br>中单价(¥50-150)、稳定需求<br>目标比例：<b style="color:#0088cc;">30%</b></p>
+      </div>
+      <div class="card" style="padding:14px;border-left:4px solid #7c3aed;">
+        <h4 style="color:#7c3aed;font-size:13px;margin-bottom:6px;">🟣 利润款 — 差异化高壁垒产品</h4>
+        <p style="font-size:12px;color:#666;line-height:1.7;">盈利核心，扛起利润<br>高单价(¥100+)、蓝海高分<br>目标比例：<b style="color:#7c3aed;">30%</b></p>
+      </div>
+    </div>
+
+    <div class="card full-width kw-table-card">
+      <div class="card-header">
+        <h3>关键词列表</h3>
+        <div class="card-actions">
+          <select id="kw-filter-cat" onchange="filterKeywords()">
+            <option value="">全部类目</option>
+            <option value="时尚饰品">时尚饰品</option>
+            <option value="家居生活">家居生活</option>
+            <option value="母婴玩具">母婴玩具</option>
+            <option value="美妆个护">美妆个护</option>
+            <option value="五金园艺">五金园艺</option>
+            <option value="3C数码">3C数码</option>
+          </select>
+          <select id="kw-filter-strategy" onchange="filterKeywords()">
+            <option value="">全部策略</option>
+            <option value="引流款">引流款</option>
+            <option value="走量款">走量款</option>
+            <option value="利润款">利润款</option>
+          </select>
+          <select id="kw-filter-health" onchange="filterKeywords()">
+            <option value="">全部健康状态</option>
+            <option value="ready">可投放</option>
+            <option value="review">待审核</option>
+            <option value="review:caution">谨慎复核</option>
+            <option value="review:observe">观察复核</option>
+            <option value="high_risk">高风险</option>
+            <option value="silent">已沉默</option>
+          </select>
+          <input type="text" id="kw-search" placeholder="搜索关键词..." oninput="filterKeywords()" style="width:160px;">
+          <button class="btn btn-primary btn-sm" onclick="showAddKeyword()">+ 添加</button>
+          <button class="btn btn-sm" onclick="importKeywords()">📥 导入</button>
+          <button class="btn btn-sm" onclick="exportKeywords()">📤 导出</button>
+          <button class="btn btn-sm" onclick="exportCSV()">📊 CSV</button>
+          <button class="btn btn-sm" onclick="importOrderData()">订单融合</button>
+          <button class="btn btn-sm" onclick="resetKeywords()" style="color:red;">重置</button>
+        </div>
+      </div>
+      <!-- 批量操作栏 -->
+      <div id="kw-batch-bar" style="padding:8px 16px;background:#f8fafc;border-bottom:1px solid #e8e8e8;display:none;align-items:center;gap:8px;font-size:13px;">
+        <span>已选 <b id="kw-sel-count">0</b> 项</span>
+        <button class="btn btn-sm" onclick="batchSetStrategy('引流款')">设为引流</button>
+        <button class="btn btn-sm" onclick="batchSetStrategy('走量款')">设为走量</button>
+        <button class="btn btn-sm" onclick="batchSetStrategy('利润款')">设为利润</button>
+        <button class="btn btn-sm" onclick="batchDelete()" style="color:red;">批量删除</button>
+        <button class="btn btn-sm" onclick="clearSelection()">取消选择</button>
+      </div>
+      <div class="card-body">
+        <div class="table-shell"><table class="data-table keyword-table" id="kw-table">
+          <colgroup>
+            <col style="width:40px;">
+            <col style="width:92px;">
+            <col>
+            <col style="width:112px;">
+            <col style="width:142px;">
+            <col style="width:76px;">
+            <col style="width:148px;">
+          </colgroup>
+          <thead>
+            <tr>
+              <th style="width:30px;"><input type="checkbox" id="kw-select-all" onchange="toggleSelectAll(this)"></th>
+              <th>状态</th><th>关键词 / 类目</th><th>产品策略</th>
+              <th>市场</th><th onclick="toggleKwSort('blueOceanScore')" style="cursor:pointer;">评分 ▾</th><th>操作</th>
+            </tr>
+          </thead>
+          <tbody id="kw-tbody"></tbody>
+        </table></div>
+      </div>
+    </div>
+
+    <!-- 分析历史 -->
+    <div class="card full-width kw-history-panel" style="margin-top:16px;">
+      <div class="card-header"><h3>📜 田忌赛马分析历史</h3></div>
+      <div class="card-body"><div id="kw-history-list" style="font-size:13px;color:#666;">暂无分析记录</div></div>
+    </div>
+
+  </div>
+
+  <!-- 关键词编辑弹窗 -->
+  <div id="kw-modal" class="modal" style="display:none;">
+    <div class="modal-content" style="max-width:600px;">
+      <div class="modal-header"><h2 id="kw-modal-title">添加关键词</h2><button class="modal-close" onclick="closeKwModal()">&times;</button></div>
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="form-group"><label>买家搜索词 *</label><input type="text" id="kw-f-buyer" placeholder="如：ins风串珠手链"></div>
+          <div class="form-group"><label>简洁中文找品词 *</label><input type="text" id="kw-f-supplier" placeholder="如：热熔双面粘合衬布"></div>
+          <div class="form-group">
+            <label>策略</label>
+            <select id="kw-f-strategy"><option value="">未设置</option><option value="引流款">引流款</option><option value="走量款">走量款</option><option value="利润款">利润款</option></select>
+          </div>
+          <div class="form-group">
+            <label>类目</label>
+            <select id="kw-f-category"><option value="时尚饰品">时尚饰品</option><option value="家居生活">家居生活</option><option value="母婴玩具">母婴玩具</option><option value="美妆个护">美妆个护</option><option value="五金园艺">五金园艺</option><option value="3C数码">3C数码</option></select>
+          </div>
+          <div class="form-group"><label>搜索量</label><input type="number" id="kw-f-volume" min="0"></div>
+          <div class="form-group"><label>竞争数</label><input type="number" id="kw-f-competition" min="0"></div>
+          <div class="form-group">
+            <label>趋势</label>
+            <select id="kw-f-trend"><option value="stable">平稳</option><option value="rising">上升</option><option value="declining">下降</option></select>
+          </div>
+          <div class="form-group">
+            <label>站点</label>
+            <select id="kw-f-site"><option value="SG">SG</option><option value="MY">MY</option><option value="TH">TH</option><option value="PH">PH</option><option value="VN">VN</option><option value="BR">BR</option></select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding:12px 20px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;">
+        <button class="btn" onclick="closeKwModal()">取消</button>
+        <button class="btn btn-primary" onclick="saveKeyword()">保存</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 妙手热销采集 -->
+  <div id="page-hotpick" class="page page-width-wide">
+    <div class="page-header">
+      <h1>🔥 妙手热销采集</h1>
+      <p class="subtitle">自动采集热销关键词 → 一键导入关键词库 → 快速上架</p>
+    </div>
+
+    <!-- 自然语言采集指令 -->
+    <div class="card full-width" style="padding:16px;margin-bottom:16px;">
+      <h3 style="font-size:14px;margin-bottom:8px;">💬 自然语言指令</h3>
+      <div style="display:flex;gap:8px;margin-bottom:8px;">
+        <input type="text" id="hp-command" placeholder="例：Shopee新加坡母婴玩具热销词采集" style="flex:1;padding:10px 14px;border:1px solid #e8e8e8;border-radius:8px;font-size:14px;" onkeydown="if(event.key==='Enter')parseHotpickCmd()">
+        <button class="btn btn-primary" onclick="parseHotpickCmd()" style="padding:10px 20px;">解析指令</button>
+      </div>
+      <p style="font-size:12px;color:#999;margin:0;">支持格式：[平台] [站点] [类目] 采集热销 | 如：Shopee SG 母婴 热销词</p>
+    </div>
+
+    <!-- 手动配置区域 -->
+    <div style="display:flex;gap:16px;margin-bottom:16px;">
+      <!-- 左侧：平台选择 + 站点类目 -->
+      <div style="flex:1;">
+        <!-- 平台选择卡片 -->
+        <div class="card" style="padding:16px;margin-bottom:12px;">
+          <h3 style="font-size:14px;margin-bottom:12px;">🛒 选择平台</h3>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;" id="hp-platforms">
+            <div class="hp-platform-card" data-platform="shopee" onclick="selectPlatform(this,'shopee')" style="padding:12px;border:2px solid #e8e8e8;border-radius:10px;cursor:pointer;text-align:center;transition:all 0.2s;">
+              <div style="font-size:24px;margin-bottom:4px;">🛍️</div>
+              <div style="font-size:13px;font-weight:600;">Shopee</div>
+              <div style="font-size:11px;color:#999;">东南亚电商</div>
+            </div>
+            <div class="hp-platform-card" data-platform="temu" onclick="selectPlatform(this,'temu')" style="padding:12px;border:2px solid #e8e8e8;border-radius:10px;cursor:pointer;text-align:center;transition:all 0.2s;">
+              <div style="font-size:24px;margin-bottom:4px;">🛒</div>
+              <div style="font-size:13px;font-weight:600;">Temu</div>
+              <div style="font-size:11px;color:#999;">跨境平台</div>
+            </div>
+            <div class="hp-platform-card" data-platform="tiktok" onclick="selectPlatform(this,'tiktok')" style="padding:12px;border:2px solid #e8e8e8;border-radius:10px;cursor:pointer;text-align:center;transition:all 0.2s;">
+              <div style="font-size:24px;margin-bottom:4px;">📱</div>
+              <div style="font-size:13px;font-weight:600;">TikTok</div>
+              <div style="font-size:11px;color:#999;">社媒趋势</div>
+            </div>
+            <div class="hp-platform-card" data-platform="amazon" onclick="selectPlatform(this,'amazon')" style="padding:12px;border:2px solid #e8e8e8;border-radius:10px;cursor:pointer;text-align:center;transition:all 0.2s;">
+              <div style="font-size:24px;margin-bottom:4px;">📦</div>
+              <div style="font-size:13px;font-weight:600;">Amazon</div>
+              <div style="font-size:11px;color:#999;">欧美市场</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 站点 + 类目 下拉框 -->
+        <div class="card" style="padding:16px;">
+          <div style="display:flex;gap:16px;">
+            <div style="flex:1;">
+              <label style="font-size:13px;font-weight:600;margin-bottom:6px;display:block;">📍 站点</label>
+              <select id="hp-site" style="width:100%;padding:10px 12px;border:1px solid #e8e8e8;border-radius:8px;font-size:13px;background:#fff;">
+                <option value="">全部站点</option>
+                <option value="SG">🇸🇬 新加坡</option>
+                <option value="MY">🇲🇾 马来西亚</option>
+                <option value="TH">🇹🇭 泰国</option>
+                <option value="PH">🇵🇭 菲律宾</option>
+                <option value="VN">🇻🇳 越南</option>
+                <option value="BR">🇧🇷 巴西</option>
+              </select>
+            </div>
+            <div style="flex:1;">
+              <label style="font-size:13px;font-weight:600;margin-bottom:6px;display:block;">📂 类目</label>
+              <select id="hp-category" style="width:100%;padding:10px 12px;border:1px solid #e8e8e8;border-radius:8px;font-size:13px;background:#fff;">
+                <option value="">全部类目</option>
+                <option value="3C数码">3C数码</option>
+                <option value="时尚饰品">时尚饰品</option>
+                <option value="家居生活">家居生活</option>
+                <option value="母婴玩具">母婴玩具</option>
+                <option value="美妆个护">美妆个护</option>
+                <option value="五金园艺">五金园艺</option>
+              </select>
+            </div>
+            <div style="width:120px;">
+              <label style="font-size:13px;font-weight:600;margin-bottom:6px;display:block;">📊 数量</label>
+              <select id="hp-limit" style="width:100%;padding:10px 12px;border:1px solid #e8e8e8;border-radius:8px;font-size:13px;background:#fff;">
+                <option value="5">5条</option>
+                <option value="10">10条</option>
+                <option value="15" selected>15条</option>
+                <option value="20">20条</option>
+                <option value="30">30条</option>
+                <option value="50">50条</option>
+                <option value="100">100条</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 右侧：采集助手面板 -->
+      <div style="width:260px;display:flex;flex-direction:column;gap:12px;">
+        <button class="btn btn-primary" onclick="startHotpick()" style="padding:14px;font-size:16px;font-weight:600;border-radius:10px;">
+          🔍 开始采集
+        </button>
+        <div style="padding:12px;background:#f5f7fa;border-radius:8px;">
+          <p style="font-size:12px;font-weight:600;margin-bottom:8px;color:#666;">⚡ 快捷入口</p>
+          <div style="display:flex;flex-direction:column;gap:4px;">
+            <button class="btn btn-sm" onclick="quickHotpick('SG','3C数码')" style="font-size:11px;text-align:left;">🇸🇬 3C数码</button>
+            <button class="btn btn-sm" onclick="quickHotpick('MY','母婴玩具')" style="font-size:11px;text-align:left;">🇲🇾 母婴玩具</button>
+            <button class="btn btn-sm" onclick="quickHotpick('VN','美妆个护')" style="font-size:11px;text-align:left;">🇻🇳 美妆个护</button>
+            <button class="btn btn-sm" onclick="quickHotpick('BR','家居生活')" style="font-size:11px;text-align:left;">🇧🇷 家居生活</button>
+          </div>
+        </div>
+        <!-- 最近采集记录 -->
+        <div style="padding:12px;background:#f5f7fa;border-radius:8px;">
+          <p style="font-size:12px;font-weight:600;margin-bottom:8px;color:#666;">📋 最近采集</p>
+          <div id="hp-recent" style="font-size:11px;color:#999;">暂无记录</div>
+        </div>
+        <!-- 采集统计 -->
+        <div style="padding:12px;background:#f5f7fa;border-radius:8px;">
+          <p style="font-size:12px;font-weight:600;margin-bottom:8px;color:#666;">📊 今日统计</p>
+          <div id="hp-stats" style="font-size:11px;color:#999;">暂无数据</div>
+        </div>
+      </div>
+      </div>
+    </div>
+
+    <!-- 采集结果区域 -->
+    <div id="hp-results" class="card full-width" style="padding:16px;display:none;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <h3 style="font-size:14px;">📊 采集结果 · 田忌赛马分析</h3>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-sm" onclick="selectAllHpResults()">全选</button>
+          <button class="btn btn-sm" onclick="deselectAllHpResults()">取消全选</button>
+          <button class="btn btn-primary btn-sm" onclick="importSelectedHpResults()">📥 一键导入关键词库</button>
+          <button class="btn btn-sm" onclick="batchCreateFromHotpick()" style="background:#7c3aed;color:#fff;">🚀 批量创建任务</button>
+        </div>
+      </div>
+
+      <!-- 竞品池+货源池联动 -->
+      <div id="competitor-source-linkage" style="display:none;grid-template-columns:1.2fr 1fr;gap:16px;margin-bottom:16px;">
+        <div class="card" style="margin:0;">
+          <div class="card-header"><h4 style="font-size:13px;">🛒 Shopee跨境竞品池</h4></div>
+          <div class="card-body" style="padding:0;max-height:400px;overflow-y:auto;">
+            <table class="table" id="competitor-table">
+              <thead><tr><th>标题</th><th>策略</th><th>匹配</th><th>原站价格</th><th>换算价(CNY)</th><th>市场目标(CNY)</th><th>建议发布价</th><th>决策</th></tr></thead>
+              <tbody id="competitor-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card" style="margin:0;">
+          <div class="card-header"><h4 style="font-size:13px;">🏭 候选货源池</h4></div>
+          <div class="card-body" style="padding:0;max-height:400px;overflow-y:auto;">
+            <table class="table" id="source-table">
+              <thead><tr><th>来源</th><th>标题</th><th>成本</th><th>重量</th><th>匹配分</th></tr></thead>
+              <tbody id="source-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div id="selected-competitor-summary" class="card" style="margin-top:12px;display:none;">
+        <div class="card-header"><h4 style="font-size:13px;">📌 当前选中竞品分析</h4></div>
+        <div class="card-body"></div>
+      </div>
+
+      <div id="hp-results-list" style="max-height:600px;overflow-y:auto;"></div>
+      <div id="hp-results-summary" style="margin-top:12px;padding:10px;background:#f0f9ff;border-radius:8px;font-size:13px;"></div>
+    </div>
+  </div>
+
+  <!-- 田忌赛马分析 -->
+  <div id="page-tianji" class="page page-width-normal">
+    <div class="page-header"><h1>⚔️ 田忌赛马分析</h1><p class="subtitle">粘贴竞品数据 → 自动分级 → 推荐策略 → 一键入库</p></div>
+
+    <!-- 使用说明 -->
+    <div class="card full-width" style="padding:16px;margin-bottom:16px;background:#f8fafc;">
+      <h3 style="font-size:14px;margin-bottom:8px;">📖 使用说明</h3>
+      <ol style="font-size:13px;color:#666;line-height:2;padding-left:20px;">
+        <li>在Shopee搜索目标关键词，复制Top 20商品数据</li>
+        <li>数据格式：<code style="background:#e2e8f0;padding:1px 4px;border-radius:3px;">商品名, 价格, 月销量, [店铺类型]</code></li>
+        <li>粘贴到下方输入框，点击"开始分析"</li>
+        <li>系统自动分级（上/中/下等马）并推荐策略</li>
+        <li>点击"一键入库"将推荐结果保存到关键词库</li>
+      </ol>
+      <button class="btn btn-sm" onclick="loadTianjiDemo()" style="margin-top:8px;">📥 加载演示数据</button>
+    </div>
+
+    <!-- 输入+结果并排 -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+      <div class="card" style="padding:20px;">
+        <h3 style="font-size:14px;margin-bottom:12px;">📋 输入竞品数据</h3>
+        <div class="form-group" style="margin-bottom:12px;"><label>目标关键词 *</label><input type="text" id="tj-keyword" placeholder="如：ins风串珠手链" style="width:100%;"></div>
+        <div class="form-group" style="margin-bottom:12px;"><label>你的成本 (¥)</label><input type="number" id="tj-cost" placeholder="如：15" min="0" step="0.01" style="width:100%;"></div>
+        <div class="form-group" style="margin-bottom:12px;"><label>粘贴Shopee搜索结果 (Top 20) *</label>
+          <textarea id="tj-rawdata" rows="10" style="width:100%;font-family:monospace;font-size:12px;" placeholder="每行一个商品：商品名, 价格, 月销量, [店铺类型]&#10;示例：&#10;ins风串珠手链, 29, 580, 普通&#10;韩版水晶手链, 59, 320, Mall&#10;复古Y2K项链, 15, 1200, 优选"></textarea>
+        </div>
+        <button class="btn btn-primary" onclick="runTianJi()">🔍 开始田忌赛马分析</button>
+      </div>
+      <div class="card" style="padding:20px;">
+        <h3 style="font-size:14px;margin-bottom:12px;">📊 分析结果</h3>
+        <div id="tj-result" style="min-height:200px;display:flex;align-items:center;justify-content:center;color:#999;font-size:13px;">输入竞品数据后点击分析</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 选品决策 -->
+  <div id="page-scoring" class="page page-width-wide">
+    <div class="page-header">
+      <h1>🎯 选品决策</h1>
+      <p class="subtitle">关键词评分 · 规则综合评估 · 决策输出</p>
+    </div>
+
+    <div class="card full-width scoring-workbench">
+      <div class="card-header"><h3>📊 评分工作台</h3></div>
+      <div class="card-body">
+        <div class="scoring-toolbar">
+          <div class="scoring-toolbar-left">
+            <select id="sc-category-filter" class="form-control scoring-filter" onchange="runScoring()">
+              <option value="">全部类目</option>
+              <option value="时尚饰品">时尚饰品</option>
+              <option value="家居生活">家居生活</option>
+              <option value="母婴玩具">母婴玩具</option>
+              <option value="美妆个护">美妆个护</option>
+              <option value="五金园艺">五金园艺</option>
+              <option value="3C数码">3C数码</option>
+            </select>
+            <button class="btn btn-primary scoring-run-btn" onclick="runScoring()">🔍 开始评分</button>
+            <span id="sc-status" class="scoring-status">等待评分</span>
+          </div>
+          <div class="scoring-toolbar-right">
+            <div class="scoring-summary-chip">来源: <span id="sc-source-breakdown"></span></div>
+            <div class="scoring-summary-chip">类目: <span id="sc-category-breakdown"></span></div>
+          </div>
+        </div>
+        <div class="scoring-stats-grid" id="scoring-stats">
+          <div class="scoring-stat-card"><div class="scoring-stat-value" id="sc-total">-</div><div class="scoring-stat-label">总词数</div></div>
+          <div class="scoring-stat-card success"><div class="scoring-stat-value" id="sc-go">-</div><div class="scoring-stat-label">建议进入</div></div>
+          <div class="scoring-stat-card warning"><div class="scoring-stat-value" id="sc-caution">-</div><div class="scoring-stat-label">谨慎</div></div>
+          <div class="scoring-stat-card info"><div class="scoring-stat-value" id="sc-observe">-</div><div class="scoring-stat-label">观察</div></div>
+          <div class="scoring-stat-card danger"><div class="scoring-stat-value" id="sc-skip">-</div><div class="scoring-stat-label">不建议</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card full-width">
+      <div class="card-header"><h3>📋 评分结果</h3><span class="table-meta">规则评分 + 综合决策</span></div>
+      <div class="card-body" style="padding:0;">
+        <div class="table-shell"><table class="data-table">
+          <thead>
+            <tr>
+              <th>#</th><th>关键词</th><th>类目</th><th>策略</th>
+              <th>搜索量</th><th>竞争数</th><th>规则分</th>
+              <th>综合分</th><th>决策</th><th>来源</th><th>评分依据</th>
+            </tr>
+          </thead>
+          <tbody id="sc-tbody"></tbody>
+        </table></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 智能优化 -->
+  <div id="page-optimize" class="page page-width-normal">
+    <div class="page-header">
+      <h1>🔧 智能优化</h1>
+      <p class="subtitle">通过浏览器自动化操作妙手ERP · G1/G2分开管理</p>
+    </div>
+
+    <!-- G1/G2切换 -->
+    <div style="display:flex;gap:8px;margin-bottom:16px;">
+      <button class="btn btn-sm active" id="opt-g1" onclick="switchOptGroup('G1')" style="background:#ee4d2d;color:#fff;">G1 上等马</button>
+      <button class="btn btn-sm" id="opt-g2" onclick="switchOptGroup('G2')">G2 中下等马</button>
+      <button class="btn btn-sm" id="opt-all" onclick="switchOptGroup('ALL')">全部</button>
+    </div>
+
+    <!-- 自然语言指令 -->
+    <div class="card full-width" style="padding:16px;margin-bottom:16px;">
+      <h3 style="font-size:14px;margin-bottom:8px;">💬 自然语言指令</h3>
+      <div style="display:flex;gap:8px;margin-bottom:8px;">
+        <input type="text" id="opt-command" placeholder="例：清理G1饱和率>70%浏览量低于100的滞销品" style="flex:1;padding:10px 14px;border:1px solid #e8e8e8;border-radius:8px;font-size:14px;" onkeydown="if(event.key==='Enter')parseOptCmd()">
+        <button class="btn btn-primary" onclick="parseOptCmd()" style="padding:10px 20px;">解析指令</button>
+      </div>
+      <p style="font-size:12px;color:#999;margin:0;">支持格式：[操作] [筛选条件] [店铺] | 例：清理G1饱和率>70%的滞销品 / 批量改价6折 / 同步库存</p>
+    </div>
+
+    <!-- 操作卡片 -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:16px;">
+      <div class="card" style="padding:20px;border-left:4px solid #ee4d2d;cursor:pointer;" onclick="selectOptType('price')">
+        <h3 style="font-size:16px;margin-bottom:8px;">💰 批量改价</h3>
+        <p style="font-size:13px;color:#666;">按策略统一调整价格<br>引流款/走量款/利润款分组定价</p>
+      </div>
+      <div class="card" style="padding:20px;border-left:4px solid #f59e0b;cursor:pointer;" onclick="selectOptType('cleanup')">
+        <h3 style="font-size:16px;margin-bottom:8px;">🗑 滞销清理</h3>
+        <p style="font-size:13px;color:#666;">基于妙手分析+统计表+作战计划<br>按浏览量/饱和率/等级清理</p>
+      </div>
+      <div class="card" style="padding:20px;border-left:4px solid #7c3aed;cursor:pointer;" onclick="selectOptType('listing')">
+        <h3 style="font-size:16px;margin-bottom:8px;">📝 Listing优化</h3>
+        <p style="font-size:13px;color:#666;">AI批量优化标题/描述<br>提升搜索排名和转化率</p>
+      </div>
+      <div class="card" style="padding:20px;border-left:4px solid #00bfa5;cursor:pointer;" onclick="selectOptType('stock')">
+        <h3 style="font-size:16px;margin-bottom:8px;">📦 库存同步</h3>
+        <p style="font-size:13px;color:#666;">1688库存同步到妙手<br>更新SKU库存数量</p>
+      </div>
+      <div class="card" style="padding:20px;border-left:4px solid #0f766e;cursor:pointer;" onclick="selectOptType('capacity')">
+        <h3 style="font-size:16px;margin-bottom:8px;">📊 上架量采集</h3>
+        <p style="font-size:13px;color:#666;">独立脚本采集店铺上架数<br>写入共享数据供各板块读取</p>
+      </div>
+      <div class="card" style="padding:20px;border-left:4px solid #2563eb;cursor:pointer;" onclick="selectOptType('categorize')">
+        <h3 style="font-size:16px;margin-bottom:8px;">📁 商品分类</h3>
+        <p style="font-size:13px;color:#666;">根据标题关键词自动归类<br>新上架商品分入对应子类目</p>
+      </div>
+      <div class="card" style="padding:20px;border-left:4px solid #eb2f96;cursor:pointer;" onclick="selectOptType('marketing')">
+        <h3 style="font-size:16px;margin-bottom:8px;">🎯 营销管理</h3>
+        <p style="font-size:13px;color:#666;">加购优惠/套装优惠推荐<br>智能推荐+一键创建</p>
+      </div>
+    </div>
+
+    <div class='image-tool-entry'>
+      <div>
+        <strong>图片处理</strong>
+        <span>主图与 SKU 图预览</span>
+      </div>
+      <button class='btn btn-primary' type='button'
+              onclick='selectOptType(&#39;image&#39;)'>打开工作区</button>
+    </div>
+
+    <template id='image-optimize-template'>
+      <div class='image-workspace'>
+        <div class='image-toolbar'>
+          <div class='image-segments' role='tablist'>
+            <button id='image-main-tab' class='active' type='button'
+                    onclick='switchImageTab(&#39;main&#39;)'>主图</button>
+            <button id='image-sku-tab' type='button'
+                    onclick='switchImageTab(&#39;sku&#39;)'>SKU 图</button>
+          </div>
+          <div class='image-segments' aria-label='处理模式'>
+            <button id='image-mode-conservative' class='active'
+                    type='button'>保守处理</button>
+            <button id='image-mode-marketing' type='button'
+                    disabled>营销处理</button>
+          </div>
+        </div>
+        <div class='image-identity-grid'>
+          <label>来源商品 ID
+            <input id='image-source-item-id' type='text' autocomplete='off'>
+          </label>
+          <label>采集箱明细 ID
+            <input id='image-collect-box-detail-id' type='text'
+                   autocomplete='off'>
+          </label>
+          <label>公共明细 ID
+            <input id='image-common-collect-box-detail-id' type='text'
+                   autocomplete='off'>
+          </label>
+        </div>
+        <div class='image-target-grid'>
+          <label>目标店铺
+            <select id='image-target-store'
+                    onchange='syncImageWriteConfirmation()'>
+              <option value=''>选择店铺</option>
+            </select>
+          </label>
+          <label>站点
+            <input id='image-target-site' type='text' readonly>
+          </label>
+        </div>
+        <div id='image-main-panel'>
+        <div class='image-upload-row'>
+          <input id='image-main-file' type='file'
+                 accept='image/png,image/jpeg,image/webp'>
+          <button id='image-preview-run' class='btn btn-primary'
+                  type='button' onclick='runImagePreview()'>生成预览</button>
+        </div>
+        <div class='image-preview-grid'>
+          <figure>
+            <figcaption>原图</figcaption>
+            <div id='image-preview-before' class='image-preview-frame'>
+              <span>未选择</span>
+            </div>
+          </figure>
+          <figure>
+            <figcaption>预览</figcaption>
+            <div id='image-preview-after' class='image-preview-frame'>
+              <span>未生成</span>
+            </div>
+          </figure>
+        </div>
+        <label class='image-decision-control'>
+          <input id='image-main-decision' type='checkbox' disabled
+                 onchange='syncImageWriteConfirmation()'>
+          <span>接受主图预览</span>
+        </label>
+        <div id='image-preview-status' class='image-preview-status'
+             role='status' aria-live='polite'></div>
+        </div>
+        <div id='image-sku-panel' hidden>
+          <div class='image-upload-row'>
+            <input id='image-sku-files' type='file' multiple
+                   accept='image/png,image/jpeg,image/webp'>
+            <button id='image-sku-preview-run' class='btn btn-primary'
+                    type='button' onclick='runSkuImagePreview()'>
+              生成 SKU 预览
+            </button>
+          </div>
+          <div id='image-sku-bindings' class='image-sku-bindings'></div>
+          <div id='image-sku-results' class='image-sku-results'></div>
+          <div id='image-sku-status' class='image-preview-status'
+               role='status' aria-live='polite'></div>
+        </div>
+        <div class='image-write-controls'>
+          <div>
+            <strong>图片写回</strong>
+            <div id='image-write-progress' class='image-write-progress'
+                 role='status' aria-live='polite'>等待完整审核</div>
+          </div>
+          <div class='image-write-actions'>
+            <button id='image-final-confirm' class='btn btn-primary'
+                    type='button' disabled
+                    onclick='finalizeImageWriteBatch()'>确认整批图片</button>
+            <button id='image-write-execute' class='btn'
+                    type='button' disabled
+                    onclick='executeImageWriteBatch()'>执行写回</button>
+          </div>
+          <div id='image-write-result' class='image-write-result'
+               role='status' aria-live='polite'></div>
+        </div>
+      </div>
+    </template>
+
+    <!-- 参数面板 -->
+    <div id="opt-params" class="card full-width" style="padding:16px;display:none;">
+      <h3 id="opt-params-title" style="font-size:14px;margin-bottom:12px;">⚙️ 参数配置</h3>
+      <div id="opt-params-body"></div>
+      <button class="btn btn-primary" onclick="runOptimize()" style="margin-top:12px;">🚀 开始执行</button>
+    </div>
+
+    <!-- 进度+结果 -->
+    <div id="opt-progress" class="card full-width" style="padding:16px;display:none;">
+      <h3 style="font-size:14px;margin-bottom:12px;">📊 执行结果</h3>
+      <div id="opt-progress-bar" style="height:8px;background:#e8e8e8;border-radius:4px;overflow:hidden;margin-bottom:12px;">
+        <div id="opt-progress-fill" style="height:100%;background:#ee4d2d;border-radius:4px;width:0%;transition:width 0.5s;"></div>
+      </div>
+      <div id="opt-result" style="font-size:13px;color:#666;"></div>
+      <div id="dashboard-task-runner" data-compat="opt-task-runner" style="margin-top:12px;padding:12px;border:1px solid #e5e7eb;border-radius:8px;background:#fafbfc;display:none;">
+        <div style="display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:8px;">
+          <strong id="opt-task-runner-title" style="font-size:13px;">任务进度</strong>
+          <span id="opt-task-runner-percent" style="font-size:12px;color:#666;">0%</span>
+        </div>
+        <div id="opt-task-runner-stage" style="font-size:12px;color:#2673dd;margin-bottom:6px;"></div>
+        <div id="opt-task-runner-log" style="font-size:12px;color:#1f2937;white-space:pre-wrap;line-height:1.5;"></div>
+        <div id="opt-task-runner-summary" style="margin-top:8px;font-size:12px;color:#667085;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 标题学习中心 -->
+  <div id="page-titlelearn" class="page page-width-wide">
+    <div class="page-header">
+      <h1>📚 标题学习中心</h1>
+      <p class="subtitle">候选池审核 · 本地演示兜底评分 · 合并回高分标题库</p>
+    </div>
+
+    <div class="stats-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:16px;">
+      <div class="stat-card"><div class="stat-info"><div class="stat-value" id="tl-pending">0</div><div class="stat-label">待审核</div></div></div>
+      <div class="stat-card"><div class="stat-info"><div class="stat-value" id="tl-approved" style="color:#16a34a;">0</div><div class="stat-label">已通过</div></div></div>
+      <div class="stat-card"><div class="stat-info"><div class="stat-value" id="tl-rejected" style="color:#dc2626;">0</div><div class="stat-label">已忽略</div></div></div>
+      <div class="stat-card"><div class="stat-info"><div class="stat-value" id="tl-merged" style="color:#7c3aed;">0</div><div class="stat-label">已合并</div></div></div>
+    </div>
+
+    <div class="card full-width">
+      <div class="card-header">
+        <h3>候选池</h3>
+        <div class="card-actions">
+          <button class="btn btn-sm" onclick="reloadTitleCandidates()">🔄 刷新</button>
+          <button class="btn btn-sm" onclick="rebuildTitleCandidates()">🔨 重建候选池</button>
+          <button class="btn btn-sm" onclick="scoreSelectedCandidates()">🤖 本地演示兜底评分</button>
+          <button class="btn btn-sm" style="color:#16a34a;" onclick="reviewSelectedCandidates('approved')">✅ 批量通过</button>
+          <button class="btn btn-sm" style="color:#dc2626;" onclick="reviewSelectedCandidates('rejected')">❌ 批量忽略</button>
+          <button class="btn btn-primary btn-sm" onclick="mergeApprovedCandidates()">📦 合并已通过</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="table-shell"><table class="data-table" style="width:100%;">
+          <thead>
+            <tr>
+              <th style="width:40px;"><input type="checkbox" id="tl-check-all" onchange="toggleAllTitleCandidates(this.checked)"></th>
+              <th style="width:100px;">类目</th>
+              <th style="width:60px;">站点</th>
+              <th style="min-width:200px;">中文原标题</th>
+              <th style="min-width:300px;">英文标题</th>
+              <th style="width:60px;">评分</th>
+              <th style="min-width:200px;">点评</th>
+              <th style="width:80px;">状态</th>
+            </tr>
+          </thead>
+          <tbody id="title-candidate-list"></tbody>
+        </table></div>
+        <div id="tl-empty" style="display:none;text-align:center;padding:40px;color:#999;">暂无候选标题，点击"重建候选池"生成</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 矩阵运营中心 (iframe) -->
+  <div id="page-shopboard" class="page" style="padding:0;">
+    <iframe id="shopboard-frame" src="./assets/matrix.html" style="width:100%; height:calc(100vh - 4px); border:none; border-radius:0;" scrolling="yes"></iframe>
+  </div>
+
+  <!-- 违禁管控 -->
+  <div id="page-ipcontrol" class="page page-width-wide">
+    <div class="page-header">
+      <h1>🛡️ 违禁管控</h1>
+      <p class="subtitle">品牌词库 · 危险关键词 · 款式风险 · IP扫描测试</p>
+    </div>
+
+    <!-- 扫描测试 -->
+    <div class="card full-width" style="padding:16px;margin-bottom:16px;">
+      <h3 style="font-size:14px;margin-bottom:12px;">🔍 IP风险扫描测试</h3>
+      <div style="display:flex;gap:8px;margin-bottom:8px;">
+        <input type="text" id="ip-test-title" placeholder="输入商品标题测试品牌侵权风险" style="flex:1;padding:10px 14px;border:1px solid #e8e8e8;border-radius:8px;font-size:14px;" onkeydown="if(event.key==='Enter')scanIPTest()">
+        <input type="text" id="ip-test-desc" placeholder="描述(可选)" style="width:200px;padding:10px 14px;border:1px solid #e8e8e8;border-radius:8px;font-size:13px;">
+        <button class="btn btn-primary" onclick="scanIPTest()" style="padding:10px 20px;">扫描</button>
+      </div>
+      <div id="ip-test-result" style="display:none;margin-top:8px;padding:12px;border-radius:8px;font-size:13px;"></div>
+    </div>
+
+    <!-- 统计卡片 -->
+    <div class="stats-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:16px;">
+      <div class="stat-card"><div class="stat-icon">🏷️</div><div class="stat-info"><div class="stat-value" id="ip-brand-count">0</div><div class="stat-label">高危品牌</div></div></div>
+      <div class="stat-card"><div class="stat-icon">⚠️</div><div class="stat-info"><div class="stat-value" id="ip-danger-count">0</div><div class="stat-label">危险关键词</div></div></div>
+      <div class="stat-card"><div class="stat-icon">🔄</div><div class="stat-info"><div class="stat-value" id="ip-safemap-count">0</div><div class="stat-label">安全替换</div></div></div>
+      <div class="stat-card"><div class="stat-icon">🎨</div><div class="stat-info"><div class="stat-value" id="ip-design-count">0</div><div class="stat-label">款式风险</div></div></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+      <!-- 品牌词库 -->
+      <div class="card" style="padding:16px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <h3 style="font-size:14px;">🏷️ 高危品牌词库</h3>
+          <button class="btn btn-primary btn-sm" onclick="showAddBrandModal()" style="font-size:12px;padding:4px 12px;">+ 添加</button>
+        </div>
+        <input type="text" id="brand-search" placeholder="搜索品牌..." oninput="filterBrands()" style="width:100%;margin-bottom:8px;padding:6px 10px;font-size:12px;border:1px solid #e8e8e8;border-radius:4px;">
+        <div id="brand-list" style="max-height:300px;overflow-y:auto;font-size:12px;"></div>
+      </div>
+
+      <!-- 危险关键词 -->
+      <div class="card" style="padding:16px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <h3 style="font-size:14px;">⚠️ 危险关键词</h3>
+        </div>
+        <div style="display:flex;gap:4px;margin-bottom:8px;">
+          <input type="text" id="danger-word-input" placeholder="添加关键词" style="flex:1;padding:6px 10px;font-size:12px;border:1px solid #e8e8e8;border-radius:4px;" onkeydown="if(event.key==='Enter')addDangerWord()">
+          <button class="btn btn-sm" onclick="addDangerWord()" style="font-size:11px;">添加</button>
+        </div>
+        <div id="danger-list" style="max-height:300px;overflow-y:auto;"></div>
+      </div>
+
+      <!-- 安全替换词 -->
+      <div class="card" style="padding:16px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <h3 style="font-size:14px;">🔄 安全替换映射</h3>
+        </div>
+        <div style="display:flex;gap:4px;margin-bottom:8px;">
+          <input type="text" id="safemap-old" placeholder="原文(含品牌)" style="flex:1;padding:6px 10px;font-size:12px;border:1px solid #e8e8e8;border-radius:4px;">
+          <input type="text" id="safemap-new" placeholder="替换为(安全)" style="flex:1;padding:6px 10px;font-size:12px;border:1px solid #e8e8e8;border-radius:4px;">
+          <button class="btn btn-sm" onclick="addSafeMap()" style="font-size:11px;">添加</button>
+        </div>
+        <div id="safemap-list" style="max-height:300px;overflow-y:auto;"></div>
+      </div>
+
+      <!-- 款式风险库 -->
+      <div class="card" style="padding:16px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <h3 style="font-size:14px;">🎨 款式风险库</h3>
+          <button class="btn btn-primary btn-sm" onclick="showAddDesignModal()" style="font-size:12px;padding:4px 12px;">+ 添加</button>
+        </div>
+        <div id="design-list" style="max-height:300px;overflow-y:auto;font-size:12px;"></div>
+      </div>
+    </div>
+
+    <!-- 白名单 -->
+    <div class="card full-width" style="padding:16px;margin-top:16px;">
+      <h3 style="font-size:14px;margin-bottom:8px;">✅ 白名单(安全兼容描述)</h3>
+      <div id="whitelist-display" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+      <p style="font-size:11px;color:#999;margin-top:8px;">白名单内的描述不会被标记为侵权风险(如"适用于iPhone 15手机壳")</p>
+    </div>
+  </div>
+
+  <!-- 系统配置 -->
+  <div id="page-config" class="page page-width-normal">
+    <div class="page-header"><h1>系统配置</h1></div>
+    <div class="card full-width" id="ai-config-console">
+      <div class="card-header ai-config-header">
+        <div>
+          <h3>AI 路由配置</h3>
+          <p>文本任务按 GPT 中转池优先，失败后自动交给 本地演示兜底；图文任务固定使用 本地演示图文。</p>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-sm" onclick="loadAiStatus()">刷新状态</button>
+          <button class="btn btn-primary btn-sm" onclick="saveConfig()">保存配置</button>
+        </div>
+      </div>
+      <div class="card-body ai-config-body">
+        <div class="ai-route-summary" id="ai-route-summary">
+          <div class="ai-route-card"><span class="ai-route-label">文本路由</span><strong id="ai-route-text">demo_text_a → demo_text_b → demo_text_c → demo_fallback</strong><small>标题、描述、翻译、关键词</small></div>
+          <div class="ai-route-card"><span class="ai-route-label">图文路由</span><strong id="ai-route-vision">demo_vision</strong><small>商品图片理解、图文联合分析</small></div>
+          <div class="ai-route-card"><span class="ai-route-label">今日用量</span><strong id="ai-route-usage">0 calls / 0 tokens</strong><small>按厂商分别统计</small></div>
+        </div>
+
+        <div class="ai-config-section">
+          <div class="ai-config-section-head">
+            <div>
+              <div class="ai-config-section-title">GPT 中转池</div>
+              <p>已预设中转地址和 gpt-5.5，只需要填 API Key 并启用。</p>
+            </div>
+            <span class="ai-config-route-chip">优先级从上到下</span>
+          </div>
+          <div class="ai-provider-table" role="table" aria-label="GPT 中转池配置">
+            <div class="ai-provider-row ai-provider-head" role="row">
+              <span>启用</span><span>厂商</span><span>Base URL</span><span>模型</span><span>API Key</span><span>状态</span><span>操作</span>
+            </div>
+            <div class="ai-provider-row" data-provider="demo_text_a" role="row">
+              <label class="ai-provider-enable"><input type="checkbox" id="cfg-demo_text_a-enabled"><span>启用</span></label>
+              <div class="ai-provider-name-cell"><strong>本地演示 A</strong><small>第 1 优先</small></div>
+              <input type="text" id="cfg-demo_text_a-base_url" placeholder="本地模拟地址">
+              <input type="text" id="cfg-demo_text_a-model" placeholder="gpt-5.5">
+              <input type="password" id="cfg-demo_text_a-key" placeholder="API Key">
+              <span id="cfg-demo_text_a-status" class="ai-config-status">未检测</span>
+              <button class="btn btn-sm" id="test-demo_text_a" onclick="testAI('demo_text_a')">测试</button>
+              <div class="ai-provider-meta" id="meta-demo_text_a"></div>
+            </div>
+            <div class="ai-provider-row" data-provider="demo_text_b" role="row">
+              <label class="ai-provider-enable"><input type="checkbox" id="cfg-demo_text_b-enabled"><span>启用</span></label>
+              <div class="ai-provider-name-cell"><strong>本地演示 B</strong><small>第 2 优先</small></div>
+              <input type="text" id="cfg-demo_text_b-base_url" placeholder="本地模拟地址">
+              <input type="text" id="cfg-demo_text_b-model" placeholder="gpt-5.5">
+              <input type="password" id="cfg-demo_text_b-key" placeholder="API Key">
+              <span id="cfg-demo_text_b-status" class="ai-config-status">未检测</span>
+              <button class="btn btn-sm" id="test-demo_text_b" onclick="testAI('demo_text_b')">测试</button>
+              <div class="ai-provider-meta" id="meta-demo_text_b"></div>
+            </div>
+            <div class="ai-provider-row" data-provider="demo_text_c" role="row">
+              <label class="ai-provider-enable"><input type="checkbox" id="cfg-demo_text_c-enabled"><span>启用</span></label>
+              <div class="ai-provider-name-cell"><strong>本地演示 C</strong><small>第 3 优先</small></div>
+              <input type="text" id="cfg-demo_text_c-base_url" placeholder="本地模拟地址">
+              <input type="text" id="cfg-demo_text_c-model" placeholder="gpt-5.5">
+              <input type="password" id="cfg-demo_text_c-key" placeholder="API Key">
+              <span id="cfg-demo_text_c-status" class="ai-config-status">未检测</span>
+              <button class="btn btn-sm" id="test-demo_text_c" onclick="testAI('demo_text_c')">测试</button>
+              <div class="ai-provider-meta" id="meta-demo_text_c"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ai-config-section">
+          <div class="ai-config-section-head">
+            <div>
+              <div class="ai-config-section-title">兜底与图文</div>
+              <p>本地演示兜底 只做文本兜底；本地演示图文 负责文字和图片联合调用。</p>
+            </div>
+          </div>
+          <div class="ai-special-provider-list">
+            <div class="ai-special-provider" data-provider="demo_fallback">
+              <label class="ai-provider-enable"><input type="checkbox" id="cfg-demo_fallback-enabled"><span>启用</span></label>
+              <div class="ai-provider-name-cell"><strong>本地演示兜底</strong><small>文本兜底</small></div>
+              <input type="text" id="cfg-demo_fallback-model" placeholder="demo_fallback-chat">
+              <input type="password" id="cfg-demo_fallback-key" placeholder="API Key">
+              <span class="ai-config-role">文本</span>
+              <button class="btn btn-sm" id="test-demo_fallback" onclick="testAI('demo_fallback')">测试</button>
+              <div class="ai-provider-meta" id="meta-demo_fallback"></div>
+            </div>
+            <div class="ai-special-provider" data-provider="demo_vision">
+              <label class="ai-provider-enable"><input type="checkbox" id="cfg-demo_vision-enabled"><span>启用</span></label>
+              <div class="ai-provider-name-cell"><strong>本地演示图文</strong><small>图文主力</small></div>
+              <input type="text" id="cfg-demo_vision-model" placeholder="demo_vision-2.0-flash">
+              <input type="password" id="cfg-demo_vision-key" placeholder="API Key">
+              <span class="ai-config-role">图文</span>
+              <button class="btn btn-sm" id="test-demo_vision" onclick="testAI('demo_vision')">测试</button>
+              <div class="ai-provider-meta" id="meta-demo_vision"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- 审计弹窗 -->
+<div id="audit-modal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <div class="modal-header"><h2>📋 审计报告</h2><button class="modal-close" onclick="closeModal()">&times;</button></div>
+    <div class="modal-body" id="audit-body"></div>
+    <div class="modal-footer">
+      <div class="audit-timer"><span id="audit-countdown">30</span>秒后自动发布<div class="progress-bar"><div id="audit-progress" class="progress-fill"></div></div></div>
+      <button class="btn btn-success" onclick="confirmPublish()">✅ 立即发布</button>
+      <button class="btn btn-danger" onclick="cancelPublish()">❌ 取消</button>
+    </div>
+  </div>
+</div>
+
+<!-- 进度弹窗 -->
+<div id="progress-modal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <div class="modal-header"><h2>⏳ 任务执行中</h2></div>
+    <div class="modal-body">
+      <div id="progress-status" class="progress-status">初始化...</div>
+      <div class="progress-bar large"><div id="progress-fill" class="progress-fill"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 添加品牌弹窗 -->
+<div id="brand-modal" class="modal" style="display:none;">
+  <div class="modal-content" style="max-width:500px;">
+    <div class="modal-header"><h2>添加高危品牌</h2><button class="modal-close" onclick="closeModal('brand-modal')">&times;</button></div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group"><label>品牌英文名 *</label><input type="text" id="brand-name" placeholder="如 Dyson"></div>
+        <div class="form-group"><label>类目</label><select id="brand-cat"><option>3C</option><option>IP</option><option>家居</option><option>美妆</option><option>饰品</option><option>母婴</option><option>五金</option><option>其他</option></select></div>
+        <div class="form-group full-row"><label>别名(逗号分隔)</label><input type="text" id="brand-aliases" placeholder="中文名,别名1,别名2"></div>
+      </div>
+    </div>
+    <div class="modal-footer" style="padding:12px 20px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;">
+      <button class="btn" onclick="closeModal('brand-modal')">取消</button>
+      <button class="btn btn-primary" onclick="addBrand()">确认添加</button>
+    </div>
+  </div>
+</div>
+
+<!-- 添加款式风险弹窗 -->
+<div id="design-modal" class="modal" style="display:none;">
+  <div class="modal-content" style="max-width:500px;">
+    <div class="modal-header"><h2>添加款式风险</h2><button class="modal-close" onclick="closeModal('design-modal')">&times;</button></div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group"><label>设计名 *</label><input type="text" id="design-name" placeholder="如 Stanley杯型"></div>
+        <div class="form-group"><label>关联品牌</label><input type="text" id="design-brand" placeholder="如 Stanley"></div>
+        <div class="form-group"><label>类目</label><input type="text" id="design-cat" placeholder="如 家居"></div>
+        <div class="form-group"><label>风险等级</label><select id="design-risk"><option value="high">高危</option><option value="medium" selected>中风险</option></select></div>
+        <div class="form-group full-row"><label>匹配关键词(逗号分隔) *</label><input type="text" id="design-kw" placeholder="大肚杯,窄底宽口,吸管保温杯"></div>
+        <div class="form-group full-row"><label>备注</label><input type="text" id="design-note" placeholder="为什么侵权"></div>
+      </div>
+    </div>
+    <div class="modal-footer" style="padding:12px 20px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;">
+      <button class="btn" onclick="closeModal('design-modal')">取消</button>
+      <button class="btn btn-primary" onclick="addDesign()">确认添加</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import "./assets/demo-transport.mjs";
+
+function loadProductScript(source) {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    script.src = source;
+    script.onload = resolve;
+    script.onerror = () => reject(new Error("Failed to load " + source));
+    document.body.append(script);
+  });
+}
+
+await loadProductScript("./assets/product-main.js");
+await loadProductScript("./assets/product-supervisor.js");
+</script>
+
+</body>
 </html>
