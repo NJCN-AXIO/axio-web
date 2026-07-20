@@ -298,3 +298,26 @@ test("answers a supervisor question from local evidence", async ({ page }) => {
   );
   expect(requests.violations).toEqual([]);
 });
+
+test("uses a contained accessible mobile drawer", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("./preview/");
+  const menu = page.locator("[data-preview-menu]");
+  const sidebar = page.locator("[data-preview-sidebar]");
+  await expect(menu).toBeVisible();
+  await expect(menu).toHaveAttribute("aria-expanded", "false");
+  await expect(sidebar).toHaveJSProperty("inert", true);
+
+  await menu.click();
+  await expect(menu).toHaveAttribute("aria-expanded", "true");
+  await expect(sidebar).toHaveAttribute("data-open", "true");
+  await expect(sidebar).toHaveJSProperty("inert", false);
+  await page.keyboard.press("Escape");
+  await expect(menu).toBeFocused();
+  await expect(sidebar).toHaveJSProperty("inert", true);
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
+});

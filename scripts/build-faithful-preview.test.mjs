@@ -80,6 +80,7 @@ it("generates the faithful product shell with task active and local assets", () 
     expect(html).toContain('href="./assets/product.css"');
     expect(html).toContain('import "./assets/demo-transport.mjs";');
     expect(html).toContain('import "./assets/preview-shell.mjs";');
+    expect(html).toContain('href="./assets/preview-responsive.css"');
     expect(html).toContain(
       'await loadProductScript("./assets/product-main.js")',
     );

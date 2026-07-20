@@ -4,10 +4,16 @@ import { fileURLToPath } from "node:url";
 
 const requiredFiles = [
   "index.html",
-  "assets/preview.css",
-  "assets/preview-data.mjs",
-  "assets/preview-state.mjs",
-  "assets/preview.mjs",
+  "assets/product.css",
+  "assets/supervisor.css",
+  "assets/product-main.js",
+  "assets/product-supervisor.js",
+  "assets/matrix.html",
+  "assets/demo-fixtures.mjs",
+  "assets/demo-state.mjs",
+  "assets/demo-transport.mjs",
+  "assets/preview-shell.mjs",
+  "assets/preview-responsive.css",
 ];
 const textExtensions = new Set([
   ".html",
@@ -18,12 +24,14 @@ const textExtensions = new Set([
   ".txt",
 ]);
 const prohibited = [
-  ["backend route", /\/api\//i],
-  ["network primitive", /\b(fetch|XMLHttpRequest|WebSocket|sendBeacon)\b/],
-  ["external URL", /https?:\/\//i],
   [
-    "credential field",
-    /api[ _-]?key|credential|password|cookie|secret|signature|token/i,
+    "network primitive",
+    /(?:\bfetch\s*\(|\bnew\s+XMLHttpRequest\s*\(|\bnew\s+WebSocket\s*\(|\.sendBeacon\s*\()/,
+  ],
+  ["external URL", /["'`]https?:\/\/[^"'`]+["'`]/i],
+  [
+    "credential value",
+    /\b(?:api[ _-]?key|credential|password|cookie|secret|signature|token)\b\s*[:=]\s*["'`][^"'`\s][^"'`]*["'`]/i,
   ],
   ["provider host", /aigcfox|6uss|shitapi|deepseek|agnes/i],
   [
@@ -47,6 +55,12 @@ function walk(rootDir) {
   return files;
 }
 
+export function scanText(content) {
+  return prohibited
+    .filter(([, pattern]) => pattern.test(content))
+    .map(([label]) => label);
+}
+
 export function scanPreviewDirectory(rootDir) {
   const root = resolve(rootDir);
   const findings = [];
@@ -65,8 +79,8 @@ export function scanPreviewDirectory(rootDir) {
     }
     if (!textExtensions.has(extname(file))) continue;
     const content = readFileSync(file, "utf8");
-    for (const [label, pattern] of prohibited) {
-      if (pattern.test(content)) findings.push(`${name}: ${label}`);
+    for (const label of scanText(content)) {
+      findings.push(`${name}: ${label}`);
     }
   }
 

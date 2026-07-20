@@ -10,5 +10,7 @@ export default defineConfig([
     "node_modules/**",
     "playwright-report/**",
     "test-results/**",
+    "public/preview/assets/product-main.js",
+    "public/preview/assets/product-supervisor.js",
   ]),
 ]);

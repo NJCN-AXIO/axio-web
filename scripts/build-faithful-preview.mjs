@@ -132,6 +132,12 @@ export function transformIndex(source) {
     'href="./assets/supervisor.css"',
     "supervisor stylesheet",
   );
+  html = replaceOnce(
+    html,
+    'href="./assets/supervisor.css"',
+    'href="./assets/supervisor.css">\n<link rel="stylesheet" href="./assets/preview-responsive.css"',
+    "responsive stylesheet",
+  );
   html = replacePatternOnce(
     html,
     /src="\/static\/116shop_dashboard\.html"/g,

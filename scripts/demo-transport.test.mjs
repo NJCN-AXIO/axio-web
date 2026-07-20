@@ -16,9 +16,7 @@ describe("browser-local demo transport", () => {
     expect(response.ok).toBe(true);
     expect(response.status).toBe(200);
     expect(await response.json()).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({ name: "演示店铺 A" }),
-      ]),
+      expect.arrayContaining([expect.objectContaining({ name: "演示店铺 A" })]),
     );
   });
 
@@ -33,16 +31,10 @@ describe("browser-local demo transport", () => {
     expect(created.ok).toBe(true);
     expect(taskId).toEqual(expect.any(String));
 
-    const executed = dispatchDemoRequest(
-      state,
-      `/api/task/${taskId}/execute`,
-      { method: "POST" },
-    );
-    const status = dispatchDemoRequest(
-      state,
-      `/api/task/${taskId}/status`,
-      {},
-    );
+    const executed = dispatchDemoRequest(state, `/api/task/${taskId}/execute`, {
+      method: "POST",
+    });
+    const status = dispatchDemoRequest(state, `/api/task/${taskId}/status`, {});
 
     expect(executed.ok).toBe(true);
     expect(await status.json()).toMatchObject({
