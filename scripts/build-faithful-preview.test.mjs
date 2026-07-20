@@ -79,9 +79,11 @@ it("generates the faithful product shell with task active and local assets", () 
     expect(html).not.toContain('id="page-dashboard" class="page active');
     expect(html).toContain('href="./assets/product.css"');
     expect(html).toContain('import "./assets/demo-transport.mjs";');
+    expect(html).toContain('import "./assets/preview-shell.mjs";');
     expect(html).toContain(
       'await loadProductScript("./assets/product-main.js")',
     );
+    expect(html).toContain('globalThis.showPage("task", taskNav)');
     expect(html).toContain(
       'await loadProductScript("./assets/product-supervisor.js")',
     );

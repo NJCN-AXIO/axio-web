@@ -85,6 +85,7 @@ function replacePatternOnce(source, pattern, after, label) {
 
 const PRODUCT_BOOTSTRAP = `<script type="module">
 import "./assets/demo-transport.mjs";
+import "./assets/preview-shell.mjs";
 
 function loadProductScript(source) {
   return new Promise((resolve, reject) => {
@@ -98,6 +99,10 @@ function loadProductScript(source) {
 
 await loadProductScript("./assets/product-main.js");
 await loadProductScript("./assets/product-supervisor.js");
+const taskNav = document.querySelector('[data-page="task"]');
+if (taskNav && typeof globalThis.showPage === "function") {
+  globalThis.showPage("task", taskNav);
+}
 </script>`;
 
 export function transformProductScript(source, label = "product script") {
