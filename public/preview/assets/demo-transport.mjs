@@ -410,6 +410,89 @@ export function dispatchDemoRequest(state, input, init = {}) {
     });
   }
 
+  if (request.method === "GET" && request.path === "/api/matrix/state") {
+    return new DemoResponse({
+      ok: true,
+      stores: [
+        {
+          id: "demo-store-a",
+          name: "演示店铺 A",
+          company: "广州",
+          site: "MY",
+          category: "家居生活",
+          current: 128,
+          target: 300,
+          satRate: 0.427,
+          level: "P0",
+          origLevel: "P0",
+          processed: false,
+          tags: ["演示数据"],
+          note: "仅浏览器本地模拟",
+        },
+      ],
+      data_status: {
+        stores: { status: "ok", updated_at: "2026-07-20 20:00" },
+        capacity_scan: { status: "ok", updated_at: "2026-07-20 20:00" },
+        cleanup_plan: { status: "ok", updated_at: "2026-07-20 20:00" },
+      },
+      battle_plan: { generated_at: "2026-07-20 20:00", items: [] },
+    });
+  }
+
+  if (request.method === "POST" && request.path === "/api/optimize/run") {
+    return new DemoResponse({ ok: true, message: "执行完成" });
+  }
+
+  if (
+    request.method === "POST" &&
+    request.path === "/api/title-library/candidates/score"
+  ) {
+    return new DemoResponse({
+      ok: true,
+      updated: (request.body?.ids || []).length,
+    });
+  }
+
+  if (request.method === "POST" && request.path === "/api/ip-scan") {
+    return new DemoResponse({
+      level: "safe",
+      hits: [],
+      title: request.body?.title || "",
+    });
+  }
+
+  if (request.method === "POST" && request.path === "/api/ai/save") {
+    return new DemoResponse({ ok: true, message: "演示配置已保存" });
+  }
+
+  if (request.path === "/api/supervisor/authority") {
+    return new DemoResponse({
+      authority_mode: request.body?.authority_mode || "analysis_only",
+    });
+  }
+
+  if (
+    request.method === "POST" &&
+    request.path === "/api/supervisor/commands/preview"
+  ) {
+    return new DemoResponse({
+      kind: "question",
+      authority_mode: "analysis_only",
+      answer: {
+        authority_mode: "analysis_only",
+        answer: "今日已完成 3 个演示任务，全部来自浏览器本地模拟数据。",
+        sources: [
+          {
+            path: "local-demo",
+            observed_at: "2026-07-20 20:00",
+            freshness: "current",
+          },
+        ],
+        unknowns: [],
+      },
+    });
+  }
+
   if (
     request.method === "GET" &&
     request.path === "/api/title-library/candidates"
@@ -425,6 +508,8 @@ export function dispatchDemoRequest(state, input, init = {}) {
           site: "MY",
           title_zh: "演示桌面收纳盒",
           title_en: "Demo Desk Organizer",
+          demo_fallback_score: 8.8,
+          demo_fallback_comment: "结构清晰，关键词自然",
           review_status: "pending",
           merged: false,
         },

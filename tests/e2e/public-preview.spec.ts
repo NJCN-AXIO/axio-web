@@ -227,3 +227,74 @@ test("runs the local tianji analysis interaction", async ({ page }) => {
   await expect(page.locator("#tj-result")).toContainText("利润款");
   expect(requests.violations).toEqual([]);
 });
+
+test("runs the local matrix workspace", async ({ page }) => {
+  const requests = monitorPreviewRequests(page);
+  await page.goto("./preview/");
+  await page.locator("[data-page=shopboard]").click();
+  const matrix = page.frameLocator("#shopboard-frame");
+  await expect(
+    matrix.getByRole("heading", { name: "📊 AXIO 矩阵经营看板" }),
+  ).toBeVisible();
+  await matrix.getByRole("button", { name: "⚡ 作战计划" }).click();
+  await expect(matrix.locator("#tabBattle")).toHaveClass(/active/);
+  await expect(matrix.locator("#uploadStatus")).toContainText("已同步");
+  expect(requests.violations).toEqual([]);
+});
+
+test("runs a local optimization action", async ({ page }) => {
+  const requests = monitorPreviewRequests(page);
+  await page.goto("./preview/");
+  await page.locator("[data-page=optimize]").click();
+  await page.getByRole("heading", { name: "📦 库存同步" }).click();
+  await page.getByRole("button", { name: "🚀 开始执行" }).click();
+  await expect(page.locator("#opt-result")).toContainText("执行完成");
+  expect(requests.violations).toEqual([]);
+});
+
+test("scores a local title candidate", async ({ page }) => {
+  const requests = monitorPreviewRequests(page);
+  await page.goto("./preview/");
+  await page.locator("[data-page=titlelearn]").click();
+  await page.locator(".tl-check").first().check();
+  await page.getByRole("button", { name: "🤖 本地演示兜底评分" }).click();
+  await expect(page.getByText(/评分完成/)).toBeVisible();
+  await page.getByRole("button", { name: "确定" }).click();
+  await expect(page.locator("#title-candidate-list")).toContainText("8.8");
+  expect(requests.violations).toEqual([]);
+});
+
+test("scans a fictional title locally", async ({ page }) => {
+  const requests = monitorPreviewRequests(page);
+  await page.goto("./preview/");
+  await page.locator("[data-page=ipcontrol]").click();
+  await page.locator("#ip-test-title").fill("普通桌面收纳盒");
+  await page.getByRole("button", { name: "扫描" }).click();
+  await expect(page.locator("#ip-test-result")).toContainText("安全");
+  expect(requests.violations).toEqual([]);
+});
+
+test("saves the fictional AI configuration locally", async ({ page }) => {
+  const requests = monitorPreviewRequests(page);
+  await page.goto("./preview/");
+  await page.locator("[data-page=config]").click();
+  await page.getByRole("button", { name: "保存配置" }).click();
+  await expect(page.getByText(/演示配置已保存/)).toBeVisible();
+  await page.getByRole("button", { name: "确定" }).click();
+  expect(requests.violations).toEqual([]);
+});
+
+test("answers a supervisor question from local evidence", async ({ page }) => {
+  const requests = monitorPreviewRequests(page);
+  await page.goto("./preview/");
+  await page.locator("[data-page=dashboard]").click();
+  await page
+    .locator("#supervisor-natural-input")
+    .fill("今天完成了多少演示任务");
+  await page.locator("#supervisor-send").click();
+  await expect(page.locator("#supervisor-answer")).toBeVisible();
+  await expect(page.locator("#supervisor-answer-text")).toContainText(
+    "演示任务",
+  );
+  expect(requests.violations).toEqual([]);
+});

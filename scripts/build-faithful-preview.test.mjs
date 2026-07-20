@@ -85,6 +85,9 @@ it("generates the faithful product shell with task active and local assets", () 
     );
     expect(html).toContain('globalThis.showPage("task", taskNav)');
     expect(html).toContain(
+      'document.dispatchEvent(new Event("DOMContentLoaded"))',
+    );
+    expect(html).toContain(
       'await loadProductScript("./assets/product-supervisor.js")',
     );
     expect(html).not.toContain('<script src="./assets/product-main.js">');

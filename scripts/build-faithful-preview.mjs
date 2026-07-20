@@ -99,6 +99,7 @@ function loadProductScript(source) {
 
 await loadProductScript("./assets/product-main.js");
 await loadProductScript("./assets/product-supervisor.js");
+document.dispatchEvent(new Event("DOMContentLoaded"));
 const taskNav = document.querySelector('[data-page="task"]');
 if (taskNav && typeof globalThis.showPage === "function") {
   globalThis.showPage("task", taskNav);
