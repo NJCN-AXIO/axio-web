@@ -81,6 +81,25 @@
   font-size: 14px;
 }
 
+.marketing-hero__aside .marketing-hero__boundary {
+  display: flex;
+  flex-wrap: wrap;
+  color: var(--text);
+  font-weight: 700;
+  gap: 8px 20px;
+}
+
+.marketing-hero__boundary span {
+  position: relative;
+}
+
+.marketing-hero__boundary span + span::before {
+  position: absolute;
+  left: -12px;
+  color: var(--brand);
+  content: "·";
+}
+
 .marketing-section {
   background: var(--page);
 }

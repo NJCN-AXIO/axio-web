@@ -96,6 +96,18 @@ it("segments solutions by seller operating stage", () => {
 it("publishes the approved launch prices without online checkout", () => {
   render(<PricingPage />);
 
+  const hero = screen
+    .getByRole("heading", {
+      level: 1,
+      name: "首发版本方案",
+    })
+    .closest(".marketing-hero");
+  expect(hero).not.toBeNull();
+  expect(
+    within(hero as HTMLElement).getByText("Windows 本地客户端"),
+  ).toBeVisible();
+  expect(within(hero as HTMLElement).getByText("不支持在线付款")).toBeVisible();
+
   const comparison = screen.getByTestId("package-comparison");
   for (const option of getSiteContent().packages) {
     const card = within(comparison).getByTestId(
@@ -107,7 +119,8 @@ it("publishes the approved launch prices without online checkout", () => {
   expect(screen.getByText("首发仅限 20 席")).toBeVisible();
   expect(screen.getByText("定制部署 ¥6,800 起")).toBeVisible();
   expect(screen.getByText("源码交付单独报价")).toBeVisible();
-  expect(screen.getByText("不支持在线付款")).toBeVisible();
+  expect(screen.getAllByText("不支持在线付款")).toHaveLength(2);
+  expect(screen.getByText("具体交付以确认范围为准")).toBeVisible();
   expect(screen.queryByRole("button", { name: /购买|付款|结算/ })).toBeNull();
 });
 

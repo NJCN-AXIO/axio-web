@@ -41,6 +41,14 @@ it("renders the approved homepage identity, proof, and capability boundaries", (
   expect(screen.queryByText("116 家店铺")).not.toBeInTheDocument();
   expect(screen.queryByText("6 个 Shopee 站点")).not.toBeInTheDocument();
   expect(screen.queryByText("4 个市场信号平台")).not.toBeInTheDocument();
+  const packageCtas = within(screen.getByTestId("package-band")).getAllByRole(
+    "link",
+    { name: "预约演示" },
+  );
+  expect(packageCtas).toHaveLength(3);
+  for (const link of packageCtas) {
+    expect(link).toHaveAttribute("href", "/demo");
+  }
   expect(
     screen.getByRole("link", { name: "全景查看 AXIO 店群运营控制台" }),
   ).toHaveAttribute(

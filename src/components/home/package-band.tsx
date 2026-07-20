@@ -37,7 +37,7 @@ export function PackageBand() {
               </div>
               <p>{option.description}</p>
               <Link href="/demo">
-                查看方案 <ArrowRight aria-hidden="true" size={16} />
+                预约演示 <ArrowRight aria-hidden="true" size={16} />
               </Link>
             </article>
           ))}

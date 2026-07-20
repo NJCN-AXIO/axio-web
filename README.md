@@ -11,7 +11,7 @@ AXIO 智核的公开产品官网，主要介绍面向 Shopee 店群运营的自�
 | `/`          | 首页、产品证据、经营闭环、能力矩阵、版本概览和微信联系 |
 | `/product`   | 产品能力总览                                           |
 | `/solutions` | 适用场景与解决方案                                     |
-| `/pricing`   | Starter、Professional、Enterprise 三档方案对比         |
+| `/pricing`   | Starter、Professional、Team 三档方案对比               |
 | `/demo`      | 全局演示占位、核心流程视频、预约表单和微信二维码       |
 | `/privacy`   | 隐私政策                                               |
 | `/terms`     | 服务条款                                               |

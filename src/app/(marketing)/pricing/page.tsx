@@ -30,6 +30,10 @@ export default function PricingPage() {
           <aside className="marketing-hero__aside">
             <strong>首发仅限 20 席</strong>
             <p>先看实机演示，再根据团队协作与交付边界选择版本。</p>
+            <p className="marketing-hero__boundary">
+              <span>Windows 本地客户端</span>
+              <span>不支持在线付款</span>
+            </p>
           </aside>
         </div>
       </section>
@@ -49,6 +53,7 @@ export default function PricingPage() {
           <p className="package-boundary">
             <CircleAlert aria-hidden="true" size={18} />
             <strong>不支持在线付款</strong>
+            <span>具体交付以确认范围为准</span>
             <span>
               妙手 ERP、模型/API、设备、网络及平台费用不包含在套餐内。
             </span>
