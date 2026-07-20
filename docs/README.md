@@ -4,14 +4,15 @@
 
 ## 当前实现
 
-| 文档                                                                             | 用途                                   |
-| -------------------------------------------------------------------------------- | -------------------------------------- |
-| [`../README.md`](../README.md)                                                   | 项目入口、运行命令、范围和目录结构     |
-| [`architecture.md`](architecture.md)                                             | 当前 `master` 的静态架构、数据流和边界 |
-| [`content-maintenance.md`](content-maintenance.md)                               | 文案、能力矩阵、截图、视频和二维码维护 |
-| [`operations/github-pages-deployment.md`](operations/github-pages-deployment.md) | GitHub Pages 配置、发布、回滚和排障    |
-| [`operations/free-hosting-options.md`](operations/free-hosting-options.md)       | 免费托管与未来后端平台选择             |
-| [`operations/server-features-todo.md`](operations/server-features-todo.md)       | 有服务器后的服务端恢复清单             |
+| 文档                                                                                           | 用途                                   |
+| ---------------------------------------------------------------------------------------------- | -------------------------------------- |
+| [`../README.md`](../README.md)                                                                 | 项目入口、运行命令、范围和目录结构     |
+| [`architecture.md`](architecture.md)                                                           | 当前 `master` 的静态架构、数据流和边界 |
+| [`content-maintenance.md`](content-maintenance.md)                                             | 文案、能力矩阵、截图、视频和二维码维护 |
+| [`operations/github-pages-deployment.md`](operations/github-pages-deployment.md)               | GitHub Pages 配置、发布、回滚和排障    |
+| [`operations/free-hosting-options.md`](operations/free-hosting-options.md)                     | 免费托管与未来后端平台选择             |
+| [`operations/server-features-todo.md`](operations/server-features-todo.md)                     | 有服务器后的服务端恢复清单             |
+| [`research/2026-07-20-axio-pricing-research.md`](research/2026-07-20-axio-pricing-research.md) | AXIO 市场价格证据、试销区间与报价规则  |
 
 ## 当前设计依据
 
