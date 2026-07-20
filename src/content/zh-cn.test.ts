@@ -5,6 +5,13 @@ import type { Locale } from "./types";
 import { zhCN } from "./zh-cn";
 
 describe("Simplified Chinese site content", () => {
+  it("routes the primary action to the static online experience", () => {
+    expect(zhCN.hero.primaryCta).toEqual({
+      label: "在线体验",
+      href: "/preview/",
+    });
+  });
+
   it("contains exactly the approved six groups and 21 NOW / 3 NEXT items", () => {
     const items = zhCN.capabilityGroups.flatMap((group) => group.items);
 

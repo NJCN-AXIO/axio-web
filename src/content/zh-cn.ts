@@ -76,7 +76,7 @@ export const zhCN: SiteContent = {
     subtitle: "面向 Shopee 的跨境电商店群全自动化运营系统",
     description:
       "主要服务于 Shopee 平台，并借助妙手 ERP 承接批量执行，将选品、精准定价、上架与存量经营编排成可预览、可确认、可回读的自动化闭环。",
-    primaryCta: { label: "预约产品演示", href: "/demo" },
+    primaryCta: { label: "在线体验", href: "/preview/" },
     secondaryCta: { label: "查看产品能力", href: "#capabilities" },
   },
   proofValues: [
