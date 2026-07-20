@@ -123,9 +123,24 @@ test.describe("faithful public product preview", () => {
   });
 });
 for (const entry of [
-  { page: "dashboard", selector: "#page-dashboard", proof: "#dashboard-last-refresh", expected: "2026-07-20" },
-  { page: "history", selector: "#page-history", proof: "#task-list", expected: "桌面收纳用品" },
-  { page: "stores", selector: "#page-stores", proof: "#stores-tbody", expected: "演示店铺 A" },
+  {
+    page: "dashboard",
+    selector: "#page-dashboard",
+    proof: "#dashboard-last-refresh",
+    expected: "2026-07-20",
+  },
+  {
+    page: "history",
+    selector: "#page-history",
+    proof: "#task-list",
+    expected: "桌面收纳用品",
+  },
+  {
+    page: "stores",
+    selector: "#page-stores",
+    proof: "#stores-tbody",
+    expected: "演示店铺 A",
+  },
 ]) {
   test(entry.page + " renders local operational data", async ({ page }) => {
     await page.goto("./preview/");
@@ -134,3 +149,81 @@ for (const entry of [
     await expect(page.locator(entry.proof)).toContainText(entry.expected);
   });
 }
+
+test("navigates the complete local selection decision chain", async ({
+  page,
+}) => {
+  const requests = monitorPreviewRequests(page);
+  await page.goto("./preview/");
+
+  await page.locator("[data-page=selection]").click();
+  await expect(page.locator("#page-selection")).toHaveClass(/active/);
+  await expect(page.locator("#selection-candidates-body")).toContainText(
+    "桌面收纳",
+  );
+
+  for (const entry of [
+    { target: "hotpick", selector: "#page-hotpick" },
+    { target: "keywords", selector: "#page-keywords" },
+    { target: "orders", selector: "#page-orders" },
+    { target: "tianji", selector: "#page-tianji" },
+  ]) {
+    await page.locator("[data-selection-target=" + entry.target + "]").click();
+    await expect(page.locator(entry.selector)).toHaveClass(/active/);
+  }
+
+  await page.locator("[data-selection-target=candidates]").click();
+  await expect(page.locator("[data-selection-panel=candidates]")).toHaveClass(
+    /active/,
+  );
+  await expect(page.locator("#selection-candidates-body")).toContainText(
+    "桌面收纳",
+  );
+  expect(requests.violations).toEqual([]);
+});
+
+test("collects and imports a fictional hotpick locally", async ({ page }) => {
+  const requests = monitorPreviewRequests(page);
+  await page.goto("./preview/");
+  await page.locator("[data-selection-target=hotpick]").click();
+  await page.locator(".hp-platform-card[data-platform=shopee]").click();
+  await page.locator("#hp-site").selectOption("MY");
+  await page.locator("#hp-category").selectOption("家居生活");
+  await page.getByRole("button", { name: "🔍 开始采集" }).click();
+  await expect(page.locator("#hp-results-list")).toContainText("便携收纳袋");
+  await page.getByRole("button", { name: "📥 一键导入关键词库" }).click();
+  await expect(page.getByText(/成功导入/)).toBeVisible();
+  await page.getByRole("button", { name: "确定" }).click();
+
+  await page.locator("[data-selection-target=keywords]").click();
+  await expect(page.locator("#kw-tbody")).toContainText("便携收纳袋");
+  expect(requests.violations).toEqual([]);
+});
+
+test("simulates local order feedback and candidate import", async ({
+  page,
+}) => {
+  const requests = monitorPreviewRequests(page);
+  await page.goto("./preview/");
+  await page.locator("[data-selection-target=orders]").click();
+  await page.getByRole("button", { name: "同步并分析订单" }).click();
+  await expect(page.locator("#order-tbody")).toContainText("桌面收纳套装");
+
+  await page.locator("[data-selection-target=candidates]").click();
+  await page.locator(".selection-import-btn").first().click();
+  await expect(page.getByText(/关键词库已存在/)).toBeVisible();
+  await page.getByRole("button", { name: "确定" }).click();
+  expect(requests.violations).toEqual([]);
+});
+
+test("runs the local tianji analysis interaction", async ({ page }) => {
+  const requests = monitorPreviewRequests(page);
+  await page.goto("./preview/");
+  await page.locator("[data-selection-target=tianji]").click();
+  await page.getByRole("button", { name: "📥 加载演示数据" }).click();
+  await expect(page.getByText(/演示数据已加载/)).toBeVisible();
+  await page.getByRole("button", { name: "确定" }).click();
+  await page.getByRole("button", { name: "🔍 开始田忌赛马分析" }).click();
+  await expect(page.locator("#tj-result")).toContainText("利润款");
+  expect(requests.violations).toEqual([]);
+});

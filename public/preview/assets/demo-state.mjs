@@ -4,6 +4,9 @@ export function createDemoState() {
   return structuredClone({
     stores: DEMO_FIXTURES.stores,
     tasks: DEMO_FIXTURES.tasks,
+    keywords: DEMO_FIXTURES.keywords,
+    orders: DEMO_FIXTURES.orders,
     taskSequence: 1,
+    keywordSequence: 2,
   });
 }

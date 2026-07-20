@@ -36,4 +36,41 @@ export const DEMO_FIXTURES = {
       updated_at: "2026-07-20 19:32",
     },
   ],
+  keywords: [
+    {
+      id: "DEMO-KW-001",
+      buyerKeyword: "桌面收纳",
+      buyerKeywordEN: "desk organizer",
+      supplierKeyword: "桌面收纳用品",
+      productStrategy: "走量款",
+      category: "家居生活",
+      searchVolume: 860,
+      competitionCount: 42,
+      trend: "stable",
+      site: "MY",
+      blueOceanScore: 78,
+      health: { status: "ready", label: "可用", score_decision: "go" },
+    },
+  ],
+  orders: {
+    feedback: { source_count: 12, candidate_count: 1, rejected_count: 0 },
+    stats: {
+      totalOrders: 48,
+      filteredCount: 1,
+      totalRevenue: 5688,
+      totalProfit: 1620,
+    },
+    products: [
+      {
+        keyword: "桌面收纳套装",
+        strategy: "走量款",
+        totalSales: 48,
+        totalRevenue: 5688,
+        totalProfit: 1620,
+        profitMargin: 28.5,
+        sites: ["MY"],
+        sourceLinks: [],
+      },
+    ],
+  },
 };
