@@ -4,6 +4,19 @@ test.describe("public product preview", () => {
   test("enters from the demo center and completes the simulated task", async ({
     page,
   }) => {
+    const productRequests: string[] = [];
+    page.on("request", (request) => {
+      const method = request.method();
+      if (
+        ["fetch", "xhr", "websocket", "ping"].includes(
+          request.resourceType(),
+        ) ||
+        !["GET", "HEAD"].includes(method)
+      ) {
+        productRequests.push(`${method} ${request.url()}`);
+      }
+    });
+
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto("./demo/");
     await page.getByRole("link", { name: "进入交互预览" }).click();
@@ -11,16 +24,16 @@ test.describe("public product preview", () => {
     await expect(
       page.getByRole("heading", { name: "今日运营计划" }),
     ).toBeVisible();
-
-    const productRequests: string[] = [];
-    page.on("request", (request) => {
-      if (["fetch", "xhr", "websocket"].includes(request.resourceType())) {
-        productRequests.push(`${request.method()} ${request.url()}`);
-      }
-    });
+    // The marketing page prefetches its own Next.js routes before the
+    // full-page preview navigation. Product-network tracking starts here.
+    productRequests.length = 0;
+    await expect(page.locator("form")).toHaveCount(0);
 
     await page.getByRole("button", { name: "新建任务" }).click();
     const action = page.getByRole("button", { name: "推进模拟任务" });
+    const actionBox = await action.boundingBox();
+    expect(actionBox).not.toBeNull();
+    expect(actionBox?.height ?? 0).toBeGreaterThanOrEqual(44);
     await action.click();
     await action.click();
     await action.click();
@@ -47,6 +60,8 @@ test.describe("public product preview", () => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("./preview/");
     const menu = page.getByRole("button", { name: "功能导航" });
+    const sidebar = page.locator("[data-preview-sidebar]");
+    await expect(sidebar).toHaveJSProperty("inert", true);
     const menuBox = await menu.boundingBox();
     const mainBox = await page.locator("[data-preview-main]").boundingBox();
     expect(menuBox).not.toBeNull();
@@ -54,8 +69,19 @@ test.describe("public product preview", () => {
     expect((menuBox?.y ?? 0) + (menuBox?.height ?? 0)).toBeLessThanOrEqual(
       mainBox?.y ?? 0,
     );
+    const bookingBox = await page
+      .getByRole("link", { name: "预约真实演示" })
+      .boundingBox();
+    expect(bookingBox).not.toBeNull();
+    expect(bookingBox?.height ?? 0).toBeGreaterThanOrEqual(44);
     await menu.click();
     await expect(menu).toHaveAttribute("aria-expanded", "true");
+    await expect(sidebar).toHaveJSProperty("inert", false);
+    await page.keyboard.press("Escape");
+    await expect(menu).toHaveAttribute("aria-expanded", "false");
+    await expect(menu).toBeFocused();
+    await expect(sidebar).toHaveJSProperty("inert", true);
+    await menu.click();
     await page.getByRole("button", { name: "精准定价" }).click();
     await expect(
       page.getByRole("heading", { name: "价格影子比较" }),
@@ -67,5 +93,35 @@ test.describe("public product preview", () => {
           document.documentElement.clientWidth,
       ),
     ).toBe(false);
+    const clippedText = await page
+      .locator("button, a, h1, h2, p, strong, span")
+      .evaluateAll((elements) =>
+        elements
+          .filter((element) => {
+            const style = getComputedStyle(element);
+            return (
+              element.textContent?.trim() &&
+              element.scrollWidth > element.clientWidth + 1 &&
+              !["auto", "scroll"].includes(style.overflowX)
+            );
+          })
+          .map((element) => element.textContent?.trim()),
+      );
+    expect(clippedText).toEqual([]);
+    const nestedViewportScrollers = await page
+      .locator("body *")
+      .evaluateAll((elements) =>
+        elements
+          .filter((element) => {
+            const style = getComputedStyle(element);
+            return (
+              element.clientHeight >= window.innerHeight * 0.8 &&
+              element.scrollHeight > element.clientHeight + 1 &&
+              ["auto", "scroll"].includes(style.overflowY)
+            );
+          })
+          .map((element) => element.className),
+      );
+    expect(nestedViewportScrollers).toEqual([]);
   });
 });

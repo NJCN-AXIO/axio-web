@@ -93,6 +93,10 @@ describe("public preview safety scanner", () => {
       );
       writeFileSync(join(root, "assets/preview.mjs"), 'fetch("/api/stores");');
       writeFileSync(join(root, "assets/nested/provider.txt"), "aigcfox");
+      writeFileSync(join(root, ".env"), "PREVIEW_TOKEN=not-real");
+      writeFileSync(join(root, "settings.yaml"), "endpoint: none");
+      writeFileSync(join(root, "runtime.jsonl"), "{}");
+      writeFileSync(join(root, "cache.sqlite"), "");
 
       expect(scanPreviewDirectory(root)).toEqual(
         expect.arrayContaining([
@@ -102,6 +106,9 @@ describe("public preview safety scanner", () => {
           expect.stringMatching(/credential field/i),
           expect.stringMatching(/provider host/i),
           expect.stringMatching(/production identifier/i),
+          expect.stringMatching(/environment file/i),
+          expect.stringMatching(/configuration file/i),
+          expect.stringMatching(/runtime data file/i),
         ]),
       );
     } finally {

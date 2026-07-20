@@ -92,7 +92,7 @@ a {
   gap: 8px;
 }
 .button {
-  min-height: 40px;
+  min-height: 44px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -364,7 +364,7 @@ a {
 }
 @media (max-width: 430px) {
   .preview-bar__actions .button--primary {
-    min-height: 38px;
+    min-height: 44px;
     padding: 0 10px;
   }
   .stats-grid {

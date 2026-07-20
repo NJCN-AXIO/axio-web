@@ -12,6 +12,10 @@ const main = document.querySelector("[data-preview-main]");
 const sidebar = document.querySelector("[data-preview-sidebar]");
 const menuButton = document.querySelector("[data-menu-button]");
 const toast = document.querySelector("[data-preview-toast]");
+const mobileNavigation = window.matchMedia("(max-width: 680px)");
+const backgroundLinks = document.querySelectorAll(
+  "[data-site-home], [data-book-demo]",
+);
 
 function element(tag, className, text) {
   const node = document.createElement(tag);
@@ -44,6 +48,12 @@ function renderNav() {
   }
   sidebar.dataset.open = String(state.navOpen);
   menuButton.setAttribute("aria-expanded", String(state.navOpen));
+  const drawerOpen = mobileNavigation.matches && state.navOpen;
+  sidebar.inert = mobileNavigation.matches && !state.navOpen;
+  main.inert = drawerOpen;
+  backgroundLinks.forEach((link) => {
+    link.inert = drawerOpen;
+  });
 }
 
 function renderWorkspace() {
@@ -144,6 +154,11 @@ document.addEventListener("click", (event) => {
   if (event.target.closest("[data-menu-button]")) {
     state = reducePreviewState(state, { type: "toggle-nav" });
     renderNav();
+    if (mobileNavigation.matches && state.navOpen) {
+      nav.querySelector('[aria-current="page"]')?.focus();
+    } else {
+      menuButton.focus();
+    }
     return;
   }
   if (event.target.closest("[data-task-action]")) {
@@ -151,6 +166,37 @@ document.addEventListener("click", (event) => {
     renderWorkspace();
     showToast("模拟状态已更新，不会执行真实任务");
   }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (!mobileNavigation.matches || !state.navOpen) return;
+
+  if (event.key === "Escape") {
+    event.preventDefault();
+    state = reducePreviewState(state, { type: "close-nav" });
+    renderNav();
+    menuButton.focus();
+    return;
+  }
+
+  if (event.key !== "Tab") return;
+  const focusable = [
+    menuButton,
+    ...nav.querySelectorAll("button:not(:disabled)"),
+  ];
+  const currentIndex = focusable.indexOf(document.activeElement);
+  const nextIndex = event.shiftKey
+    ? (currentIndex - 1 + focusable.length) % focusable.length
+    : (currentIndex + 1) % focusable.length;
+  event.preventDefault();
+  focusable[nextIndex].focus();
+});
+
+mobileNavigation.addEventListener("change", () => {
+  if (!mobileNavigation.matches && state.navOpen) {
+    state = reducePreviewState(state, { type: "close-nav" });
+  }
+  renderNav();
 });
 
 render();

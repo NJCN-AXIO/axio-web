@@ -21,12 +21,20 @@ const prohibited = [
   ["backend route", /\/api\//i],
   ["network primitive", /\b(fetch|XMLHttpRequest|WebSocket|sendBeacon)\b/],
   ["external URL", /https?:\/\//i],
-  ["credential field", /api[ _-]?key|password|cookie|secret|signature/i],
+  [
+    "credential field",
+    /api[ _-]?key|credential|password|cookie|secret|signature|token/i,
+  ],
   ["provider host", /aigcfox|6uss|shitapi|deepseek|agnes/i],
   [
     "production identifier",
     /7539232|omotu1\.my|rueuiohder1\.th|yndsfd5885\.vn|euouiogtfffg1\.br/i,
   ],
+];
+const prohibitedPaths = [
+  ["environment file", /(^|\/)\.env(?:\.|$)/i],
+  ["configuration file", /\.(?:ini|toml|ya?ml)$/i],
+  ["runtime data file", /\.(?:db|jsonl|log|sqlite|sqlite3)$/i],
 ];
 
 function walk(rootDir) {
@@ -51,9 +59,12 @@ export function scanPreviewDirectory(rootDir) {
   }
 
   for (const file of walk(root)) {
+    const name = relative(root, file).replaceAll("\\", "/");
+    for (const [label, pattern] of prohibitedPaths) {
+      if (pattern.test(name)) findings.push(`${name}: ${label}`);
+    }
     if (!textExtensions.has(extname(file))) continue;
     const content = readFileSync(file, "utf8");
-    const name = relative(root, file).replaceAll("\\", "/");
     for (const [label, pattern] of prohibited) {
       if (pattern.test(content)) findings.push(`${name}: ${label}`);
     }
