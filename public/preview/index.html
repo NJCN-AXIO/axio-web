@@ -20,6 +20,17 @@
         <a class="button button--primary" data-book-demo href="../demo/"
           >预约真实演示</a
         >
+        <button
+          aria-controls="preview-navigation"
+          aria-expanded="false"
+          aria-label="功能导航"
+          class="preview-menu-button"
+          data-menu-button
+          title="功能导航"
+          type="button"
+        >
+          <span aria-hidden="true">☰</span>
+        </button>
       </div>
     </header>
     <div class="preview-shell">
@@ -38,16 +49,6 @@
         tabindex="-1"
       ></main>
     </div>
-    <button
-      aria-controls="preview-navigation"
-      aria-expanded="false"
-      aria-label="功能导航"
-      class="preview-menu-button"
-      data-menu-button
-      type="button"
-    >
-      <span aria-hidden="true">☰</span><span>功能导航</span>
-    </button>
     <div class="preview-toast" data-preview-toast hidden role="status"></div>
     <script src="./assets/preview.mjs" type="module"></script>
   </body>

@@ -12,7 +12,8 @@ AXIO 智核的公开产品官网，主要介绍面向 Shopee 店群运营的自�
 | `/product`   | 产品能力总览                                           |
 | `/solutions` | 适用场景与解决方案                                     |
 | `/pricing`   | Starter、Professional、Team 三档方案对比               |
-| `/demo`      | 全局演示占位、核心流程视频、预约表单和微信二维码       |
+| `/demo`      | 交互预览入口、核心流程视频、预约表单和微信二维码       |
+| `/preview`   | 使用虚构数据的静态交互产品预览，不连接真实店铺或后端   |
 | `/privacy`   | 隐私政策                                               |
 | `/terms`     | 服务条款                                               |
 
@@ -49,16 +50,18 @@ npm run dev
 
 ## 常用命令
 
-| 命令                   | 作用                                      |
-| ---------------------- | ----------------------------------------- |
-| `npm run dev`          | 启动本地开发服务器                        |
-| `npm run lint`         | ESLint 检查                               |
-| `npm run typecheck`    | TypeScript 类型检查                       |
-| `npm run format:check` | Prettier 格式检查                         |
-| `npm test`             | 运行 Vitest 单元与组件测试                |
-| `npm run build`        | 生成静态站点到 `out/`                     |
-| `npm run verify`       | 依次执行 Lint、类型、格式、单测和静态构建 |
-| `npm run test:e2e`     | 运行 Playwright 桌面与手机端到端测试      |
+| 命令                           | 作用                                       |
+| ------------------------------ | ------------------------------------------ |
+| `npm run dev`                  | 启动本地开发服务器                         |
+| `npm run lint`                 | ESLint 检查                                |
+| `npm run typecheck`            | TypeScript 类型检查                        |
+| `npm run format:check`         | Prettier 格式检查                          |
+| `npm test`                     | 运行 Vitest 单元与组件测试                 |
+| `npm run build`                | 生成静态站点到 `out/`                      |
+| `npm run preview:check`        | 扫描公开预览源文件的敏感内容和后端依赖     |
+| `npm run preview:export-check` | 验证静态导出中的预览文件和安全边界         |
+| `npm run verify`               | 执行代码检查、预览安全扫描、单测和静态构建 |
+| `npm run test:e2e`             | 运行 Playwright 桌面与手机端到端测试       |
 
 `npm run verify` 不包含 Playwright。发布前应同时运行：
 
@@ -86,6 +89,7 @@ src/components/theme/        浅色/深色主题
 src/content/                 中文内容、能力数据和视频注册表
 src/config/                  GitHub Pages 子路径工具
 public/images/               产品证据、视频封面和微信二维码
+public/preview/              独立的公开交互预览及虚构数据
 public/videos/               公开演示视频
 tests/e2e/                   Playwright 视觉与交互回归
 docs/                       架构、发布、维护和历史设计记录

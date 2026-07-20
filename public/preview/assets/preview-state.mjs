@@ -28,7 +28,8 @@ export function reducePreviewState(state, action) {
   }
   if (action.type === "advance-task") {
     const index = WORKFLOW_STAGES.indexOf(state.taskStage);
-    const next = WORKFLOW_STAGES[Math.min(index + 1, WORKFLOW_STAGES.length - 1)];
+    const next =
+      WORKFLOW_STAGES[Math.min(index + 1, WORKFLOW_STAGES.length - 1)];
     return { ...state, taskStage: next };
   }
   throw new Error(`Unknown preview action: ${action.type}`);
