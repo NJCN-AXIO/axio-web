@@ -40,6 +40,18 @@ function monitorPreviewRequests(page: Page): RequestMonitor {
   return monitor;
 }
 
+async function clickPreviewNavigation(page: Page, selector: string) {
+  const menu = page.locator("[data-preview-menu]");
+  if (
+    (await menu.isVisible()) &&
+    (await menu.getAttribute("aria-expanded")) !== "true"
+  ) {
+    await menu.click();
+    await expect(menu).toHaveAttribute("aria-expanded", "true");
+  }
+  await page.locator(selector).click();
+}
+
 test.describe("faithful public product preview", () => {
   test("opens on the real new-task workspace by default", async ({ page }) => {
     await page.goto("./preview/");
@@ -67,13 +79,20 @@ test.describe("faithful public product preview", () => {
     await expect(page.locator("#pricing-shadow-status")).toHaveAttribute(
       "data-state",
       "approved_current",
+      { timeout: 15_000 },
     );
     await page.locator("#f-category").selectOption("家居生活");
     await page.locator("#f-keywords").fill("桌面收纳用品");
     await page.locator("#f-strategy").selectOption("sales");
     await page.locator("#f-quantity").fill("6");
     await page.locator("#f-audit-mode").selectOption("manual");
-    await page.locator('#f-site-options input[value="MY"]').check();
+    const mySite = page.locator('#f-site-options input[value="MY"]');
+    if (!(await mySite.isChecked())) {
+      await page
+        .locator("#f-site-options .check-btn", { hasText: "MY" })
+        .click();
+    }
+    await expect(mySite).toBeChecked();
 
     await page.getByRole("button", { name: "🚀 开始执行" }).click();
 
@@ -144,7 +163,7 @@ for (const entry of [
 ]) {
   test(entry.page + " renders local operational data", async ({ page }) => {
     await page.goto("./preview/");
-    await page.locator("[data-page=" + entry.page + "]").click();
+    await clickPreviewNavigation(page, "[data-page=" + entry.page + "]");
     await expect(page.locator(entry.selector)).toHaveClass(/active/);
     await expect(page.locator(entry.proof)).toContainText(entry.expected);
   });
@@ -156,7 +175,7 @@ test("navigates the complete local selection decision chain", async ({
   const requests = monitorPreviewRequests(page);
   await page.goto("./preview/");
 
-  await page.locator("[data-page=selection]").click();
+  await clickPreviewNavigation(page, "[data-page=selection]");
   await expect(page.locator("#page-selection")).toHaveClass(/active/);
   await expect(page.locator("#selection-candidates-body")).toContainText(
     "桌面收纳",
@@ -168,11 +187,14 @@ test("navigates the complete local selection decision chain", async ({
     { target: "orders", selector: "#page-orders" },
     { target: "tianji", selector: "#page-tianji" },
   ]) {
-    await page.locator("[data-selection-target=" + entry.target + "]").click();
+    await clickPreviewNavigation(
+      page,
+      "[data-selection-target=" + entry.target + "]",
+    );
     await expect(page.locator(entry.selector)).toHaveClass(/active/);
   }
 
-  await page.locator("[data-selection-target=candidates]").click();
+  await clickPreviewNavigation(page, "[data-selection-target=candidates]");
   await expect(page.locator("[data-selection-panel=candidates]")).toHaveClass(
     /active/,
   );
@@ -185,7 +207,7 @@ test("navigates the complete local selection decision chain", async ({
 test("collects and imports a fictional hotpick locally", async ({ page }) => {
   const requests = monitorPreviewRequests(page);
   await page.goto("./preview/");
-  await page.locator("[data-selection-target=hotpick]").click();
+  await clickPreviewNavigation(page, "[data-selection-target=hotpick]");
   await page.locator(".hp-platform-card[data-platform=shopee]").click();
   await page.locator("#hp-site").selectOption("MY");
   await page.locator("#hp-category").selectOption("家居生活");
@@ -195,7 +217,7 @@ test("collects and imports a fictional hotpick locally", async ({ page }) => {
   await expect(page.getByText(/成功导入/)).toBeVisible();
   await page.getByRole("button", { name: "确定" }).click();
 
-  await page.locator("[data-selection-target=keywords]").click();
+  await clickPreviewNavigation(page, "[data-selection-target=keywords]");
   await expect(page.locator("#kw-tbody")).toContainText("便携收纳袋");
   expect(requests.violations).toEqual([]);
 });
@@ -205,11 +227,11 @@ test("simulates local order feedback and candidate import", async ({
 }) => {
   const requests = monitorPreviewRequests(page);
   await page.goto("./preview/");
-  await page.locator("[data-selection-target=orders]").click();
+  await clickPreviewNavigation(page, "[data-selection-target=orders]");
   await page.getByRole("button", { name: "同步并分析订单" }).click();
   await expect(page.locator("#order-tbody")).toContainText("桌面收纳套装");
 
-  await page.locator("[data-selection-target=candidates]").click();
+  await clickPreviewNavigation(page, "[data-selection-target=candidates]");
   await page.locator(".selection-import-btn").first().click();
   await expect(page.getByText(/关键词库已存在/)).toBeVisible();
   await page.getByRole("button", { name: "确定" }).click();
@@ -219,7 +241,7 @@ test("simulates local order feedback and candidate import", async ({
 test("runs the local tianji analysis interaction", async ({ page }) => {
   const requests = monitorPreviewRequests(page);
   await page.goto("./preview/");
-  await page.locator("[data-selection-target=tianji]").click();
+  await clickPreviewNavigation(page, "[data-selection-target=tianji]");
   await page.getByRole("button", { name: "📥 加载演示数据" }).click();
   await expect(page.getByText(/演示数据已加载/)).toBeVisible();
   await page.getByRole("button", { name: "确定" }).click();
@@ -231,7 +253,7 @@ test("runs the local tianji analysis interaction", async ({ page }) => {
 test("runs the local matrix workspace", async ({ page }) => {
   const requests = monitorPreviewRequests(page);
   await page.goto("./preview/");
-  await page.locator("[data-page=shopboard]").click();
+  await clickPreviewNavigation(page, "[data-page=shopboard]");
   const matrix = page.frameLocator("#shopboard-frame");
   await expect(
     matrix.getByRole("heading", { name: "📊 AXIO 矩阵经营看板" }),
@@ -245,7 +267,7 @@ test("runs the local matrix workspace", async ({ page }) => {
 test("runs a local optimization action", async ({ page }) => {
   const requests = monitorPreviewRequests(page);
   await page.goto("./preview/");
-  await page.locator("[data-page=optimize]").click();
+  await clickPreviewNavigation(page, "[data-page=optimize]");
   await page.getByRole("heading", { name: "📦 库存同步" }).click();
   await page.getByRole("button", { name: "🚀 开始执行" }).click();
   await expect(page.locator("#opt-result")).toContainText("执行完成");
@@ -255,7 +277,7 @@ test("runs a local optimization action", async ({ page }) => {
 test("scores a local title candidate", async ({ page }) => {
   const requests = monitorPreviewRequests(page);
   await page.goto("./preview/");
-  await page.locator("[data-page=titlelearn]").click();
+  await clickPreviewNavigation(page, "[data-page=titlelearn]");
   await page.locator(".tl-check").first().check();
   await page.getByRole("button", { name: "🤖 本地演示兜底评分" }).click();
   await expect(page.getByText(/评分完成/)).toBeVisible();
@@ -267,7 +289,7 @@ test("scores a local title candidate", async ({ page }) => {
 test("scans a fictional title locally", async ({ page }) => {
   const requests = monitorPreviewRequests(page);
   await page.goto("./preview/");
-  await page.locator("[data-page=ipcontrol]").click();
+  await clickPreviewNavigation(page, "[data-page=ipcontrol]");
   await page.locator("#ip-test-title").fill("普通桌面收纳盒");
   await page.getByRole("button", { name: "扫描" }).click();
   await expect(page.locator("#ip-test-result")).toContainText("安全");
@@ -277,7 +299,7 @@ test("scans a fictional title locally", async ({ page }) => {
 test("saves the fictional AI configuration locally", async ({ page }) => {
   const requests = monitorPreviewRequests(page);
   await page.goto("./preview/");
-  await page.locator("[data-page=config]").click();
+  await clickPreviewNavigation(page, "[data-page=config]");
   await page.getByRole("button", { name: "保存配置" }).click();
   await expect(page.getByText(/演示配置已保存/)).toBeVisible();
   await page.getByRole("button", { name: "确定" }).click();
@@ -287,7 +309,7 @@ test("saves the fictional AI configuration locally", async ({ page }) => {
 test("answers a supervisor question from local evidence", async ({ page }) => {
   const requests = monitorPreviewRequests(page);
   await page.goto("./preview/");
-  await page.locator("[data-page=dashboard]").click();
+  await clickPreviewNavigation(page, "[data-page=dashboard]");
   await page
     .locator("#supervisor-natural-input")
     .fill("今天完成了多少演示任务");

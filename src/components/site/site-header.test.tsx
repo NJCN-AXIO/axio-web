@@ -39,9 +39,9 @@ describe("SiteHeader", () => {
     );
     expect(screen.queryByRole("link", { name: "预约演示" })).toBeNull();
     expect(screen.queryByRole("link", { name: "登录" })).toBeNull();
-    expect(screen.getByRole("link", { name: "预约产品演示" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: "在线体验" })).toHaveAttribute(
       "href",
-      "/demo",
+      "/preview",
     );
   });
 });

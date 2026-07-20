@@ -58,10 +58,13 @@ npm run dev
 | `npm run format:check`         | Prettier 格式检查                          |
 | `npm test`                     | 运行 Vitest 单元与组件测试                 |
 | `npm run build`                | 生成静态站点到 `out/`                      |
+| `npm run preview:sync`         | 从固定产品提交刷新脱敏预览（仅维护者本地） |
 | `npm run preview:check`        | 扫描公开预览源文件的敏感内容和后端依赖     |
 | `npm run preview:export-check` | 验证静态导出中的预览文件和安全边界         |
 | `npm run verify`               | 执行代码检查、预览安全扫描、单测和静态构建 |
 | `npm run test:e2e`             | 运行 Playwright 桌面与手机端到端测试       |
+
+`public/preview/` 是产品提交 `eef0f87` 的脱敏静态副本。`npm run preview:sync` 仅供维护者在本机显式刷新预览，脚本只读取该提交中已跟踪的产品界面文件；刷新后必须提交生成资产并通过预览安全扫描。GitHub Actions 直接构建仓库中已提交的 `public/preview/`，部署时不会访问 `D:\shopee-auto-lister`，也不依赖产品服务器。
 
 `npm run verify` 不包含 Playwright。发布前应同时运行：
 

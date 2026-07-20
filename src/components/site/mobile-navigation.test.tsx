@@ -100,15 +100,15 @@ describe("MobileNavigation", () => {
     fireEvent.click(trigger);
 
     const closeButton = screen.getByRole("button", { name: "关闭导航菜单" });
-    const demoLink = screen.getByRole("link", { name: "预约产品演示" });
+    const experienceLink = screen.getByRole("link", { name: "在线体验" });
 
-    demoLink.focus();
+    experienceLink.focus();
     fireEvent.keyDown(document, { key: "Tab" });
     expect(closeButton).toHaveFocus();
 
     closeButton.focus();
     fireEvent.keyDown(document, { key: "Tab", shiftKey: true });
-    expect(demoLink).toHaveFocus();
+    expect(experienceLink).toHaveFocus();
 
     const productLink = screen.getByRole("link", { name: "产品能力" });
     expect(productLink).toHaveAttribute("aria-current", "page");

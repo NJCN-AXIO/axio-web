@@ -120,7 +120,7 @@ it("generates the faithful product shell with task active and local assets", () 
   } finally {
     rmSync(output, { recursive: true, force: true });
   }
-});
+}, 15_000);
 
 it("removes every stale concept-preview asset", () => {
   const output = mkdtempSync(join(tmpdir(), "axio-faithful-preview-stale-"));

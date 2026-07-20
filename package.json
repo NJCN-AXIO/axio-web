@@ -9,6 +9,7 @@
     "typecheck": "tsc --noEmit",
     "format:check": "prettier --check .",
     "campaign:posters": "node scripts/render-campaign-posters.mjs",
+    "preview:sync": "node scripts/build-faithful-preview.mjs --product-repo D:\\shopee-auto-lister --output public\\preview",
     "preview:check": "node scripts/check-public-preview.mjs public/preview",
     "preview:export-check": "node scripts/check-public-preview.mjs out/preview",
     "test:e2e": "playwright test",

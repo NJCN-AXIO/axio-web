@@ -20,9 +20,9 @@ it("renders the approved homepage identity, proof, and capability boundaries", (
   expect(
     screen.getByText("面向 Shopee 的跨境电商店群全自动化运营系统"),
   ).toBeVisible();
-  expect(screen.getByRole("link", { name: "预约产品演示" })).toHaveAttribute(
+  expect(screen.getByRole("link", { name: "在线体验" })).toHaveAttribute(
     "href",
-    "/demo",
+    "/preview",
   );
   expect(screen.getByRole("link", { name: "查看产品能力" })).toHaveAttribute(
     "href",
