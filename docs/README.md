@@ -13,12 +13,14 @@
 | [`operations/free-hosting-options.md`](operations/free-hosting-options.md)                     | 免费托管与未来后端平台选择             |
 | [`operations/server-features-todo.md`](operations/server-features-todo.md)                     | 有服务器后的服务端恢复清单             |
 | [`research/2026-07-20-axio-pricing-research.md`](research/2026-07-20-axio-pricing-research.md) | AXIO 市场价格证据、试销区间与报价规则  |
+| [`marketing/2026-07-20-wechat-launch-copy.md`](marketing/2026-07-20-wechat-launch-copy.md)     | 微信首发文案、海报路径与发布边界       |
 
 ## 当前设计依据
 
 | 文档                                                                                                                                           | 状态                                     |
 | ---------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
 | [`superpowers/specs/2026-07-19-axio-product-evidence-gallery-design.md`](superpowers/specs/2026-07-19-axio-product-evidence-gallery-design.md) | 当前首页产品证据、微信联系和后续定位迭代 |
+| [`superpowers/specs/2026-07-20-axio-launch-pricing-posters-design.md`](superpowers/specs/2026-07-20-axio-launch-pricing-posters-design.md)     | 当前首发定价、微信海报与宣传口径         |
 
 ## 历史记录
 
