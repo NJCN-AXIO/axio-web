@@ -4,6 +4,7 @@ import { WechatContact } from "../../../components/contact/wechat-contact";
 import { DemoVideoPlayer } from "../../../components/media/demo-video-player";
 import { DemoForm } from "../../../components/marketing/demo-form";
 import { MarketingCta } from "../../../components/marketing/marketing-cta";
+import { ProductPreviewStage } from "../../../components/marketing/product-preview-stage";
 import { demoVideos } from "../../../content/videos";
 
 export const metadata: Metadata = {
@@ -18,30 +19,19 @@ export default function DemoPage() {
       <section className="marketing-hero">
         <div className="marketing-hero__inner">
           <div>
-            <p className="marketing-eyebrow">DEMO CENTER / TWO-STAGE</p>
+            <p className="marketing-eyebrow">DEMO CENTER / INTERACTIVE</p>
             <h1>预约 AXIO 产品演示</h1>
             <p className="marketing-hero__lead">
-              先了解完整经营链路，再查看已经录制的核心任务流程，最后提交你的业务场景。
+              先体验公开交互预览，再查看已经录制的核心任务流程，最后提交你的业务场景。
             </p>
           </div>
           <aside className="marketing-hero__aside">
-            <strong>视频默认不自动播放</strong>
-            <p>全局演示正在制作，当前保留真实封面与明确状态。</p>
+            <strong>公开预览可直接体验</strong>
+            <p>演示使用虚构数据，不连接店铺，也不会执行真实任务。</p>
           </aside>
         </div>
       </section>
-      <section
-        className="marketing-video-stage"
-        data-testid="demo-overview-position"
-      >
-        <div className="marketing-video-stage__inner">
-          <header className="marketing-video-stage__copy">
-            <h2>{demoVideos.overview.title}</h2>
-            <p>{demoVideos.overview.summary}</p>
-          </header>
-          <DemoVideoPlayer video={demoVideos.overview} />
-        </div>
-      </section>
+      <ProductPreviewStage />
       <section
         className="marketing-video-stage marketing-video-stage--core"
         data-testid="demo-core-workflow"

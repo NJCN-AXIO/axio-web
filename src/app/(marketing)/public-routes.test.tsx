@@ -124,22 +124,25 @@ it("publishes the approved launch prices without online checkout", () => {
   expect(screen.queryByRole("button", { name: /购买|付款|结算/ })).toBeNull();
 });
 
-it("orders the overview position, core workflow video, then booking form", () => {
+it("orders the interactive preview, core workflow video, then booking form", () => {
   render(<DemoPage />);
 
-  const overview = screen.getByTestId("demo-overview-position");
+  const preview = screen.getByTestId("demo-interactive-preview");
   const core = screen.getByTestId("demo-core-workflow");
   const form = screen.getByTestId("demo-booking-form");
 
-  expect(within(overview).getByText(demoVideos.overview.title)).toBeVisible();
   expect(
-    within(overview).queryByLabelText(/播放 AXIO 全局功能演示/),
-  ).toBeNull();
+    within(preview).getByRole("heading", { name: "先体验，再预约真实演示" }),
+  ).toBeVisible();
+  expect(
+    within(preview).getByRole("link", { name: "进入交互预览" }),
+  ).toHaveAttribute("href", "/preview/");
+  expect(within(preview).queryByText(/正在制作/)).toBeNull();
   expect(within(core).getByText(demoVideos.coreWorkflow.title)).toBeVisible();
   expect(
     within(core).getByLabelText(`播放${demoVideos.coreWorkflow.title}`),
   ).toHaveAttribute("poster", demoVideos.coreWorkflow.poster);
-  expect(overview.nextElementSibling).toBe(core);
+  expect(preview.nextElementSibling).toBe(core);
   expect(core.nextElementSibling).toBe(form);
   expect(
     within(form).getByRole("form", { name: "预约产品演示" }),
