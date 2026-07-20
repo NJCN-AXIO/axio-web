@@ -8,7 +8,7 @@ type PackageSet = readonly [PackageOption, PackageOption, PackageOption];
 const deliveryByPackage: Record<PackageOption["name"], string> = {
   Starter: "标准客户端与基础流程落地",
   Professional: "多站点协作与店群经营流程",
-  Enterprise: "源码交付或私有化部署规划",
+  Team: "团队使用、优先支持与有限规则配置",
 };
 
 export function PackageComparison({ packages }: { packages: PackageSet }) {

@@ -22,10 +22,32 @@ describe("Simplified Chinese site content", () => {
     expect(zhCN.hero.subtitle).toContain("Shopee");
     expect(zhCN.hero.description).toContain("妙手 ERP");
     expect(JSON.stringify(zhCN)).not.toMatch(/116 店|六站点|6 个 Shopee 站点/);
-    expect(zhCN.packages.map((item) => item.name)).toEqual([
-      "Starter",
-      "Professional",
-      "Enterprise",
+    expect(
+      zhCN.packages.map((item) => ({
+        name: item.name,
+        regularPrice: item.regularPrice,
+        launchPrice: item.launchPrice,
+        featured: item.featured,
+      })),
+    ).toEqual([
+      {
+        name: "Starter",
+        regularPrice: "¥999",
+        launchPrice: "¥399",
+        featured: false,
+      },
+      {
+        name: "Professional",
+        regularPrice: "¥1,999",
+        launchPrice: "¥699",
+        featured: true,
+      },
+      {
+        name: "Team",
+        regularPrice: "¥4,999",
+        launchPrice: "¥1,999",
+        featured: false,
+      },
     ]);
     expect(zhCN.footer.boundary).toBe(
       "本地 Windows 客户端执行，敏感凭证留在客户环境",

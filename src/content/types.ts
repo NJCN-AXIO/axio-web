@@ -29,9 +29,14 @@ export type ProofValue = {
 };
 
 export type PackageOption = {
-  readonly name: "Starter" | "Professional" | "Enterprise";
+  readonly name: "Starter" | "Professional" | "Team";
   readonly audience: string;
   readonly description: string;
+  readonly regularPrice: string;
+  readonly launchPrice: string;
+  readonly launchLabel: string;
+  readonly delivery: string;
+  readonly featured: boolean;
 };
 
 export type EvidenceIconKey = "supervisor" | "collection" | "pricing" | "risk";
