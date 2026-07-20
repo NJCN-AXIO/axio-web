@@ -73,6 +73,7 @@ function demoDashboard(state) {
     ok: true,
     generated_at: "2026-07-20 20:00",
     dashboard: {
+      generated_at: "2026-07-20 20:00",
       stores: {
         total: state.stores.length,
         current_products: 128,

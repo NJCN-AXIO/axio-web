@@ -122,3 +122,15 @@ test.describe("faithful public product preview", () => {
     }
   });
 });
+for (const entry of [
+  { page: "dashboard", selector: "#page-dashboard", proof: "#dashboard-last-refresh", expected: "2026-07-20" },
+  { page: "history", selector: "#page-history", proof: "#task-list", expected: "桌面收纳用品" },
+  { page: "stores", selector: "#page-stores", proof: "#stores-tbody", expected: "演示店铺 A" },
+]) {
+  test(entry.page + " renders local operational data", async ({ page }) => {
+    await page.goto("./preview/");
+    await page.locator("[data-page=" + entry.page + "]").click();
+    await expect(page.locator(entry.selector)).toHaveClass(/active/);
+    await expect(page.locator(entry.proof)).toContainText(entry.expected);
+  });
+}
