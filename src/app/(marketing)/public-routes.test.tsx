@@ -8,6 +8,7 @@ import SolutionsPage, { metadata as solutionsMetadata } from "./solutions/page";
 import TermsPage, { metadata as termsMetadata } from "./terms/page";
 import { capabilityGroups, getSiteContent } from "../../content";
 import { demoVideos } from "../../content/videos";
+import { withBasePath } from "../../config/site-path";
 
 const publicRoutes = [
   {
@@ -136,7 +137,7 @@ it("orders the interactive preview, core workflow video, then booking form", () 
   ).toBeVisible();
   expect(
     within(preview).getByRole("link", { name: "进入交互预览" }),
-  ).toHaveAttribute("href", "/preview/");
+  ).toHaveAttribute("href", withBasePath("/preview/"));
   expect(within(preview).queryByText(/正在制作/)).toBeNull();
   expect(within(core).getByText(demoVideos.coreWorkflow.title)).toBeVisible();
   expect(
