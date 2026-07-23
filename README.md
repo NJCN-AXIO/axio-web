@@ -12,7 +12,7 @@ AXIO 智核的公开产品官网，主要介绍面向 Shopee 店群运营的自�
 | `/product`   | 产品能力总览                                           |
 | `/solutions` | 适用场景与解决方案                                     |
 | `/pricing`   | Starter、Professional、Team 三档方案对比               |
-| `/demo`      | 交互预览入口、核心流程视频、预约表单和微信二维码       |
+| `/demo`      | Interactive preview and product demonstration videos   |
 | `/preview`   | 使用虚构数据的静态交互产品预览，不连接真实店铺或后端   |
 | `/privacy`   | 隐私政策                                               |
 | `/terms`     | 服务条款                                               |
@@ -26,7 +26,6 @@ AXIO 智核的公开产品官网，主要介绍面向 Shopee 店群运营的自�
 - GSAP 驱动的渐进式页面揭示，包含减弱动效回退
 - Vitest、Testing Library 和 Playwright
 - Next.js 静态导出与 GitHub Actions Pages 发布
-- Formspree 可选静态表单接收，不配置时表单保持禁用
 
 ## 本地运行
 
@@ -41,12 +40,9 @@ npm run dev
 
 可选环境变量见 `.env.example`：
 
-| 变量                             | 是否必需 | 说明                                                        |
-| -------------------------------- | -------- | ----------------------------------------------------------- |
-| `NEXT_PUBLIC_DEMO_FORM_ENDPOINT` | 否       | Formspree 表单地址，必须以 `https://formspree.io/f/` 开头   |
-| `NEXT_PUBLIC_BASE_PATH`          | 否       | GitHub Pages 项目子路径，本地通常留空，发布工作流会自动设置 |
-
-本地启用演示预约时，将 `.env.example` 复制为 `.env.local`，然后填写 Formspree 地址。所有 `NEXT_PUBLIC_*` 变量都会进入浏览器产物，不能存放密钥。
+| 变量                    | 是否必需 | 说明                                                        |
+| ----------------------- | -------- | ----------------------------------------------------------- |
+| `NEXT_PUBLIC_BASE_PATH` | 否       | GitHub Pages 项目子路径，本地通常留空，发布工作流会自动设置 |
 
 ## 常用命令
 
@@ -113,15 +109,14 @@ docs/                       架构、发布、维护和历史设计记录
 
 1. 将 `master` 推送到 GitHub。
 2. 在仓库 `Settings > Pages` 中将 Source 设为 `GitHub Actions`。
-3. 如需表单，在 `Settings > Secrets and variables > Actions > Variables` 新建 `NEXT_PUBLIC_DEMO_FORM_ENDPOINT`。
-4. 推送到 `master`，或手动运行 `Deploy static site to Pages`。
+3. 推送到 `master`，或手动运行 `Deploy static site to Pages`。
 
 工作流会自动识别用户主页仓库和普通项目仓库，并设置正确的 `basePath`。完整发布、回滚和故障排查见 `docs/operations/github-pages-deployment.md`。
 
 ## 分支边界
 
 - `master`：GitHub Pages 静态官网，也是当前发布分支。
-- `future/server-features`：已完成的服务端账号、预约持久化、注册和登录基线。
+- `future/server-features`: Server-side account, registration, and login baseline; it is not part of the public static site.
 - `wip/member-center`：会员中心 Task 9 的 RED 测试检查点，生产实现未完成。
 
 不要把 Prisma、Auth.js、SMTP 或数据库路由直接合并回静态 `master`。恢复服务端开发前先阅读 `docs/operations/server-features-todo.md`。

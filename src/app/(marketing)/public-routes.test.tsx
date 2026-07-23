@@ -10,6 +10,8 @@ import { capabilityGroups, getSiteContent } from "../../content";
 import { demoVideos } from "../../content/videos";
 import { withBasePath } from "../../config/site-path";
 
+const watchDemoLabel = "\u89c2\u770b\u4ea7\u54c1\u6f14\u793a";
+
 const publicRoutes = [
   {
     Page: ProductPage,
@@ -28,7 +30,7 @@ const publicRoutes = [
   },
   {
     Page: DemoPage,
-    heading: "预约 AXIO 产品演示",
+    heading: demoVideos.overview.title,
     metadata: demoMetadata,
   },
   {
@@ -53,9 +55,10 @@ describe("public marketing routes", () => {
       expect(
         screen.getByRole("heading", { level: 1, name: heading }),
       ).toBeVisible();
-      expect(
-        screen.getByRole("link", { name: "预约产品演示" }),
-      ).toHaveAttribute("href", "/demo");
+      if (Page === DemoPage) return;
+      const demoLinks = screen.getAllByRole("link", { name: watchDemoLabel });
+      expect(demoLinks.length).toBeGreaterThan(0);
+      for (const link of demoLinks) expect(link).toHaveAttribute("href", "/demo");
     },
   );
 
@@ -125,38 +128,24 @@ it("publishes the approved launch prices without online checkout", () => {
   expect(screen.queryByRole("button", { name: /购买|付款|结算/ })).toBeNull();
 });
 
-it("orders the interactive preview, core workflow video, then booking form", () => {
+it("orders the interactive preview, full product demo, then core workflow", () => {
   render(<DemoPage />);
 
   const preview = screen.getByTestId("demo-interactive-preview");
+  const full = screen.getByTestId("demo-full-product");
   const core = screen.getByTestId("demo-core-workflow");
-  const form = screen.getByTestId("demo-booking-form");
 
-  expect(
-    within(preview).getByRole("heading", { name: "先体验，再预约真实演示" }),
-  ).toBeVisible();
-  expect(
-    within(preview).getByRole("link", { name: "进入交互预览" }),
-  ).toHaveAttribute("href", withBasePath("/preview/"));
-  expect(within(preview).queryByText(/正在制作/)).toBeNull();
-  expect(within(core).getByText(demoVideos.coreWorkflow.title)).toBeVisible();
-  expect(
-    within(core).getByLabelText(`播放${demoVideos.coreWorkflow.title}`),
-  ).toHaveAttribute("poster", demoVideos.coreWorkflow.poster);
-  expect(preview.nextElementSibling).toBe(core);
-  expect(core.nextElementSibling).toBe(form);
-  expect(
-    within(form).getByRole("form", { name: "预约产品演示" }),
-  ).not.toHaveAttribute("action", "/api/demo-requests");
-  expect(
-    within(form).getByRole("button", { name: "预约通道配置中" }),
-  ).toBeDisabled();
-  expect(within(form).getByText("微信咨询 · 楠 Nay")).toBeVisible();
-  expect(
-    within(form).getByRole("img", { name: "楠 Nay 的微信二维码" }),
-  ).toBeVisible();
+  expect(within(preview).getByRole("link")).toHaveAttribute(
+    "href",
+    withBasePath("/preview/"),
+  );
+  expect(within(full).getByText(demoVideos.overview.title)).toBeVisible();
+  expect(within(full).getByLabelText(new RegExp(demoVideos.overview.title))).toBeVisible();
+  expect(preview.nextElementSibling).toBe(full);
+  expect(full.nextElementSibling).toBe(core);
+  expect(screen.queryByRole("form")).toBeNull();
+  expect(screen.queryByTestId("demo-booking-form")).toBeNull();
 });
-
 it("states the privacy boundary for marketplace credentials", () => {
   render(<PrivacyPage />);
 
@@ -172,4 +161,14 @@ it("states local-client responsibility and the no-payment boundary", () => {
     screen.getByText("自动化任务由客户环境中的本地 Windows 客户端执行。"),
   ).toBeVisible();
   expect(screen.getByText("官网不提供在线付款或自动成交功能。")).toBeVisible();
+});
+
+it("renders the demo route as a watch-only product demonstration", () => {
+  render(<DemoPage />);
+
+  expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
+  expect(screen.getByTestId("demo-full-product")).toBeVisible();
+  expect(document.querySelectorAll("video")).toHaveLength(2);
+  expect(screen.queryByTestId("demo-booking-form")).toBeNull();
+  expect(screen.queryByRole("form")).toBeNull();
 });

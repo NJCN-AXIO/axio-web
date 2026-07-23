@@ -1,12 +1,13 @@
 import { render, screen } from "@testing-library/react";
 
+import { withBasePath } from "../../config/site-path";
 import { demoVideos } from "../../content/videos";
 import { DemoVideoPlayer } from "./demo-video-player";
 
 it("renders an accessible native player for the completed core workflow", () => {
   render(<DemoVideoPlayer video={demoVideos.coreWorkflow} />);
 
-  const player = screen.getByLabelText("播放核心功能：新建任务采集上架流程");
+  const player = screen.getByLabelText(`播放${demoVideos.coreWorkflow.title}`);
   expect(player).toHaveAttribute("controls");
   expect(player).toHaveAttribute("playsinline");
   expect(player).toHaveAttribute("preload", "metadata");
@@ -18,17 +19,19 @@ it("renders an accessible native player for the completed core workflow", () => 
   );
 });
 
-it("renders a truthful cover without fake playback for a pending video", () => {
+it("publishes the complete product demo as a native player from the Pages base path", () => {
   render(<DemoVideoPlayer video={demoVideos.overview} />);
 
-  expect(
-    screen.queryByLabelText(/播放 AXIO 全局功能演示/),
-  ).not.toBeInTheDocument();
-  expect(
-    screen.queryByRole("button", { name: /播放/ }),
-  ).not.toBeInTheDocument();
-  expect(
-    screen.getByRole("img", { name: "AXIO 全局功能演示封面" }),
-  ).toBeVisible();
-  expect(screen.getByText("演示视频制作中")).toBeVisible();
+  const player = screen.getByLabelText(`播放${demoVideos.overview.title}`);
+  expect(demoVideos.overview.status).toBe("available");
+  expect(demoVideos.overview.src).toBe(
+    withBasePath("/media/axio-product-demo-4k.mp4"),
+  );
+  expect(demoVideos.overview.durationSeconds).toBe(270);
+  expect(player).toHaveAttribute("controls");
+  expect(player).toHaveAttribute("preload", "metadata");
+  expect(player.querySelector("source")).toHaveAttribute(
+    "src",
+    demoVideos.overview.src,
+  );
 });
