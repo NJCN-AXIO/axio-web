@@ -58,7 +58,8 @@ describe("public marketing routes", () => {
       if (Page === DemoPage) return;
       const demoLinks = screen.getAllByRole("link", { name: watchDemoLabel });
       expect(demoLinks.length).toBeGreaterThan(0);
-      for (const link of demoLinks) expect(link).toHaveAttribute("href", "/demo");
+      for (const link of demoLinks)
+        expect(link).toHaveAttribute("href", "/demo");
     },
   );
 
@@ -140,7 +141,9 @@ it("orders the interactive preview, full product demo, then core workflow", () =
     withBasePath("/preview/"),
   );
   expect(within(full).getByText(demoVideos.overview.title)).toBeVisible();
-  expect(within(full).getByLabelText(new RegExp(demoVideos.overview.title))).toBeVisible();
+  expect(
+    within(full).getByLabelText(new RegExp(demoVideos.overview.title)),
+  ).toBeVisible();
   expect(preview.nextElementSibling).toBe(full);
   expect(full.nextElementSibling).toBe(core);
   expect(screen.queryByRole("form")).toBeNull();

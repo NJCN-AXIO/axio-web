@@ -203,8 +203,7 @@ export const zhCN: SiteContent = {
     packagesDescription:
       "先从可验证的标准流程开始，再按团队协作与交付边界扩展。",
     finalTitle: "把重复运营，变成可验证的系统流程",
-    finalDescription:
-      "\u89c2\u770b AXIO 产品演示。",
+    finalDescription: "\u89c2\u770b AXIO 产品演示。",
   },
   footer: {
     boundary: "本地 Windows 客户端执行，敏感凭证留在客户环境",
