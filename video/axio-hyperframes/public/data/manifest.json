@@ -1,0 +1,47 @@
+{
+  "fps": 30,
+  "authority": {"mode": "controlled_execution", "released_capabilities": [], "unattended_capabilities": []},
+  "capture": {"base_host": "127.0.0.1", "allowed_methods": ["GET"], "platform_write": false},
+  "website": {
+    "size": [3840, 2160],
+    "frames": 2550,
+    "scenes": [
+      {"id":"founder-proof","start":0,"end":300,"narration":"我实际参与运营着116家店，覆盖6个站点。AXIO智核不是凭空设计出来的产品，而是我为了解决自己的经营问题，一步一步做出来的系统。"},
+      {"id":"operating-layer","start":300,"end":720,"narration":"它面向Shopee店群，在妙手ERP之上，把市场信号、关键词、四平台选品、六站点定价和任务计划连成经营链，再由妙手承接获批后的批量执行。"},
+      {"id":"objective-plan","start":720,"end":1080,"narration":"你只要说清商品、站点、数量、利润和店群，AI主管就会把经营目标拆成范围、步骤、证据和验收标准。成本、汇率、平台费、物流费和目标利润，每一项都能检查复核。"},
+      {"id":"organization","start":1080,"end":1500,"narration":"但AXIO不是一个聊天机器人。AI主管是唯一正式任务派发者；ACCIO是主管的主管，监督方向、权限、租户、风险和纠偏；专业Agent只提交结构化建议。最终决策权，始终在创始人手里。"},
+      {"id":"safety-locality","start":1500,"end":1920,"narration":"关键动作先预览、检查、确认。违禁词、品牌、图片、利润和租户权限集中校验；没有验证过的脚本，AI想调用也调不动。客户端运行在本地，敏感凭证留在自己的电脑。"},
+      {"id":"readback","start":1920,"end":2190,"narration":"因为脚本跑完，不等于业务成功。执行状态、异常、订单和利润必须回读、分类和复盘，再进入记忆与Playbook，让下一次计划更可靠。"},
+      {"id":"status-vision","start":2190,"end":2430,"narration":"当前AXIO已进入受控执行阶段，能力仍逐项验收开放。下一步，是可监督、可纠偏、可随时停止的7乘24小时黑灯运营。"},
+      {"id":"cta","start":2430,"end":2550,"narration":"黑灯运营，不是黑盒自动化。AXIO智核，现在可在线体验。"}
+    ],
+    "disclosure": "演示版未连接服务器，不含后端及真实执行能力"
+  },
+  "wechat": {
+    "size": [1080, 1920], "frames": 1500, "layout": "portrait-independent",
+    "scenes": [
+      {"id":"proof","start":0,"end":210,"narration":"我实际参与运营着116家店，覆盖6个站点。AXIO智核，就是从这些真实经营问题里做出来的。"},
+      {"id":"loop","start":210,"end":600,"narration":"它在妙手ERP之上，把市场信号、选品、透明定价和任务计划连成经营链。你说目标，AI主管拆范围、步骤、证据和验收标准。"},
+      {"id":"governance","start":600,"end":960,"narration":"AI主管是唯一正式派发者；ACCIO监督方向、权限、风险和纠偏；专业Agent只负责建议。创始人掌握最终决策权。"},
+      {"id":"safety","start":960,"end":1290,"narration":"关键动作先预览确认，违禁、图片、利润和权限集中检查。没有验证过的脚本，AI想调用也调不动。黑灯运营，不是黑盒自动化。"},
+      {"id":"trial","start":1290,"end":1500,"narration":"新品上线，现招募前50位粉丝，免费试用7天。最多接入3家店，先用计划模式体验AXIO。"}
+    ],
+    "disclosure": "离线授权每次不超过24小时"
+  },
+  "sources": [
+    {"id":"store-matrix","method":"screenshot","complete_unit":true},
+    {"id":"seller-coach","method":"screenshot","complete_unit":true},
+    {"id":"keyword-assets","method":"screenshot","complete_unit":true},
+    {"id":"product-decision","method":"screenshot","complete_unit":true},
+    {"id":"six-site-pricing","method":"screenshot","complete_unit":true},
+    {"id":"risk-center","method":"screenshot","complete_unit":true},
+    {"id":"ai-supervisor","method":"screenshot","complete_unit":true},
+    {"id":"accio-control","method":"screenshot","complete_unit":true},
+    {"id":"miaoshou-handoff","method":"screenshot","complete_unit":true},
+    {"id":"readback","method":"screenshot","complete_unit":true}
+  ],
+  "forbidden_claims": [
+    "guaranteed_profit", "unattended_released", "live_publish",
+    "image_writeback_released", "agent_dispatch", "standard_source_delivery"
+  ]
+}

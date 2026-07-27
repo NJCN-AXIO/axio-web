@@ -1,0 +1,34 @@
+{
+  "name": "axio-hyperframes",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "studio": "remotion studio src/index.ts",
+    "render:website": "remotion render src/index.ts AXIO-Website-4K out/AXIO-website-4k.mp4",
+    "render:wechat": "remotion render src/index.ts AXIO-WeChat-Vertical out/AXIO-wechat-vertical.mp4",
+    "verify:renders": "node scripts/verify-renders.mjs",
+    "render:website:v2": "remotion render src/index.ts AXIO-Website-V2-4K out/AXIO-website-v2-4k.mp4",
+    "render:wechat:v2": "remotion render src/index.ts AXIO-WeChat-V2-Vertical out/AXIO-wechat-v2-vertical.mp4",
+    "verify:renders:v2": "node scripts/verify-v2-renders.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@remotion/cli": "4.0.499",
+    "react": "19.2.7",
+    "react-dom": "19.2.7",
+    "remotion": "4.0.499"
+  },
+  "devDependencies": {
+    "@types/node": "24.13.3",
+    "@types/react": "19.2.17",
+    "@types/react-dom": "19.2.3",
+    "typescript": "5.9.3",
+    "vitest": "3.2.7"
+  }
+}
