@@ -7,7 +7,13 @@ import {
   staticFile,
   useCurrentFrame,
 } from 'remotion';
-import {CURRENT_LIMITS, OPERATING_LOOP, PRICING_PARTS} from './copy';
+import {
+  CURRENT_LIMITS,
+  FUTURE_COMMAND,
+  OPERATING_LOOP,
+  PRICING_PARTS,
+  WEBSITE_EXPERIENCE_DISCLOSURE,
+} from './copy';
 import {METRICS} from './evidence-model';
 import {EvidenceLens} from './EvidenceLens';
 import {OrganizationBoot} from './OrganizationBoot';
@@ -49,10 +55,10 @@ const CommandScene: FC = () => {
         color: V2.paper,
         fontSize: 28,
         fontWeight: 900,
-      }}>FOUNDER COMMAND / AXIO</div>
+      }}>FUTURE COMMAND / AXIO</div>
       <BrandMark />
       <div style={{position: 'absolute', left: 180, top: 250, fontSize: 26, fontWeight: 900, color: V2.orange}}>
-        OPERATING COMMAND / 经营目标
+        ADVANCED VISION / 高级版未来愿景
       </div>
       <ImpactText delay={-8} style={{
         position: 'absolute',
@@ -361,15 +367,21 @@ const BrandScene: FC = () => (
       transform: 'translateY(-50%)',
     }}>
       <Kicker light>AXIO 智核</Kicker>
-      <ImpactText style={{fontSize: 164, lineHeight: 1.02, fontWeight: 900}}>
+      <div style={{fontSize: 66, lineHeight: 1.1, fontWeight: 900}}>
+        “{FUTURE_COMMAND}”
+      </div>
+      <ImpactText delay={4} style={{fontSize: 148, lineHeight: 1.02, fontWeight: 900, marginTop: 36}}>
         然后，整个 AI 组织<br />开始工作。
       </ImpactText>
-      <div style={{fontSize: 34, marginTop: 52, fontWeight: 700}}>
+      <div style={{fontSize: 34, marginTop: 40, fontWeight: 700}}>
         黑灯运营，不是黑盒自动化。
       </div>
     </div>
-    <div style={{position: 'absolute', left: 180, bottom: 116, fontSize: 22, color: 'rgba(255,255,255,.86)'}}>
-      未来高级版本愿景，不构成收益承诺 · 本片未触发真实平台写操作
+    <div style={{position: 'absolute', left: 180, right: 180, bottom: 78, fontSize: 22, lineHeight: 1.45, color: 'rgba(255,255,255,.9)'}}>
+      <div>{WEBSITE_EXPERIENCE_DISCLOSURE}</div>
+      <div style={{marginTop: 6, opacity: .82}}>
+        未来高级版本愿景，不构成收益承诺 · 本片未触发真实平台写操作
+      </div>
     </div>
   </Stage>
 );

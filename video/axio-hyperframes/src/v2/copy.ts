@@ -1,3 +1,7 @@
+export const FUTURE_COMMAND = '这个月，帮我赚 10 万。';
+export const WEBSITE_EXPERIENCE_DISCLOSURE =
+  '可在线先行体验 · 演示版未连接服务器 · 不含后端及真实执行能力';
+
 export const WEBSITE_LAYOUTS = [
   'command-field',
   'authority-map',

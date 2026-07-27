@@ -1,4 +1,5 @@
 import type {V2Timeline} from './types';
+import {FUTURE_COMMAND} from './copy';
 
 export const websiteV2: V2Timeline = {
   frames: 2550,
@@ -9,8 +10,8 @@ export const websiteV2: V2Timeline = {
       from: 0,
       duration: 150,
       kind: 'command',
-      headline: '这个月，帮我赚 10 万。',
-      voice: '如果经营一家店，只需要一句话。',
+      headline: FUTURE_COMMAND,
+      voice: '未来，经营店群，也许只需要一句话。',
     },
     {
       id: 'organization-boot',

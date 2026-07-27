@@ -1,8 +1,10 @@
 import {describe, expect, it} from 'vitest';
 import {
   CURRENT_LIMITS,
+  FUTURE_COMMAND,
   TRIAL_LIMITS,
   WEBSITE_LAYOUTS,
+  WEBSITE_EXPERIENCE_DISCLOSURE,
 } from '../src/v2/copy';
 
 describe('AXIO V2 commercial copy contract', () => {
@@ -18,6 +20,12 @@ describe('AXIO V2 commercial copy contract', () => {
       'released 0',
       'unattended 0',
     ]);
+  });
+
+  it('keeps the future command and frontend-only disclosure explicit', () => {
+    expect(FUTURE_COMMAND).toBe('这个月，帮我赚 10 万。');
+    expect(WEBSITE_EXPERIENCE_DISCLOSURE).toContain('未连接服务器');
+    expect(WEBSITE_EXPERIENCE_DISCLOSURE).toContain('不含后端及真实执行能力');
   });
 
   it('shows every WeChat trial boundary', () => {

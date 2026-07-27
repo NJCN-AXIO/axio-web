@@ -7,7 +7,7 @@ Add-Type -AssemblyName System.Speech
 New-Item -ItemType Directory -Path $Output -Force | Out-Null
 
 $tracks = @(
-  @{Name='website-command'; Text='如果经营一家店，只需要一句话。'},
+  @{Name='website-command'; Text='未来，经营店群，也许只需要一句话。'},
   @{Name='website-organization-boot'; Text='目标进入 AXIO，治理、计划、建议与执行逐级启动。'},
   @{Name='website-positioning'; Text='这不是一个 AI 工具。这是一套 AI 电商经营组织。'},
   @{Name='website-proof'; Text='一百一十六家店，六个站点。AXIO，来自真实经营。'},
@@ -15,7 +15,7 @@ $tracks = @(
   @{Name='website-governance'; Text='AI Supervisor 唯一派发。ACCIO 监督方向和风险。专业 Agent 只建议。创始人最终决策。'},
   @{Name='website-readback'; Text='获批任务交给脚本与妙手执行。状态、异常、订单和利润，必须回读复盘。'},
   @{Name='website-vision'; Text='今天，受控执行。未来七乘二十四小时运营，仍然可监督、可纠偏、可停止。'},
-  @{Name='website-brand'; Text='整个 AI 组织开始工作。AXIO 智核。'},
+  @{Name='website-brand'; Text='这个月，帮我赚十万。然后，整个 AI 组织开始工作。AXIO 智核。'},
   @{Name='wechat-organization'; Text='这不是一个 AI 工具。这是一套 AI 电商经营组织。'},
   @{Name='wechat-proof'; Text='一百一十六家店，六个站点。AXIO，来自真实经营。'},
   @{Name='wechat-operating'; Text='你说目标，AI Supervisor 拆计划、证据和验收。透明定价，风险检查，获批后再交给妙手执行。'},
