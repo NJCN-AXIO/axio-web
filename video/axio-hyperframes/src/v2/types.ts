@@ -1,27 +1,35 @@
-export type V2SceneKind =
-  | 'command'
-  | 'organization'
-  | 'statement'
-  | 'proof'
-  | 'evidence'
-  | 'governance'
-  | 'loop'
-  | 'vision'
-  | 'brand'
-  | 'trial';
+export type InkRecipe =
+  | 'brand-ink-open'
+  | 'spotlight-hero-card'
+  | 'paper-title-card'
+  | 'deck-deal-flyin'
+  | 'type-and-filter'
+  | 'row-embed'
+  | 'list-stack-press'
+  | 'document-typewriter-reveal'
+  | 'digit-roll'
+  | 'outro-group-photo-launch';
 
-export type V2Scene = {
+export type V2Shot = {
   id: string;
   from: number;
   duration: number;
-  kind: V2SceneKind;
+  recipe: InkRecipe | readonly InkRecipe[];
   headline: string;
-  voice: string;
-  evidence?: string;
+};
+
+export type NarrationCue = {
+  id: string;
+  from: number;
+  duration: number;
+  text: string;
 };
 
 export type V2Timeline = {
   frames: number;
   layout: 'landscape' | 'portrait-independent';
-  scenes: V2Scene[];
+  shots: readonly V2Shot[];
+  narration: readonly NarrationCue[];
 };
+
+export type V2FilmProps = {bgm?: boolean};
