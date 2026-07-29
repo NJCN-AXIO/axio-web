@@ -80,6 +80,14 @@ describe('AXIO Ink Press evidence capture', () => {
     expect(manifest.attempted_writes).toEqual([]);
     expect(Object.keys(layout)).toEqual(CAPTURE_PAGES.map(({name}: {name: string}) => name));
 
+    const overviewAuthority = manifest.assets.find(
+      ({file}: {file: string}) => file === 'accio-overview-authority-row-4x.png',
+    );
+    const capabilityState = manifest.assets.find(
+      ({file}: {file: string}) => file === 'accio-capabilities-capability-state-4x.png',
+    );
+    expect(capabilityState?.sha256).not.toBe(overviewAuthority?.sha256);
+
     for (const config of CAPTURE_PAGES) {
       const pageLayout = layout[config.name];
       expect(pageLayout.pageH).toBeGreaterThan(0);

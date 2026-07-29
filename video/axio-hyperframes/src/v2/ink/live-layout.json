@@ -128,18 +128,18 @@
     "boxes": {
       "capability-state": {
         "x": 260,
-        "y": 150.796875,
-        "w": 780,
-        "h": 620
+        "y": 224.796875,
+        "w": 260,
+        "h": 264
       }
     },
     "cutouts": {
       "capability-state": {
         "file": "accio-capabilities-capability-state-4x.png",
         "x": 260,
-        "y": 150.796875,
-        "w": 780,
-        "h": 620
+        "y": 224.796875,
+        "w": 260,
+        "h": 264
       }
     }
   },

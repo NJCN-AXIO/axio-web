@@ -32,7 +32,7 @@ export const CAPTURE_PAGES = [
     {name: 'governance-row', selectors: ['#accio-panel-supervisor .accio-table-section', '#accio-panel-supervisor section']},
   ]},
   {name: 'accio-capabilities', path: '/accio?view=capabilities', root: '#accio-panel-overview', features: [
-    {name: 'capability-state', selectors: ['#accio-panel-overview .accio-capability-band', '#accio-panel-overview section']},
+    {name: 'capability-state', selectors: ['#accio-capability-list [data-capability-id]']},
   ]},
   {name: 'matrix-pricing', path: '/static/116shop_dashboard.html', activate: '#tabPricing', root: 'body', disableScripts: true, features: [
     {name: 'pricing-row', selectors: ['#pricingTable tbody tr', '#pricing-table tbody tr', '[data-pricing-row]', '#contentPricing .panel', '#contentPricing']},
