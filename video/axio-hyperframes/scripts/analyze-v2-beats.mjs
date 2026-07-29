@@ -1,6 +1,7 @@
 import {mkdirSync, writeFileSync} from 'node:fs';
 import {dirname} from 'node:path';
 import {spawnSync} from 'node:child_process';
+import actionContract from '../src/v2/action-contract.json' with {type: 'json'};
 
 const input = process.argv[2] ?? 'public/audio/v2/house-vibez.mp3';
 const output = process.argv[3] ?? 'out/v2-beat-report.json';
@@ -27,6 +28,8 @@ for (let bpm = 100; bpm <= 140; bpm += 0.01) {
   if (score > best.score) best = {score, lag};
 }
 const beatInterval = best.lag / windowsPerSecond;
+const beatSubdivision = actionContract.beatSubdivision;
+const pulseInterval = beatInterval / beatSubdivision;
 let bestPhase = {score: -Infinity, offset: 0};
 for (let offset = 0; offset < best.lag; offset++) {
   let score = 0;
@@ -34,22 +37,24 @@ for (let offset = 0; offset < best.lag; offset++) {
   if (score > bestPhase.score) bestPhase = {score, offset};
 }
 const phase = bestPhase.offset / windowsPerSecond;
-const cuts = {
-  website: [210, 264, 444, 540, 594, 714, 834, 888, 1008, 1062, 1200, 1260],
-  wechat: [180, 225, 390, 480, 525, 660, 705, 840, 885, 1020],
-};
-const cutResiduals = Object.fromEntries(Object.entries(cuts).map(([format, frames]) => [format, frames.map((frame) => {
+const residual = (frame) => {
   const time = frame / fps;
-  const nearestBeat = Math.round((time - phase) / beatInterval);
-  return {frame, nearestBeat, residualFrames: Number(((time - (phase + nearestBeat * beatInterval)) * fps).toFixed(2))};
-})]));
+  const nearestPulse = Math.round((time - phase) / pulseInterval);
+  return {frame, nearestPulse, residualFrames: Number(((time - (phase + nearestPulse * pulseInterval)) * fps).toFixed(2))};
+};
+const cutResiduals = Object.fromEntries(Object.entries(actionContract.hardCuts).map(([format, frames]) => [format, frames.map(residual)]));
+const actionResiduals = Object.fromEntries(Object.entries(actionContract.visualActionFrames).map(([format, actions]) => [format,
+  Object.entries(actions).map(([id, frame]) => ({id, ...residual(frame)})),
+]));
 const report = {
   source: 'house-vibez.mp3',
   bpm: Number((60 / beatInterval).toFixed(2)),
   phaseSeconds: Number(phase.toFixed(4)),
   beatIntervalSeconds: Number(beatInterval.toFixed(5)),
+  beatSubdivision,
   analysis: {sampleRate, windowSize, durationSeconds: 75, bpmRange: [100, 140]},
   cutResiduals,
+  actionResiduals,
 };
 mkdirSync(dirname(output), {recursive: true});
 writeFileSync(output, JSON.stringify(report, null, 2) + '\n', 'utf8');

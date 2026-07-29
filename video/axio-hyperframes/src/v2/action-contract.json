@@ -1,0 +1,33 @@
+{
+  "beatSubdivision": 4,
+  "hardCuts": {
+    "website": [210, 264, 444, 540, 594, 714, 834, 888, 1008, 1062, 1200, 1260],
+    "wechat": [180, 225, 390, 480, 525, 660, 705, 840, 885, 1020]
+  },
+  "visualActionFrames": {
+    "website": {
+      "open-brand": 0,
+      "open-page": 70,
+      "goal-title": 210,
+      "pricing-detail": 444,
+      "governance-title": 540,
+      "readback-title": 834,
+      "control-title": 1008,
+      "outro-riser": 1260,
+      "outro-impact": 1497,
+      "outro-sparkle": 1504
+    },
+    "wechat": {
+      "open-brand": 0,
+      "open-page": 70,
+      "goal-title": 180,
+      "pricing-detail": 390,
+      "governance-title": 480,
+      "readback-title": 660,
+      "control-title": 840,
+      "outro-riser": 1020,
+      "outro-impact": 1137,
+      "outro-sparkle": 1144
+    }
+  }
+}

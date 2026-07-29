@@ -1,4 +1,5 @@
 import {AbsoluteFill, Easing, Img, interpolate, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
+import {getOutroLocalActionFrames} from '../action-contract';
 
 export const INK = {
   accent: '#EE4D2D',
@@ -158,11 +159,10 @@ export const InkOutro = ({duration, items, brand = 'AXIO', tagline}: {
 }) => {
   const frame = useCurrentFrame();
   const {width, height} = useVideoConfig();
-  const settleAt = Math.max(24, duration - BRAND_HOLD_FRAMES - BATCH_SETTLE_FRAMES);
-  const brandAt = settleAt + BATCH_SETTLE_FRAMES;
+  const {settle: settleAt, brand: brandAt, impact: impactAt, sparkle: sparkleAt} = getOutroLocalActionFrames(duration);
   const riserT = interpolate(frame, [0, settleAt], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
-  const impactT = interpolate(frame, [brandAt - 3, brandAt + 5], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: PRESS_EASE});
-  const sparkleT = interpolate(frame, [brandAt + 4, brandAt + 14], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+  const impactT = interpolate(frame, [impactAt, brandAt + 5], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: PRESS_EASE});
+  const sparkleT = interpolate(frame, [sparkleAt, brandAt + 14], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
   return (
     <AbsoluteFill style={{backgroundColor: INK.page, overflow: 'hidden'}}>
       {items.map((item, index) => {
