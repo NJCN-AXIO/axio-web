@@ -1,5 +1,6 @@
 import {readFileSync} from 'node:fs';
 import {describe, expect, it} from 'vitest';
+import {FOUNDER_BACKGROUND} from '../src/v2/copy';
 import {websiteV2, wechatV2} from '../src/v2/timeline';
 
 const ranges = (timeline: typeof websiteV2 | typeof wechatV2) =>
@@ -56,6 +57,32 @@ describe('AXIO V2 Ink Press timeline', () => {
       expect(cue.duration).toBeGreaterThan(0);
       expect(cue.from + cue.duration).toBeLessThanOrEqual(timeline.frames);
     }
+  });
+
+  it('gives founder context and capability boundaries one speakable website window', () => {
+    expect(websiteV2.narration.map((cue) => cue.id)).toEqual([
+      'website-open',
+      'website-goal-plan',
+      'website-governance',
+      'website-readback',
+      'website-control-founder',
+      'website-outro',
+    ]);
+    const boundary = websiteV2.narration.find((cue) => cue.id === 'website-control-founder');
+    expect(boundary).toMatchObject({from: 1008, duration: 252});
+    expect(boundary?.text).toContain(FOUNDER_BACKGROUND);
+    expect(websiteV2.narration.some((cue) => cue.id === 'website-founder-proof')).toBe(false);
+    expect(wechatV2.narration.find((cue) => cue.id === 'wechat-open')?.text).not.toContain(FOUNDER_BACKGROUND);
+  });
+
+  it('keeps a temporary legacy scene view for the old renderers', () => {
+    expect(websiteV2.scenes.map((scene) => scene.id)).toEqual([
+      'command', 'organization-boot', 'positioning', 'proof', 'plan',
+      'governance', 'readback', 'vision', 'brand',
+    ]);
+    expect(wechatV2.scenes.map((scene) => scene.id)).toEqual([
+      'organization', 'proof', 'operating', 'governance', 'trial',
+    ]);
   });
 
   it('keeps Remotion V2 composition durations synchronized with their timelines', () => {

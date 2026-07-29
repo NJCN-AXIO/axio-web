@@ -25,11 +25,20 @@ export type NarrationCue = {
   text: string;
 };
 
+export type LegacyV2Scene = {
+  id: string;
+  from: number;
+  duration: number;
+  voice?: string;
+};
+
 export type V2Timeline = {
   frames: number;
   layout: 'landscape' | 'portrait-independent';
   shots: readonly V2Shot[];
   narration: readonly NarrationCue[];
+  /** @deprecated Remove when the format-specific Ink Press renderers own all shots. */
+  scenes: readonly LegacyV2Scene[];
 };
 
 export type V2FilmProps = {bgm?: boolean};

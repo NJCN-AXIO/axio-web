@@ -1,29 +1,38 @@
 import {describe, expect, it} from 'vitest';
 import {websiteV2, wechatV2} from '../src/v2/timeline';
 
+const speechUnits = (text: string) => {
+  const chinese = text.match(/[\u3400-\u9fff]/g)?.length ?? 0;
+  const latinTokens = text.match(/[A-Za-z0-9=+×]+/g)?.length ?? 0;
+  return chinese + latinTokens * 2;
+};
+
 describe('AXIO V2 narration contract', () => {
   it('uses stable format-prefixed cue IDs', () => {
     expect(websiteV2.narration.map((cue) => cue.id)).toEqual([
       'website-open',
       'website-goal-plan',
-      'website-pricing',
       'website-governance',
-      'website-readback-title',
       'website-readback',
-      'website-control',
-      'website-founder-proof',
+      'website-control-founder',
       'website-outro',
     ]);
     expect(wechatV2.narration.map((cue) => cue.id)).toEqual([
       'wechat-open',
-      'wechat-goal-plan',
-      'wechat-pricing',
+      'wechat-goal-plan-pricing',
       'wechat-governance',
       'wechat-readback-title',
       'wechat-readback',
       'wechat-control',
       'wechat-outro',
     ]);
+  });
+
+  it.each([websiteV2, wechatV2])('leaves eight frames of headroom at a natural commercial speech density', (timeline) => {
+    for (const cue of timeline.narration) {
+      const usableSeconds = (cue.duration - 8) / 30;
+      expect(speechUnits(cue.text) / usableSeconds, cue.id).toBeLessThanOrEqual(6.5);
+    }
   });
 
   it.each([websiteV2, wechatV2])('marks verification only after authoritative readback starts', (timeline) => {
