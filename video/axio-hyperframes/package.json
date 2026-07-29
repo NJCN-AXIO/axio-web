@@ -12,7 +12,8 @@
     "verify:renders": "node scripts/verify-renders.mjs",
     "render:website:v2": "remotion render src/index.ts AXIO-Website-V2-4K out/AXIO-website-v2-4k.mp4",
     "render:wechat:v2": "remotion render src/index.ts AXIO-WeChat-V2-Vertical out/AXIO-wechat-v2-vertical.mp4",
-    "verify:renders:v2": "node scripts/verify-v2-renders.mjs"
+    "verify:renders:v2": "node scripts/verify-v2-renders.mjs",
+    "capture:v2": "node scripts/capture-evidence.mjs"
   },
   "keywords": [],
   "author": "",

@@ -1,0 +1,183 @@
+{
+  "version": 1,
+  "captured_at": "2026-07-29T13:34:45.724Z",
+  "base_url": "http://127.0.0.1:8080/",
+  "platform_write": false,
+  "attempted_writes": [],
+  "blocked_requests": [],
+  "pages": [
+    {
+      "name": "dashboard",
+      "path": "/"
+    },
+    {
+      "name": "supervisor",
+      "path": "/"
+    },
+    {
+      "name": "accio-overview",
+      "path": "/accio"
+    },
+    {
+      "name": "accio-governance",
+      "path": "/accio?view=supervisor"
+    },
+    {
+      "name": "accio-capabilities",
+      "path": "/accio?view=capabilities"
+    },
+    {
+      "name": "matrix-pricing",
+      "path": "/static/116shop_dashboard.html"
+    }
+  ],
+  "assets": [
+    {
+      "file": "dashboard-page.png",
+      "kind": "page",
+      "width": 2880,
+      "height": 2194,
+      "sha256": "744ce71bbedc1a42a48705a4aa74488d1fda27aa5f090d90c927a84672626a88"
+    },
+    {
+      "file": "dashboard-empty-plate.png",
+      "kind": "empty-plate",
+      "width": 2880,
+      "height": 2194,
+      "sha256": "fd02258a7af616475922a670e249af6ce530877b221b0c85bbadd5d14a95674a"
+    },
+    {
+      "file": "dashboard-goal-card-4x.png",
+      "kind": "cutout",
+      "width": 4576,
+      "height": 604,
+      "sha256": "c1ce3340cb288eda9531845f1d22765a2b0f3793a850cb743330175a2265ff74"
+    },
+    {
+      "file": "dashboard-metric-card-4x.png",
+      "kind": "cutout",
+      "width": 724,
+      "height": 372,
+      "sha256": "87ddb7dcdb184b4879daabdada2e3fc31641e64180cb51730a87de08fa901cdf"
+    },
+    {
+      "file": "supervisor-page.png",
+      "kind": "page",
+      "width": 2880,
+      "height": 2056,
+      "sha256": "1a25a48812de0b2a75a2d50f00d8bd3fa50a74e40281bf18c069388ed0e0f7ae"
+    },
+    {
+      "file": "supervisor-empty-plate.png",
+      "kind": "empty-plate",
+      "width": 2880,
+      "height": 2056,
+      "sha256": "4f374d38599e389a040bfe54876c3386f38229ab67875b20a23348346c372be4"
+    },
+    {
+      "file": "supervisor-task-row-4x.png",
+      "kind": "cutout",
+      "width": 2720,
+      "height": 156,
+      "sha256": "d0169b4e522146673f6681470ccf264725c341f6e98ffa1c3d8e192301728059"
+    },
+    {
+      "file": "supervisor-readback-row-4x.png",
+      "kind": "cutout",
+      "width": 4576,
+      "height": 3156,
+      "sha256": "aa061dba4850fe76b3cd20e626fc4b350bd22bde6cf5f39cd4e02ee5f2dd9c6d"
+    },
+    {
+      "file": "accio-overview-page.png",
+      "kind": "page",
+      "width": 2880,
+      "height": 3208,
+      "sha256": "af6000b82136f976d48c9245dcbb9dfead9f1a41a5ed0625484de8bb0b7fd5cc"
+    },
+    {
+      "file": "accio-overview-empty-plate.png",
+      "kind": "empty-plate",
+      "width": 2880,
+      "height": 3208,
+      "sha256": "086636c2d46734dfe43d3cfc58090c2c473db6bd2c8020feeaf11798d5ea87de"
+    },
+    {
+      "file": "accio-overview-authority-row-4x.png",
+      "kind": "cutout",
+      "width": 3120,
+      "height": 2484,
+      "sha256": "90686b911277f4aec1f5eef91fd273ef2ea7995d7fad2b46232fec6237be6f93"
+    },
+    {
+      "file": "accio-overview-overview-metric-4x.png",
+      "kind": "cutout",
+      "width": 3120,
+      "height": 284,
+      "sha256": "717103676d83e1f62887b4de409e58618e476f3680507834b38de73c6d446f43"
+    },
+    {
+      "file": "accio-governance-page.png",
+      "kind": "page",
+      "width": 2880,
+      "height": 2000,
+      "sha256": "af3ae6af06a616e5670a4e73bdb7495ad47458f2ff7db54541d028b3175ceace"
+    },
+    {
+      "file": "accio-governance-empty-plate.png",
+      "kind": "empty-plate",
+      "width": 2880,
+      "height": 2000,
+      "sha256": "f2901f0993ed376bf3e406fe5903c158c71cfbcf6d2a3e5e941771fcc23c1c99"
+    },
+    {
+      "file": "accio-governance-governance-row-4x.png",
+      "kind": "cutout",
+      "width": 3120,
+      "height": 220,
+      "sha256": "085032b16da1327cecacd3ce33558f5a352d29931a73e243eb5b331bdb38a871"
+    },
+    {
+      "file": "accio-capabilities-page.png",
+      "kind": "page",
+      "width": 2880,
+      "height": 3208,
+      "sha256": "af6000b82136f976d48c9245dcbb9dfead9f1a41a5ed0625484de8bb0b7fd5cc"
+    },
+    {
+      "file": "accio-capabilities-empty-plate.png",
+      "kind": "empty-plate",
+      "width": 2880,
+      "height": 3208,
+      "sha256": "cdb559cd80478fef85266fc149f2c5507703320b51a4b3a4aa2d4bdf006b94b9"
+    },
+    {
+      "file": "accio-capabilities-capability-state-4x.png",
+      "kind": "cutout",
+      "width": 3120,
+      "height": 2484,
+      "sha256": "90686b911277f4aec1f5eef91fd273ef2ea7995d7fad2b46232fec6237be6f93"
+    },
+    {
+      "file": "matrix-pricing-page.png",
+      "kind": "page",
+      "width": 2880,
+      "height": 2450,
+      "sha256": "a5ea17c1d7266973ec6e1d5c80be4db82efa3a80150f9df9f46a7efc94098bcd"
+    },
+    {
+      "file": "matrix-pricing-empty-plate.png",
+      "kind": "empty-plate",
+      "width": 2880,
+      "height": 2450,
+      "sha256": "5d775bbd83fb709c50aff83f34d21221ce9c719e77d5c7cbaf5baf460dcf3d57"
+    },
+    {
+      "file": "matrix-pricing-pricing-row-4x.png",
+      "kind": "cutout",
+      "width": 1280,
+      "height": 2440,
+      "sha256": "9c4d26daa3126a6b9c896f94b06875ac3b2b367ec2f879784222ad8f924bd4c8"
+    }
+  ]
+}

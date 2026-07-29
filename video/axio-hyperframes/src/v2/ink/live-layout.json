@@ -1,0 +1,167 @@
+{
+  "dashboard": {
+    "pageH": 1097,
+    "pageW": 1440,
+    "boxes": {
+      "goal-card": {
+        "x": 268,
+        "y": 163.984375,
+        "w": 1144,
+        "h": 149.578125
+      },
+      "metric-card": {
+        "x": 268,
+        "y": 329.5625,
+        "w": 180.65625,
+        "h": 92.390625
+      }
+    },
+    "cutouts": {
+      "goal-card": {
+        "file": "dashboard-goal-card-4x.png",
+        "x": 268,
+        "y": 163.984375,
+        "w": 1144,
+        "h": 149.578125
+      },
+      "metric-card": {
+        "file": "dashboard-metric-card-4x.png",
+        "x": 268,
+        "y": 329.5625,
+        "w": 180.65625,
+        "h": 92.390625
+      }
+    }
+  },
+  "supervisor": {
+    "pageH": 1028,
+    "pageW": 1440,
+    "boxes": {
+      "task-row": {
+        "x": 713,
+        "y": 297.75,
+        "w": 680,
+        "h": 38.1875
+      },
+      "readback-row": {
+        "x": 268,
+        "y": 184.671875,
+        "w": 1144,
+        "h": 787.671875
+      }
+    },
+    "cutouts": {
+      "task-row": {
+        "file": "supervisor-task-row-4x.png",
+        "x": 713,
+        "y": 297.75,
+        "w": 680,
+        "h": 38.1875
+      },
+      "readback-row": {
+        "file": "supervisor-readback-row-4x.png",
+        "x": 268,
+        "y": 184.671875,
+        "w": 1144,
+        "h": 787.671875
+      }
+    }
+  },
+  "accio-overview": {
+    "pageH": 1604,
+    "pageW": 1440,
+    "boxes": {
+      "authority-row": {
+        "x": 260,
+        "y": 150.796875,
+        "w": 780,
+        "h": 620
+      },
+      "overview-metric": {
+        "x": 260,
+        "y": 80,
+        "w": 780,
+        "h": 70.796875
+      }
+    },
+    "cutouts": {
+      "authority-row": {
+        "file": "accio-overview-authority-row-4x.png",
+        "x": 260,
+        "y": 150.796875,
+        "w": 780,
+        "h": 620
+      },
+      "overview-metric": {
+        "file": "accio-overview-overview-metric-4x.png",
+        "x": 260,
+        "y": 80,
+        "w": 780,
+        "h": 70.796875
+      }
+    }
+  },
+  "accio-governance": {
+    "pageH": 1000,
+    "pageW": 1440,
+    "boxes": {
+      "governance-row": {
+        "x": 260,
+        "y": 280.796875,
+        "w": 780,
+        "h": 54
+      }
+    },
+    "cutouts": {
+      "governance-row": {
+        "file": "accio-governance-governance-row-4x.png",
+        "x": 260,
+        "y": 280.796875,
+        "w": 780,
+        "h": 54
+      }
+    }
+  },
+  "accio-capabilities": {
+    "pageH": 1604,
+    "pageW": 1440,
+    "boxes": {
+      "capability-state": {
+        "x": 260,
+        "y": 150.796875,
+        "w": 780,
+        "h": 620
+      }
+    },
+    "cutouts": {
+      "capability-state": {
+        "file": "accio-capabilities-capability-state-4x.png",
+        "x": 260,
+        "y": 150.796875,
+        "w": 780,
+        "h": 620
+      }
+    }
+  },
+  "matrix-pricing": {
+    "pageH": 1225,
+    "pageW": 1440,
+    "boxes": {
+      "pricing-row": {
+        "x": 21,
+        "y": 444,
+        "w": 320,
+        "h": 610
+      }
+    },
+    "cutouts": {
+      "pricing-row": {
+        "file": "matrix-pricing-pricing-row-4x.png",
+        "x": 21,
+        "y": 444,
+        "w": 320,
+        "h": 610
+      }
+    }
+  }
+}
