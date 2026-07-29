@@ -29,7 +29,7 @@ export const websiteV2: V2Timeline = {
   narration: [
     {id: 'website-open', from: 0, duration: 180, text: 'AXIO，是一套为真实电商经营而生的 AI 组织。'},
     {id: 'website-goal-plan', from: 180, duration: 360, text: '你说目标，AI 主管唯一正式派发，拆成有证据、有验收的计划；定价成本逐项透明。'},
-    {id: 'website-governance', from: 540, duration: 294, text: 'ACCIO 超级主管监督权限、风险、纠偏、记忆和审计。G1、G2 接受 AI 主管派发，确定性执行并独立回读。'},
+    {id: 'website-governance', from: 540, duration: 294, text: 'ACCIO 超级主管管权限、风险与审计。G1、G2 接受 AI 主管派发，确定性执行、独立回读。'},
     {id: 'website-readback', from: 888, duration: 120, text: '权威结果回读后，才标记已验证；异常不会伪装成成功。'},
     {id: 'website-control-founder', from: 1008, duration: 252, text: `当前${CURRENT_LIMITS[0]}，${CURRENT_LIMITS[1]}，${CURRENT_LIMITS[2]}。${FUTURE_CAPABILITY}。${FOUNDER_BACKGROUND}。`},
     {id: 'website-outro', from: 1260, duration: 270, text: WEBSITE_CLOSING},

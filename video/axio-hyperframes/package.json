@@ -10,8 +10,14 @@
     "render:website": "remotion render src/index.ts AXIO-Website-4K out/AXIO-website-4k.mp4",
     "render:wechat": "remotion render src/index.ts AXIO-WeChat-Vertical out/AXIO-wechat-vertical.mp4",
     "verify:renders": "node scripts/verify-renders.mjs",
-    "render:website:v2": "remotion render src/index.ts AXIO-Website-V2-4K out/AXIO-website-v2-4k.mp4",
-    "render:wechat:v2": "remotion render src/index.ts AXIO-WeChat-V2-Vertical out/AXIO-wechat-v2-vertical.mp4",
+    "render:website:v2": "remotion render src/index.ts AXIO-Website-V2-4K out/AXIO-website-v2-4k.mp4 --pixel-format=yuv420p --color-space=bt709",
+    "render:wechat:v2": "remotion render src/index.ts AXIO-WeChat-V2-Vertical out/AXIO-wechat-v2-vertical.mp4 --pixel-format=yuv420p --color-space=bt709",
+    "render:website:v2:nobgm": "remotion render src/index.ts AXIO-Website-V2-4K out/AXIO-website-v2-4k-nobgm.mp4 --props=props-nobgm.json --pixel-format=yuv420p --color-space=bt709",
+    "render:wechat:v2:nobgm": "remotion render src/index.ts AXIO-WeChat-V2-Vertical out/AXIO-wechat-v2-vertical-nobgm.mp4 --props=props-nobgm.json --pixel-format=yuv420p --color-space=bt709",
+    "analyze:beats:v2": "node scripts/analyze-v2-beats.mjs",
+    "stills:v2": "node scripts/render-v2-stills.mjs",
+    "stills:v2:website": "node scripts/render-v2-stills.mjs website",
+    "stills:v2:wechat": "node scripts/render-v2-stills.mjs wechat",
     "verify:renders:v2": "node scripts/verify-v2-renders.mjs",
     "capture:v2": "node scripts/capture-evidence.mjs"
   },
@@ -31,5 +37,6 @@
     "@types/react-dom": "19.2.3",
     "typescript": "5.9.3",
     "vitest": "3.2.7"
+    ,"sharp": "0.34.5"
   }
 }

@@ -93,7 +93,9 @@ describe('AXIO V2 Ink Press timeline', () => {
 
   it('renders both delivery formats with the required pixel format and color space', () => {
     const packageJson = readFileSync('package.json', 'utf8');
-    expect(packageJson.match(/render:(website|wechat):v2[^\n]+--pixel-format=yuv420p/g) ?? []).toHaveLength(2);
-    expect(packageJson.match(/render:(website|wechat):v2[^\n]+--color-space=bt709/g) ?? []).toHaveLength(2);
+    expect(packageJson.match(/render:(website|wechat):v2[^\n]+--pixel-format=yuv420p/g) ?? []).toHaveLength(4);
+    expect(packageJson.match(/render:(website|wechat):v2[^\n]+--color-space=bt709/g) ?? []).toHaveLength(4);
+    expect(packageJson).toContain('render:website:v2:nobgm');
+    expect(packageJson).toContain('render:wechat:v2:nobgm');
   });
 });

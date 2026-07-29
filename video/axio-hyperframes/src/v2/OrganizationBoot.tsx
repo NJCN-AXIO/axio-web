@@ -12,9 +12,9 @@ type NodeSpec = Point & {
 
 const landscapeNodes: NodeSpec[] = [
   {id: 'founder', name: 'FOUNDER', role: '最终治理权', x: 50, y: 10},
-  {id: 'accio', name: 'ACCIO', role: '监督 · 纠偏 · 治理', x: 22, y: 37},
+  {id: 'accio', name: 'ACCIO 超级主管', role: '监督 · 纠偏 · 治理', x: 22, y: 37},
   {id: 'agent', name: '专业 AGENT', role: '结构化建议层', x: 78, y: 37},
-  {id: 'supervisor', name: 'AI SUPERVISOR', role: '唯一正式任务派发者', x: 50, y: 47, emphasis: true},
+  {id: 'supervisor', name: 'AI 主管', role: '唯一正式任务派发者', x: 50, y: 47, emphasis: true},
   {id: 'g1', name: 'G1 API', role: '确定性执行器', x: 18, y: 78},
   {id: 'g2', name: 'G2 浏览器', role: '确定性执行器', x: 39, y: 78},
   {id: 'listing', name: 'LISTING', role: '上架 · 图片 · 定价', x: 61, y: 78},
@@ -23,9 +23,9 @@ const landscapeNodes: NodeSpec[] = [
 
 const portraitNodes: NodeSpec[] = [
   {id: 'founder', name: 'FOUNDER', role: '最终治理权', x: 50, y: 8},
-  {id: 'accio', name: 'ACCIO', role: '监督 · 纠偏 · 治理', x: 27, y: 28},
+  {id: 'accio', name: 'ACCIO 超级主管', role: '监督 · 纠偏 · 治理', x: 27, y: 28},
   {id: 'agent', name: '专业 AGENT', role: '建议层', x: 73, y: 28},
-  {id: 'supervisor', name: 'AI SUPERVISOR', role: '唯一正式派发者', x: 50, y: 48, emphasis: true},
+  {id: 'supervisor', name: 'AI 主管', role: '唯一正式派发者', x: 50, y: 48, emphasis: true},
   {id: 'g1', name: 'G1 API', role: '执行器', x: 25, y: 73},
   {id: 'g2', name: 'G2 浏览器', role: '执行器', x: 75, y: 73},
   {id: 'listing', name: 'LISTING', role: '上架 · 定价', x: 25, y: 88},

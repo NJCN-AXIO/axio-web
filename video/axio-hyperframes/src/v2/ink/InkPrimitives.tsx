@@ -49,9 +49,9 @@ export const InkTitleCard = ({duration, segments, sub}: {
             });
             return (
               <span key={`${segment.text}-${index}`} style={{
-                display: 'inline-block', opacity: progress,
-                transform: `scale(${1.28 - 0.28 * progress})`,
-                filter: `blur(${(1 - progress) * 7}px)`,
+                display: 'inline-block', opacity: 0.14 + progress * 0.86,
+                transform: `scale(${1.18 - 0.18 * progress})`,
+                filter: `blur(${(1 - progress) * 4}px)`,
                 color: segment.accent ? INK.accent : INK.ink,
               }}>{segment.text}</span>
             );
@@ -137,7 +137,7 @@ export const BrandInkOpen = ({duration, brand = 'AXIO', kicker = 'AI 经营组�
           {brand.split('').map((character, index) => {
             const start = 8 + index * 4;
             const progress = interpolate(frame, [start, start + 12], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: PRESS_EASE});
-            return <span key={index} style={{display: 'inline-block', opacity: progress, transform: `scale(${1.6 - 0.6 * progress})`, filter: `blur(${(1 - progress) * 6}px)`}}>{character}</span>;
+            return <span key={index} style={{display: 'inline-block', opacity: 0.18 + progress * 0.82, transform: `scale(${1.35 - 0.35 * progress})`, filter: `blur(${(1 - progress) * 3}px)`}}>{character}</span>;
           })}
         </div>
         <div style={{height: 36, marginTop: 30, fontFamily: SANS, fontSize: 30, fontWeight: 700, letterSpacing: 0, color: INK.muted}}>
@@ -166,7 +166,7 @@ export const InkOutro = ({duration, items, brand = 'AXIO', tagline}: {
   return (
     <AbsoluteFill style={{backgroundColor: INK.page, overflow: 'hidden'}}>
       {items.map((item, index) => {
-        const cue = Math.round((index / Math.max(1, items.length)) * Math.max(1, settleAt - 12));
+        const cue = index === 0 ? -6 : Math.round((index / Math.max(1, items.length)) * Math.max(1, settleAt - 12));
         const progress = interpolate(frame, [cue, cue + 12], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: FLY_EASE});
         return (
           <div key={item.key} style={{
@@ -191,7 +191,7 @@ export const InkOutro = ({duration, items, brand = 'AXIO', tagline}: {
           return <span key={index} style={{position: 'absolute', left: width / 2 + Math.cos(angle) * radius, top: height / 2 + Math.sin(angle) * radius, width: 8, height: 8, backgroundColor: index % 2 === 0 ? INK.accent : INK.verified}} />;
         })}
       </AbsoluteFill>
-      <div style={{position: 'absolute', left: 0, right: 0, bottom: 0, height: 10, backgroundColor: INK.accent, transform: `scaleX(${riserT})`, transformOrigin: 'left'}} />
+      <div style={{position: 'absolute', left: 0, right: 0, bottom: 0, height: 10, backgroundColor: INK.accent, transform: `scaleX(${0.08 + riserT * 0.92})`, transformOrigin: 'left'}} />
     </AbsoluteFill>
   );
 };

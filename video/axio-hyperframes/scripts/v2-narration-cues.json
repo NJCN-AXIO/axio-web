@@ -1,0 +1,80 @@
+[
+  {
+    "id": "website-open",
+    "from": 0,
+    "duration": 180,
+    "text": "AXIO，是一套为真实电商经营而生的 AI 组织。"
+  },
+  {
+    "id": "website-goal-plan",
+    "from": 180,
+    "duration": 360,
+    "text": "你说目标，AI 主管唯一正式派发，拆成有证据、有验收的计划；定价成本逐项透明。"
+  },
+  {
+    "id": "website-governance",
+    "from": 540,
+    "duration": 294,
+    "text": "ACCIO 超级主管管权限、风险与审计。G1、G2 接受 AI 主管派发，确定性执行、独立回读。"
+  },
+  {
+    "id": "website-readback",
+    "from": 888,
+    "duration": 120,
+    "text": "权威结果回读后，才标记已验证；异常不会伪装成成功。"
+  },
+  {
+    "id": "website-control-founder",
+    "from": 1008,
+    "duration": 252,
+    "text": "当前受控执行，released=0，unattended=0。规划能力 / 尚未开放。创始人经营背景：116 家店 / 6 个站点 / 2 个租户。"
+  },
+  {
+    "id": "website-outro",
+    "from": 1260,
+    "duration": 270,
+    "text": "这就是 AXIO。让每一次经营决策，都有计划、有边界、有回读。"
+  },
+  {
+    "id": "wechat-open",
+    "from": 0,
+    "duration": 180,
+    "text": "AXIO，是一套为真实电商经营而生的 AI 组织。"
+  },
+  {
+    "id": "wechat-goal-plan-pricing",
+    "from": 180,
+    "duration": 300,
+    "text": "一句目标，AI 主管唯一正式派发，拆成有证据、有验收的计划；定价逐项透明。"
+  },
+  {
+    "id": "wechat-governance",
+    "from": 480,
+    "duration": 180,
+    "text": "ACCIO 超级主管管权限和风险；G1、G2 由 AI 主管派发，确定性执行、独立回读。"
+  },
+  {
+    "id": "wechat-readback-title",
+    "from": 660,
+    "duration": 45,
+    "text": "执行完成，不算成功。"
+  },
+  {
+    "id": "wechat-readback",
+    "from": 705,
+    "duration": 135,
+    "text": "权威结果回读后，才标记已验证。"
+  },
+  {
+    "id": "wechat-control",
+    "from": 840,
+    "duration": 180,
+    "text": "当前受控执行，released=0，unattended=0。规划能力 / 尚未开放。"
+  },
+  {
+    "id": "wechat-outro",
+    "from": 1020,
+    "duration": 150,
+    "text": "这就是 AXIO。有计划，有边界，有回读。"
+  }
+]
