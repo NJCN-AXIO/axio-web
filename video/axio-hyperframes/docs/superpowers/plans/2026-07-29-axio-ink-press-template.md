@@ -638,6 +638,12 @@ rtk git commit -m "test(video): verify four AXIO Ink Press deliverables"
 
 Do not commit generated MP4s, QA stills, contact sheets, acceptance JSON, or review output unless the repository's existing ignore/asset policy explicitly tracks those paths.
 
+#### Confirmed Task 8 operating rules
+
+- Treat encoder flags as configured state, not delivery proof. Remotion's `--color-space=bt709` may emit `color_space=bt709` without `color_transfer` and `color_primaries`; require ffprobe readback of all three fields and add them during the final faststart remux when absent.
+- Independent H.264 encodes can decode to different pixels even when they render the same deterministic composition. For strict BGM/no-BGM frame identity, render both audio states from the shared timeline, then mux both deliveries with the same accepted video stream and their respective audio streams before running `framemd5`.
+- Master the four final mixes to the retained `-17..-15 LUFS` and `<= -1 dBTP` contract before pairing analysis. Keep `platform_write=false`, full decode, nonblank settled-frame samples, PCM narration/SFX retention, and the extra BGM energy bed as authoritative readbacks.
+
 ## Final Acceptance Commands
 
 ```powershell
