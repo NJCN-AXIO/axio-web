@@ -18,23 +18,25 @@ export function PackageComparison({ packages }: { packages: PackageSet }) {
           >
             <div className="package-comparison__index">
               <span>0{index + 1}</span>
-              {option.featured ? <strong>推荐</strong> : null}
+              {option.featured ? <strong>{"\u63a8\u8350"}</strong> : null}
             </div>
             <h2>{option.name}</h2>
             <p className="package-comparison__audience">{option.audience}</p>
             <div className="package-comparison__price">
               <span>
-                正式售价 <b>{option.regularPrice}</b> / 年
+                {"\u6807\u51c6\u4ef7"} <b>{option.regularPrice}</b> / {"\u6708"}
               </span>
               <div>
                 <strong>{option.launchPrice}</strong>
-                <small>/ 年 · {option.launchLabel}</small>
+                <small>
+                  / {"\u6708"} {"\u9996\u53d1"} {option.launchLabel}
+                </small>
               </div>
             </div>
             <p>{option.description}</p>
             <p className="package-comparison__delivery">{option.delivery}</p>
             <Link href="/demo">
-              预约演示
+              观看产品演示
               <ArrowRight aria-hidden="true" size={16} />
             </Link>
           </article>

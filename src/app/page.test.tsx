@@ -1,5 +1,8 @@
 import { render, screen, within } from "@testing-library/react";
+import { demoVideos } from "@/content/videos";
 import HomePage from "./page";
+
+const watchDemoLabel = "\u89c2\u770b\u4ea7\u54c1\u6f14\u793a";
 
 function expectImageSource(
   image: HTMLElement,
@@ -43,7 +46,7 @@ it("renders the approved homepage identity, proof, and capability boundaries", (
   expect(screen.queryByText("4 个市场信号平台")).not.toBeInTheDocument();
   const packageCtas = within(screen.getByTestId("package-band")).getAllByRole(
     "link",
-    { name: "预约演示" },
+    { name: watchDemoLabel },
   );
   expect(packageCtas).toHaveLength(3);
   for (const link of packageCtas) {
@@ -61,7 +64,7 @@ it("renders the approved homepage identity, proof, and capability boundaries", (
     }),
   ).toBeVisible();
   expect(
-    screen.getByRole("heading", { name: "AXIO 全局功能演示" }),
+    screen.getByRole("heading", { name: demoVideos.overview.title }),
   ).toBeVisible();
 });
 
@@ -156,4 +159,15 @@ it("keeps both video positions in the approved homepage narrative order", () => 
     overview.compareDocumentPosition(packages) &
       Node.DOCUMENT_POSITION_FOLLOWING,
   ).toBeTruthy();
+});
+
+it("links every homepage product-demo CTA to the watch-only demo route", () => {
+  render(<HomePage />);
+
+  const links = screen.getAllByRole("link", { name: watchDemoLabel });
+  expect(links).toHaveLength(5);
+  for (const link of links) {
+    expect(link).toHaveAttribute("href", "/demo");
+  }
+  expect(screen.queryByRole("form")).toBeNull();
 });

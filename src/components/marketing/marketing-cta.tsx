@@ -2,8 +2,8 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 export function MarketingCta({
-  title = "结合你的店群规模，查看适配路径",
-  description = "预约演示，了解 AXIO 如何接入当前团队的选品、定价、上架与存量经营流程。",
+  title = "观看产品演示",
+  description = "观看 AXIO 如何将任务拆解、证据校验与受控执行串联为可检查流程。",
 }: {
   title?: string;
   description?: string;
@@ -16,7 +16,7 @@ export function MarketingCta({
           <p>{description}</p>
         </div>
         <Link className="button button--primary" href="/demo">
-          预约产品演示
+          观看产品演示
           <ArrowRight aria-hidden="true" size={17} />
         </Link>
       </div>

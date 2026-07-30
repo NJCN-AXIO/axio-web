@@ -578,78 +578,6 @@
   background: var(--brand);
 }
 
-.demo-booking-layout {
-  display: grid;
-  align-items: start;
-  grid-template-columns: minmax(0, 1fr) minmax(300px, 0.38fr);
-  gap: clamp(36px, 5vw, 76px);
-}
-
-.demo-booking__wechat {
-  padding: 24px 0;
-  border-top: 2px solid var(--brand);
-  border-bottom: 1px solid var(--border);
-  grid-template-columns: 1fr;
-}
-
-.demo-booking__wechat .wechat-contact__qr {
-  width: min(240px, 100%);
-}
-
-.demo-form {
-  display: grid;
-  padding: 38px;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 22px;
-}
-
-.demo-form__field {
-  display: grid;
-  color: var(--text);
-  font-size: 14px;
-  font-weight: 700;
-  gap: 8px;
-}
-
-.demo-form__field--wide,
-.demo-form__actions {
-  grid-column: 1 / -1;
-}
-
-.demo-form input,
-.demo-form select,
-.demo-form textarea {
-  width: 100%;
-  min-height: 48px;
-  padding: 11px 13px;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  background: var(--page);
-  color: var(--text);
-  font: inherit;
-}
-
-.demo-form textarea {
-  min-height: 132px;
-  resize: vertical;
-}
-
-.demo-form__actions {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-}
-
-.demo-form__actions p {
-  max-width: 640px;
-  margin: 0;
-  color: var(--muted);
-  font-size: 13px;
-}
-
 .policy-list {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
@@ -706,25 +634,6 @@
 }
 
 @media (max-width: 900px) {
-  .demo-booking-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .demo-booking__wechat {
-    grid-template-columns: 190px minmax(0, 1fr);
-  }
-
-  .demo-booking__wechat .wechat-contact__qr {
-    width: 190px;
-  }
-}
-
-@media (max-width: 840px) {
-  .capability-list,
-  .policy-list {
-    grid-template-columns: 1fr;
-  }
-
   .solution-grid {
     grid-template-columns: 1fr;
   }
@@ -814,28 +723,6 @@
     bottom: 10px;
     padding-inline: 12px;
     font-size: 12px;
-  }
-
-  .demo-booking__wechat {
-    grid-template-columns: 1fr;
-  }
-
-  .demo-booking__wechat .wechat-contact__qr {
-    width: min(220px, 100%);
-  }
-
-  .demo-form {
-    padding: 24px 20px;
-    grid-template-columns: 1fr;
-  }
-
-  .demo-form__actions {
-    align-items: stretch;
-    flex-direction: column;
-  }
-
-  .demo-form__actions .button {
-    width: 100%;
   }
 
   .marketing-cta__inner {

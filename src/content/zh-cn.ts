@@ -203,15 +203,14 @@ export const zhCN: SiteContent = {
     packagesDescription:
       "先从可验证的标准流程开始，再按团队协作与交付边界扩展。",
     finalTitle: "把重复运营，变成可验证的系统流程",
-    finalDescription:
-      "预约演示，结合你的站点、店铺规模与团队协作方式查看适配路径。",
+    finalDescription: "\u89c2\u770b AXIO 产品演示。",
   },
   footer: {
     boundary: "本地 Windows 客户端执行，敏感凭证留在客户环境",
     links: [
       { label: "隐私政策", href: "/privacy" },
       { label: "服务条款", href: "/terms" },
-      { label: "预约演示", href: "/demo" },
+      { label: "\u89c2\u770b\u4ea7\u54c1\u6f14\u793a", href: "/demo" },
     ],
     copyright: "AXIO 智核",
   },

@@ -17,7 +17,7 @@ export function DemoBand({ video }: { video: DemoVideo }) {
           <h2>{video.title}</h2>
           <p>{video.summary}</p>
           <Link className="button button--primary home-button" href="/demo">
-            预约演示
+            观看产品演示
             <ArrowRight aria-hidden="true" size={17} />
           </Link>
         </header>

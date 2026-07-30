@@ -29,15 +29,19 @@ export function PackageBand() {
               <h3>{option.name}</h3>
               <strong>{option.audience}</strong>
               <div className="package-option__price">
-                <span>正式售价 {option.regularPrice} / 年</span>
+                <span>
+                  {"\u6807\u51c6\u4ef7"} {option.regularPrice} / {"\u6708"}
+                </span>
                 <div>
                   <strong>{option.launchPrice}</strong>
-                  <small>/ 年 · {option.launchLabel}</small>
+                  <small>
+                    / {"\u6708"} {"\u9996\u53d1"} {option.launchLabel}
+                  </small>
                 </div>
               </div>
               <p>{option.description}</p>
               <Link href="/demo">
-                预约演示 <ArrowRight aria-hidden="true" size={16} />
+                观看产品演示 <ArrowRight aria-hidden="true" size={16} />
               </Link>
             </article>
           ))}

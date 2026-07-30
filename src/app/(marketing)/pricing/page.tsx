@@ -61,7 +61,7 @@ export default function PricingPage() {
         </div>
       </section>
       <MarketingCta
-        description="通过微信预约演示，结合当前运营流程确认适配版本与交付范围。"
+        description="观看 AXIO 如何将任务拆解、证据校验与受控执行串联为可检查流程。"
         title="先看实机流程，再选择版本"
       />
     </main>

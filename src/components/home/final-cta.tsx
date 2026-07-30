@@ -14,7 +14,7 @@ export function FinalCta() {
           <h2>{content.home.finalTitle}</h2>
           <p>{content.home.finalDescription}</p>
           <Link className="button button--primary home-button" href="/demo">
-            预约演示
+            观看产品演示
             <ArrowRight aria-hidden="true" size={17} />
           </Link>
         </div>
