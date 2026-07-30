@@ -7,10 +7,13 @@ export const BEAT_SUBDIVISION = contract.beatSubdivision;
 export const HARD_CUT_FRAMES = contract.hardCuts;
 export const VISUAL_ACTION_FRAMES = contract.visualActionFrames;
 
-export const getOutroLocalActionFrames = (duration: number) => {
-  const settle = Math.max(24, duration - 30 - 15);
-  const brand = settle + 15;
-  return {settle, brand, impact: brand - 3, sparkle: brand + 4};
+export const getOutroLocalActionFrames = (duration: number, holdFrames: number, itemCount: number) => {
+  const stable = Math.max(30, duration - holdFrames);
+  const lastItemCue = Math.max(18, stable - 52);
+  const settle = itemCount > 0 ? lastItemCue + 12 : 0;
+  const impact = Math.max(12, stable - 38);
+  const sparkle = Math.max(18, stable - 24);
+  return {riser: 0, settle, brand: impact, impact, sparkle, stable};
 };
 
 export const visualActionFrame = <F extends V2Format>(format: F, action: VisualAction<F>) =>

@@ -9,25 +9,39 @@
       "open-brand": 0,
       "open-page": 70,
       "goal-title": 210,
+      "plan-deal": 280,
+      "plan-filter": 368,
       "pricing-detail": 444,
+      "pricing-row-embed": 454,
       "governance-title": 540,
+      "governance-stack": 606,
       "readback-title": 834,
+      "readback-document": 896,
+      "readback-verified": 964,
       "control-title": 1008,
+      "capability-row-embed": 1072,
       "outro-riser": 1260,
-      "outro-impact": 1497,
-      "outro-sparkle": 1504
+      "outro-impact": 1372,
+      "outro-sparkle": 1386
     },
     "wechat": {
       "open-brand": 0,
       "open-page": 70,
       "goal-title": 180,
+      "plan-deal": 241,
+      "plan-filter": 322,
       "pricing-detail": 390,
+      "pricing-row-embed": 400,
       "governance-title": 480,
+      "governance-stack": 537,
       "readback-title": 660,
+      "readback-document": 713,
+      "readback-verified": 781,
       "control-title": 840,
+      "capability-row-embed": 895,
       "outro-riser": 1020,
-      "outro-impact": 1137,
-      "outro-sparkle": 1144
+      "outro-impact": 1102,
+      "outro-sparkle": 1116
     }
   }
 }
