@@ -18,17 +18,15 @@ it("renders an accessible native player for the completed core workflow", () => 
   );
 });
 
-it("renders a truthful cover without fake playback for a pending video", () => {
+it("renders an accessible native player for the product presentation", () => {
   render(<DemoVideoPlayer video={demoVideos.overview} />);
 
-  expect(
-    screen.queryByLabelText(/播放 AXIO 全局功能演示/),
-  ).not.toBeInTheDocument();
-  expect(
-    screen.queryByRole("button", { name: /播放/ }),
-  ).not.toBeInTheDocument();
-  expect(
-    screen.getByRole("img", { name: "AXIO 全局功能演示封面" }),
-  ).toBeVisible();
-  expect(screen.getByText("演示视频制作中")).toBeVisible();
+  const player = screen.getByLabelText("播放AXIO 全局功能演示");
+  expect(player).toHaveAttribute("controls");
+  expect(player).toHaveAttribute("playsinline");
+  expect(player).toHaveAttribute("poster", demoVideos.overview.poster);
+  expect(player.querySelector("source")).toHaveAttribute(
+    "src",
+    demoVideos.overview.src,
+  );
 });

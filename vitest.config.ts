@@ -12,7 +12,13 @@ export default defineConfig({
   },
   test: {
     environment: "jsdom",
-    exclude: ["tests/db/**", "tests/e2e/**", "node_modules/**", ".next/**"],
+    exclude: [
+      "tests/db/**",
+      "tests/e2e/**",
+      "node_modules/**",
+      ".next/**",
+      "video/axio-hyperframes/**",
+    ],
     globals: true,
     setupFiles: ["./vitest.setup.ts"],
   },

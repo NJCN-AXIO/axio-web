@@ -26,11 +26,13 @@ export const demoVideos = {
     id: "overview",
     title: "AXIO 全局功能演示",
     summary:
-      "完整演示将串联市场信号、选品、任务、定价、上架、存量经营与风险回读。视频正在制作，当前先保留同尺寸实机封面。",
-    status: "pending",
-    poster: withBasePath("/images/video-posters/axio-overview-cover.webp"),
-    src: null,
-    durationSeconds: null,
+      "51 秒产品演示：从 AI 主管派发，到 ACCIO 超级主管治理，展示计划、定价、权限边界和结果回读。在线为前端演示，未连接服务器，不含后端及真实执行能力。",
+    status: "available",
+    poster: withBasePath(
+      "/images/video-posters/axio-product-presentation.webp",
+    ),
+    src: withBasePath("/videos/axio-product-presentation.mp4"),
+    durationSeconds: 51.1,
   },
   coreWorkflow: {
     id: "core-workflow",

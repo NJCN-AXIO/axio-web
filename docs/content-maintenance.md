@@ -146,9 +146,9 @@ Hero 使用 `control-center.webp`，通过 `withBasePath()` 生成地址并保�
 当前状态：
 
 - `coreWorkflow`：`available`，使用 `public/videos/axio-core-task-workflow.mp4`。
-- `overview`：`pending`，使用 `public/images/video-posters/axio-overview-cover.webp` 封面。
+- `overview`：`available`，使用 `public/videos/axio-product-presentation.mp4`（51.1 秒）和 `public/images/video-posters/axio-product-presentation.webp` 封面。
 
-全局演示视频完成后：
+全局演示视频更新时：
 
 1. 对视频进行与截图相同的敏感信息审查。
 2. 输出适合浏览器播放的 H.264 MP4，并启用 faststart。
@@ -156,7 +156,7 @@ Hero 使用 `control-center.webp`，通过 `withBasePath()` 生成地址并保�
 4. 将文件放入 `public/videos/` 和 `public/images/video-posters/`。
 5. 在 `src/content/videos.ts` 把 `overview` 改为 `available`，填写 `src` 和 `durationSeconds`。
 6. 同步 `src/content/videos.test.ts`。
-7. 检查首页与 `/demo` 使用相同标题、封面、状态和媒体地址。
+7. 检查首页 `overview` 播放位使用新标题、封面、状态和媒体地址；`/demo` 保留独立的 `coreWorkflow` 流程视频。
 
 视频不得自动播放，不得裁切源画面，原生控件不得被覆盖。
 

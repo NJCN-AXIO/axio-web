@@ -13,7 +13,7 @@ export function DemoBand({ video }: { video: DemoVideo }) {
     >
       <div className="home-band__inner home-video-band__inner home-video-band__inner--overview">
         <header className="home-video-band__copy" data-reveal>
-          <p className="home-eyebrow">FULL PRODUCT DEMO / RESERVED</p>
+          <p className="home-eyebrow">FULL PRODUCT DEMO / 51 SEC</p>
           <h2>{video.title}</h2>
           <p>{video.summary}</p>
           <Link className="button button--primary home-button" href="/demo">

@@ -144,6 +144,10 @@ it("keeps both video positions in the approved homepage narrative order", () => 
   const overview = screen.getByTestId("overview-video");
   const packages = screen.getByTestId("package-band");
 
+  expect(
+    within(overview).getByText("FULL PRODUCT DEMO / 51 SEC"),
+  ).toBeVisible();
+
   expect(loop.nextElementSibling).toBe(core);
   expect(
     safety.compareDocumentPosition(overview) & Node.DOCUMENT_POSITION_FOLLOWING,
