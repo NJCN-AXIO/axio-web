@@ -1,5 +1,5 @@
 import {createHash} from 'node:crypto';
-import {readFile, mkdir, writeFile} from 'node:fs/promises';
+import {access, readFile, mkdir, mkdtemp, rename, rm, writeFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 import path from 'node:path';
 import {chromium} from 'playwright';
@@ -58,23 +58,79 @@ const SENSITIVE_PATTERNS = [
   ['order-identifier', /(?:订单号|order[ _-]?id)\s*[:：#]?\s*[a-z0-9-]{10,}/i],
   ['tenant-private', /tenant[_ -]?private\s*[:=]\s*\S+/i],
   ['tenant-private', /(?:租户|tenant)(?:名称|name|id)?\s*[:：=]\s*(?!演示|demo|2\b)[^\s，,]{3,}/i],
+  ['plan-identifier', /\bplan[_-][a-z0-9_-]{8,}\b/i],
+  ['task-identifier', /\b(?:sup|task)[_-][a-z0-9_-]{8,}\b/i],
+  ['acceptance-identifier', /\baccept(?:ance)?[_-][a-z0-9_-]{8,}\b/i],
+  ['delegation-identifier', /\bdelegation[_-][a-z0-9_-]{8,}\b/i],
+  ['opaque-internal-id', /\b[a-f0-9]{16,}\b/i],
+  ['timestamp', /\b20\d{2}-\d{2}-\d{2}(?:[T\s]\d{2}:\d{2}(?::\d{2})?(?:Z|[+-]\d{2}:?\d{2})?)?\b/],
+  ['founder-pin', /\bfounder\s*pin\b|创始人\s*PIN/iu],
+  ['internal-region', /(?:^|[\s，,、])(?:广州|山东|丹阳|上海)(?=$|[\s，,、])/u],
+  ['live-release-status', /(?:已释放|已正式发布|released\s*[:=]\s*(?:1|true)|[1-9]\d*\/\d+\s*项能力已发布)/i],
+  ['unattended-status', /(?:unattended\s*[:=]\s*(?:1|true)|无人值守[\s\S]{0,40}(?:已正式启用|已启用|运行中)|受控自动运行已启动)/i],
 ];
 
 export const findSensitiveEvidence = (text) => SENSITIVE_PATTERNS.filter(([, pattern]) => pattern.test(text)).map(([label]) => label);
 
-export const createCaptureManifest = ({baseUrl, assets, blockedRequests, attemptedWrites}) => {
+const DEMO_REPLACEMENTS = [
+  {source: '\\bplan[_-][a-z0-9_-]{8,}\\b', flags: 'gi', replacement: '演示计划'},
+  {source: '\\b(?:sup|task)[_-][a-z0-9_-]{8,}\\b', flags: 'gi', replacement: '演示任务'},
+  {source: '\\baccept(?:ance)?[_-][a-z0-9_-]{8,}\\b', flags: 'gi', replacement: '演示验收'},
+  {source: '\\bdelegation[_-][a-z0-9_-]{8,}\\b', flags: 'gi', replacement: '演示委托'},
+  {source: '\\b[a-f0-9]{16,}\\b', flags: 'gi', replacement: '演示证据'},
+  {source: '\\b20\\d{2}-\\d{2}-\\d{2}(?:[T\\s]\\d{2}:\\d{2}(?::\\d{2})?(?:Z|[+-]\\d{2}:?\\d{2})?)?\\b', flags: 'g', replacement: '冻结演示时间'},
+  {source: 'founder\\s*pin|创始人\\s*PIN', flags: 'gi', replacement: '创始人授权'},
+  {source: '广州|山东|丹阳|上海', flags: 'g', replacement: '演示区域'},
+  {source: '受控自动运行已启动[^。\\n]*[。]?', flags: 'g', replacement: '当前受控执行 released=0 / unattended=0。'},
+  {source: '无人值守批量铺货', flags: 'g', replacement: '批量铺货（规划能力）'},
+  {source: '已正式启用', flags: 'g', replacement: '尚未开放'},
+  {source: '已释放', flags: 'g', replacement: '受控执行'},
+];
+
+export const sanitizeEvidenceText = (text) => DEMO_REPLACEMENTS.reduce(
+  (value, {source, flags, replacement}) => value.replace(new RegExp(source, flags), replacement),
+  text,
+);
+
+const sanitizeDemoState = async (page) => page.evaluate((rules) => {
+  const sanitize = (value) => rules.reduce(
+    (next, {source, flags, replacement}) => next.replace(new RegExp(source, flags), replacement),
+    value,
+  );
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+    if (node.nodeValue) node.nodeValue = sanitize(node.nodeValue);
+  }
+  for (const node of document.querySelectorAll('input, textarea')) {
+    const input = /** @type {HTMLInputElement | HTMLTextAreaElement} */ (node);
+    input.value = sanitize(input.value);
+    input.placeholder = sanitize(input.placeholder);
+  }
+}, DEMO_REPLACEMENTS);
+
+export const createCaptureManifest = ({baseUrl, assets, blockedRequests, attemptedWrites, safetyScans}) => {
   assertLoopbackBaseUrl(baseUrl);
   if (attemptedWrites.length) throw new Error(`Blocked write attempts must remain empty: ${attemptedWrites.join(', ')}`);
   for (const asset of assets) {
     if (!/^[a-f0-9]{64}$/.test(asset.sha256)) throw new Error(`Invalid SHA-256 for ${asset.file}`);
   }
+  const approvedPages = CAPTURE_PAGES.map(({name}) => name);
+  const scannedPages = safetyScans?.map(({page}) => page) ?? [];
+  if (JSON.stringify(scannedPages) !== JSON.stringify(approvedPages)) {
+    throw new Error('Safety scan must cover all approved pages exactly once');
+  }
+  const findings = safetyScans.flatMap(({page, findings: pageFindings}) =>
+    pageFindings.map((finding) => `${page}:${finding}`),
+  );
+  if (findings.length) throw new Error(`Safety scan failed: ${findings.join(', ')}`);
   return {
-    version: 1,
+    version: 2,
     captured_at: new Date().toISOString(),
     base_url: baseUrl,
     platform_write: false,
     attempted_writes: [],
     blocked_requests: blockedRequests,
+    data_safety: {status: 'passed', scanned_pages: scannedPages, findings: []},
     pages: CAPTURE_PAGES.map(({name, path: pagePath}) => ({name, path: pagePath})),
     assets,
   };
@@ -174,21 +230,57 @@ const openState = async (context, base, config) => {
   await page.goto(new URL(config.path, base).href, {waitUntil: 'domcontentloaded'});
   await page.waitForTimeout(500);
   await activateLocalControl(page, config.activate);
+  await sanitizeDemoState(page);
   await settlePage(page);
   const rootLocator = page.locator(config.root).first();
   await rootLocator.waitFor({state: 'visible'});
   return {page, rootLocator};
 };
 
+const pathExists = async (value) => {
+  try {
+    await access(value);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+export const publishCaptureBundle = async ({stagingDir, outputDir, layoutPath, layout}) => {
+  const backupDir = await mkdtemp(path.join(path.dirname(outputDir), '.ink-capture-backup-'));
+  const backupOutput = path.join(backupDir, 'evidence');
+  const backupLayout = path.join(backupDir, 'live-layout.json');
+  const stagedLayout = path.join(stagingDir, '.live-layout.json');
+  await writeFile(stagedLayout, `${JSON.stringify(layout, null, 2)}\n`, 'utf8');
+  const hadOutput = await pathExists(outputDir);
+  const hadLayout = await pathExists(layoutPath);
+  if (hadOutput) await rename(outputDir, backupOutput);
+  if (hadLayout) await rename(layoutPath, backupLayout);
+  try {
+    await rename(stagingDir, outputDir);
+    await rename(path.join(outputDir, '.live-layout.json'), layoutPath);
+    await rm(backupDir, {recursive: true, force: true});
+  } catch (error) {
+    await rm(outputDir, {recursive: true, force: true});
+    await rm(layoutPath, {force: true});
+    if (hadOutput && await pathExists(backupOutput)) await rename(backupOutput, outputDir);
+    if (hadLayout && await pathExists(backupLayout)) await rename(backupLayout, layoutPath);
+    await rm(backupDir, {recursive: true, force: true});
+    throw error;
+  }
+};
+
 export const captureAxioInkAssets = async ({baseUrl = 'http://127.0.0.1:8080/', outputDir = path.join(root, 'public', 'evidence', 'ink'), layoutPath = path.join(root, 'src', 'v2', 'ink', 'live-layout.json')} = {}) => {
   const base = assertLoopbackBaseUrl(baseUrl);
-  await mkdir(outputDir, {recursive: true});
+  await mkdir(path.dirname(outputDir), {recursive: true});
   await mkdir(path.dirname(layoutPath), {recursive: true});
+  const stagingDir = await mkdtemp(path.join(path.dirname(outputDir), '.ink-capture-next-'));
   const browser = await chromium.launch({headless: true});
   const attemptedWrites = [];
   const blockedRequests = [];
   const assets = [];
   const layout = {};
+  const safetyScans = [];
   try {
     const pageContext = await browser.newContext({viewport: {width: 1440, height: 1000}, deviceScaleFactor: 2});
     const cutoutContext = await browser.newContext({viewport: {width: 1440, height: 1000}, deviceScaleFactor: 4});
@@ -199,11 +291,12 @@ export const captureAxioInkAssets = async ({baseUrl = 'http://127.0.0.1:8080/', 
       const pageSize = await page.evaluate(() => ({pageH: document.documentElement.scrollHeight, pageW: document.documentElement.scrollWidth}));
       const text = await rootLocator.innerText();
       const sensitive = findSensitiveEvidence(text);
+      safetyScans.push({page: config.name, findings: sensitive});
       if (sensitive.length) throw new Error(`Sensitive evidence in ${config.name}: ${sensitive.join(', ')}`);
-      await writeFile(path.join(outputDir, `${config.name}.ocr.txt`), text, 'utf8');
+      await writeFile(path.join(stagingDir, `${config.name}.ocr.txt`), text, 'utf8');
       const pageFile = `${config.name}-page.png`;
-      await page.screenshot({path: path.join(outputDir, pageFile), fullPage: true, animations: 'disabled'});
-      await addAsset(assets, outputDir, pageFile, 'page');
+      await page.screenshot({path: path.join(stagingDir, pageFile), fullPage: true, animations: 'disabled'});
+      await addAsset(assets, stagingDir, pageFile, 'page');
       const boxes = {};
       const cutouts = {};
       const nodesToHide = [];
@@ -214,15 +307,15 @@ export const captureAxioInkAssets = async ({baseUrl = 'http://127.0.0.1:8080/', 
       }
       for (const locator of nodesToHide) await locator.evaluate((node) => { node.style.visibility = 'hidden'; });
       const plateFile = `${config.name}-empty-plate.png`;
-      await page.screenshot({path: path.join(outputDir, plateFile), fullPage: true, animations: 'disabled'});
-      await addAsset(assets, outputDir, plateFile, 'empty-plate');
+      await page.screenshot({path: path.join(stagingDir, plateFile), fullPage: true, animations: 'disabled'});
+      await addAsset(assets, stagingDir, plateFile, 'empty-plate');
       await page.close();
       const {page: cutoutPage} = await openState(cutoutContext, base, config);
       for (const feature of config.features) {
         const locator = await visibleLocator(cutoutPage, feature.selectors);
         const file = `${config.name}-${feature.name}-4x.png`;
-        await locator.screenshot({path: path.join(outputDir, file), animations: 'disabled'});
-        await addAsset(assets, outputDir, file, 'cutout');
+        await locator.screenshot({path: path.join(stagingDir, file), animations: 'disabled'});
+        await addAsset(assets, stagingDir, file, 'cutout');
         cutouts[feature.name] = {file, ...boxes[feature.name]};
       }
       await cutoutPage.close();
@@ -234,9 +327,9 @@ export const captureAxioInkAssets = async ({baseUrl = 'http://127.0.0.1:8080/', 
     await browser.close();
   }
   if (attemptedWrites.length) throw new Error(`Blocked write attempts: ${attemptedWrites.join(', ')}`);
-  await writeFile(layoutPath, `${JSON.stringify(layout, null, 2)}\n`, 'utf8');
-  const manifest = createCaptureManifest({baseUrl: base.href, assets, blockedRequests, attemptedWrites});
-  await writeFile(path.join(outputDir, 'capture-manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`, 'utf8');
+  const manifest = createCaptureManifest({baseUrl: base.href, assets, blockedRequests, attemptedWrites, safetyScans});
+  await writeFile(path.join(stagingDir, 'capture-manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`, 'utf8');
+  await publishCaptureBundle({stagingDir, outputDir, layoutPath, layout});
   return manifest;
 };
 
