@@ -135,7 +135,16 @@ test.describe("faithful public product preview", () => {
     await experienceLinks.first().click();
     await expect(page).toHaveURL(new RegExp(`${expectedPreviewPath}$`));
 
-    expect(siteRoot).toMatch(/^\//);
+    // The Next dev server does not rewrite /preview/ to the public static
+    // entry; use the same static entry that the preview E2E tests exercise.
+    await page.goto(previewEntry);
+
+    const homeLinks = page.locator("[data-site-home]");
+    await expect(homeLinks.first()).toBeAttached();
+    const homeCount = await homeLinks.count();
+    for (let index = 0; index < homeCount; index += 1) {
+      await expect(homeLinks.nth(index)).toHaveAttribute("href", siteRoot);
+    }
   });
 });
 for (const entry of [

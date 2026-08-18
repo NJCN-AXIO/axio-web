@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { MarketingCta } from "../../../components/marketing/marketing-cta";
+import { WechatContact } from "../../../components/contact/wechat-contact";
 import { FaqList } from "../../../components/marketing/faq-list";
 import { ReleaseDownload } from "../../../components/marketing/release-download";
 import { getSiteContent } from "../../../content";
@@ -12,17 +13,16 @@ export const metadata: Metadata = {
     "获取 AXIO 通用客户包、安装配置说明、空白导入模板和手动升级回滚指南。",
 };
 
-const templateLinks = [
-  ["店铺导入模板", "/downloads/templates/stores.csv"],
-  ["商品导入模板", "/downloads/templates/products.csv"],
-  ["类目导入模板", "/downloads/templates/categories.csv"],
-  ["关键词导入模板", "/downloads/templates/keywords.csv"],
-  ["定价参数模板", "/downloads/templates/pricing.csv"],
-] as const;
-
 export default function DownloadPage() {
   const content = getSiteContent();
   const release = content.publicRelease;
+  const templateLinks = [
+    ["店铺导入模板", release.templateUrl],
+    ["商品导入模板", "/downloads/templates/products.csv"],
+    ["类目导入模板", "/downloads/templates/categories.csv"],
+    ["关键词导入模板", "/downloads/templates/keywords.csv"],
+    ["定价参数模板", "/downloads/templates/pricing.csv"],
+  ] as const;
 
   return (
     <main className="marketing-page">
@@ -51,6 +51,23 @@ export default function DownloadPage() {
       <section className="marketing-section marketing-section--surface">
         <div className="marketing-section__inner">
           <ReleaseDownload release={release} />
+        </div>
+      </section>
+
+      <section
+        className="marketing-section download-contact-section"
+        aria-label="微信联系入口"
+      >
+        <div className="marketing-section__inner download-guidance">
+          <header className="marketing-section__heading">
+            <p className="marketing-eyebrow">SUPPORT / WECHAT</p>
+            <h2>需要确认交付范围？直接联系 AXIO</h2>
+            <p>
+              下载链接准备中、版本核对或安装边界有疑问时，请通过微信咨询。请勿发送店铺密码、Cookie、API
+              Key 或完整业务数据。
+            </p>
+          </header>
+          <WechatContact className="download-wechat-contact" />
         </div>
       </section>
 

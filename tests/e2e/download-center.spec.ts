@@ -28,6 +28,7 @@ test.describe("download center", () => {
     await expect(
       page.getByRole("link", { name: /下载 AXIO 客户端/ }),
     ).toHaveCount(0);
+    await expect(page.getByTestId("wechat-contact")).toBeVisible();
   });
 
   test("resolves every blank template and customer manual", async ({
@@ -52,7 +53,8 @@ test.describe("download center", () => {
   test("expands native FAQ answers without client accordion state", async ({
     page,
   }) => {
-    await expect(page.locator("details")).toHaveCount(25);
+    const faqCount = await page.locator("details").count();
+    expect(faqCount).toBeGreaterThanOrEqual(45);
     const summary = page.getByText(
       "任务显示完成是否等于平台成功，未知写入为什么不重试？",
     );

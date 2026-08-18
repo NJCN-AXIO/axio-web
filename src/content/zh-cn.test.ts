@@ -88,18 +88,34 @@ describe("Simplified Chinese site content", () => {
     expect(zhCN.publicRelease).toMatchObject({
       releaseVersion: "待发布",
       downloadUrl: "",
-      templateUrl: "",
-      manualUrl: "",
+      templateUrl: "/downloads/templates/stores.csv",
+      manualUrl: "/downloads/manual/customer-installation.md",
     });
   });
 
-  it("owns a complete categorized customer FAQ with 15 priorities", () => {
+  it("owns the complete categorized customer FAQ minimum", () => {
     const items = zhCN.faqGroups.flatMap((group) => group.items);
 
     expect(zhCN.faqGroups).toHaveLength(5);
-    expect(items).toHaveLength(25);
+    expect(items.length).toBeGreaterThanOrEqual(45);
     expect(items.filter((item) => item.priority)).toHaveLength(15);
     expect(new Set(items.map((item) => item.question)).size).toBe(items.length);
+    for (const question of [
+      "试用版有哪些限制，能否执行平台写入？",
+      "店铺、站点、并发和团队席位如何计算？",
+      "定制部署和源码交付包含什么，为什么单独报价？",
+      "Excel 与 CSV 如何选择，重复或错误数据如何处理？",
+      "是否支持妙手/Shopee 导出文件和分批导入？",
+      "能否配置多个 Provider、备用路由、本地模型或私有 API？",
+      "是否支持每日上新、分类、改价、营销、清理和商品优化？",
+      "如何限制店铺、任务数量、并发、每日额度和自动化能力？",
+      "理论利润与妙手结算净利润有何区别，缺少成本时能否自动改价？",
+      "如何查看和下载最新版，网盘链接失效怎么办？",
+      "哪些更新可以延后，未来是否支持自动更新？",
+      "哪些问题属于 AXIO，哪些属于平台、妙手、网络或 Provider？",
+    ]) {
+      expect(items.map((item) => item.question)).toContain(question);
+    }
   });
 
   it("expands every operating stage with actionable detail", () => {

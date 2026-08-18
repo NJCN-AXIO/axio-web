@@ -154,6 +154,18 @@ it("publishes a fail-closed download center with installation boundaries", () =>
   expect(screen.getByText("不需要安装 Python")).toBeVisible();
   expect(screen.getByText(/API Key 由客户自行配置/)).toBeVisible();
   expect(screen.getByText("手动并排升级，失败时回滚旧版本")).toBeVisible();
+  expect(screen.getByTestId("wechat-contact")).toBeVisible();
+  expect(screen.getByText("微信咨询 · 楠 Nay")).toBeVisible();
+  expect(screen.getByRole("link", { name: "店铺导入模板" })).toHaveAttribute(
+    "href",
+    withBasePath(getSiteContent().publicRelease.templateUrl),
+  );
+  expect(
+    screen.getByRole("link", { name: "查看客户安装手册" }),
+  ).toHaveAttribute(
+    "href",
+    withBasePath(getSiteContent().publicRelease.manualUrl),
+  );
   expect(
     screen.getByRole("heading", { level: 2, name: "客户常见问题" }),
   ).toBeVisible();
