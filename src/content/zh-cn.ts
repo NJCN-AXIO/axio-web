@@ -150,6 +150,17 @@ export const zhCN: SiteContent = {
       featured: false,
     },
   ],
+  publicRelease: {
+    releaseVersion: "待发布",
+    releaseDate: "待发布",
+    downloadUrl: "",
+    downloadLabel: "下载 AXIO 客户端",
+    sha256: "待发布",
+    fileSize: "待发布",
+    releaseNotes: "正式客户 ZIP 尚未发布。",
+    templateUrl: "",
+    manualUrl: "",
+  },
   capabilityGroups,
   home: {
     loopTitle: "从经营意图到业务回读",

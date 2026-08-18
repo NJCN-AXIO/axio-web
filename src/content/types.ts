@@ -1,3 +1,5 @@
+import type { PublicRelease } from "../config/public-release";
+
 export type Locale = "zh-CN";
 
 export type CapabilityStatus = "NOW" | "NEXT";
@@ -81,6 +83,7 @@ export type SiteContent = {
   readonly proofValues: readonly ProofValue[];
   readonly operatingLoop: readonly OperatingLoopStep[];
   readonly packages: readonly PackageOption[];
+  readonly publicRelease: PublicRelease;
   readonly capabilityGroups: readonly CapabilityGroup[];
   readonly home: HomeContent;
   readonly footer: {

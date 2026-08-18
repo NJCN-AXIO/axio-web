@@ -18,3 +18,4 @@ export type {
   ProofValue,
   SiteContent,
 } from "./types";
+export type { PublicRelease } from "../config/public-release";

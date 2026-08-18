@@ -76,6 +76,15 @@ describe("Simplified Chinese site content", () => {
     );
   });
 
+  it("keeps unreleased public download URLs empty", () => {
+    expect(zhCN.publicRelease).toMatchObject({
+      releaseVersion: "待发布",
+      downloadUrl: "",
+      templateUrl: "",
+      manualUrl: "",
+    });
+  });
+
   it("expands every operating stage with actionable detail", () => {
     expect(zhCN.operatingLoop).toEqual([
       {
