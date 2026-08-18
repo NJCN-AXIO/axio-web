@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { MarketingCta } from "../../../components/marketing/marketing-cta";
+import { FaqList } from "../../../components/marketing/faq-list";
 import { ReleaseDownload } from "../../../components/marketing/release-download";
 import { getSiteContent } from "../../../content";
 import { withBasePath } from "../../../config/site-path";
@@ -20,7 +21,8 @@ const templateLinks = [
 ] as const;
 
 export default function DownloadPage() {
-  const release = getSiteContent().publicRelease;
+  const content = getSiteContent();
+  const release = content.publicRelease;
 
   return (
     <main className="marketing-page">
@@ -127,6 +129,15 @@ export default function DownloadPage() {
               查看 API 配置手册
             </a>
           </div>
+        </div>
+      </section>
+
+      <section
+        className="marketing-section marketing-section--surface"
+        aria-label="客户常见问题"
+      >
+        <div className="marketing-section__inner">
+          <FaqList groups={content.faqGroups} />
         </div>
       </section>
 

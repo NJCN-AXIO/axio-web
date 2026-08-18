@@ -154,6 +154,9 @@ it("publishes a fail-closed download center with installation boundaries", () =>
   expect(screen.getByText("不需要安装 Python")).toBeVisible();
   expect(screen.getByText(/API Key 由客户自行配置/)).toBeVisible();
   expect(screen.getByText("手动并排升级，失败时回滚旧版本")).toBeVisible();
+  expect(
+    screen.getByRole("heading", { level: 2, name: "客户常见问题" }),
+  ).toBeVisible();
   expect(screen.queryByRole("link", { name: /下载 AXIO/ })).toBeNull();
 });
 

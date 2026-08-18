@@ -42,6 +42,18 @@ export type PackageOption = {
   readonly featured: boolean;
 };
 
+export type FaqItem = {
+  readonly question: string;
+  readonly answer: string;
+  readonly priority: boolean;
+};
+
+export type FaqGroup = {
+  readonly id: string;
+  readonly title: string;
+  readonly items: readonly FaqItem[];
+};
+
 export type EvidenceIconKey = "supervisor" | "collection" | "pricing" | "risk";
 
 export type HomeEvidenceItem = {
@@ -84,6 +96,7 @@ export type SiteContent = {
   readonly operatingLoop: readonly OperatingLoopStep[];
   readonly packages: readonly PackageOption[];
   readonly publicRelease: PublicRelease;
+  readonly faqGroups: readonly FaqGroup[];
   readonly capabilityGroups: readonly CapabilityGroup[];
   readonly home: HomeContent;
   readonly footer: {

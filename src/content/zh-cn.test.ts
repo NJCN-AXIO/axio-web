@@ -85,6 +85,15 @@ describe("Simplified Chinese site content", () => {
     });
   });
 
+  it("owns a complete categorized customer FAQ with 15 priorities", () => {
+    const items = zhCN.faqGroups.flatMap((group) => group.items);
+
+    expect(zhCN.faqGroups).toHaveLength(5);
+    expect(items).toHaveLength(25);
+    expect(items.filter((item) => item.priority)).toHaveLength(15);
+    expect(new Set(items.map((item) => item.question)).size).toBe(items.length);
+  });
+
   it("expands every operating stage with actionable detail", () => {
     expect(zhCN.operatingLoop).toEqual([
       {

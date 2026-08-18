@@ -12,6 +12,8 @@ export type {
   CapabilityGroup,
   CapabilityItem,
   CapabilityStatus,
+  FaqGroup,
+  FaqItem,
   Locale,
   NavigationLink,
   PackageOption,
