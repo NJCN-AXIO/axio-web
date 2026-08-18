@@ -118,9 +118,10 @@ export const zhCN: SiteContent = {
   packages: [
     {
       name: "Starter",
+      chineseName: "启航版",
       audience: "起步与小型店群",
       description: "建立标准化选品、定价与上架流程，从可核验的运营闭环开始。",
-      regularPrice: "¥999",
+      annualPrice: "¥999",
       launchPrice: "¥399",
       launchLabel: "首发价",
       delivery: "标准客户端与基础流程，自助使用",
@@ -128,9 +129,10 @@ export const zhCN: SiteContent = {
     },
     {
       name: "Professional",
+      chineseName: "专业版",
       audience: "成长型 Shopee 团队",
       description: "完整自动化、精准控价、风险管控与标准支持。",
-      regularPrice: "¥1,999",
+      annualPrice: "¥1,999",
       launchPrice: "¥699",
       launchLabel: "首发 20 席",
       delivery: "完整运营闭环与标准支持",
@@ -138,9 +140,10 @@ export const zhCN: SiteContent = {
     },
     {
       name: "Team",
+      chineseName: "团队版",
       audience: "多角色协作团队",
       description: "面向团队使用，提供优先支持与有限规则配置。",
-      regularPrice: "¥4,999",
+      annualPrice: "¥4,999",
       launchPrice: "¥1,999",
       launchLabel: "首发价",
       delivery: "团队使用、优先支持与有限规则配置",

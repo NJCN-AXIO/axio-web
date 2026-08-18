@@ -20,16 +20,18 @@ export function PackageComparison({ packages }: { packages: PackageSet }) {
               <span>0{index + 1}</span>
               {option.featured ? <strong>{"\u63a8\u8350"}</strong> : null}
             </div>
-            <h2>{option.name}</h2>
+            <h2>
+              AXIO {option.chineseName} {option.name}
+            </h2>
             <p className="package-comparison__audience">{option.audience}</p>
             <div className="package-comparison__price">
               <span>
-                {"\u6807\u51c6\u4ef7"} <b>{option.regularPrice}</b> / {"\u6708"}
+                {"正式售价"} <b>{option.annualPrice}</b> / {"年"}
               </span>
               <div>
                 <strong>{option.launchPrice}</strong>
                 <small>
-                  / {"\u6708"} {"\u9996\u53d1"} {option.launchLabel}
+                  / {"年"} · {option.launchLabel}
                 </small>
               </div>
             </div>

@@ -30,9 +30,10 @@ export type ProofValue = {
 
 export type PackageOption = {
   readonly name: "Starter" | "Professional" | "Team";
+  readonly chineseName: "启航版" | "专业版" | "团队版";
   readonly audience: string;
   readonly description: string;
-  readonly regularPrice: string;
+  readonly annualPrice: string;
   readonly launchPrice: string;
   readonly launchLabel: string;
   readonly delivery: string;

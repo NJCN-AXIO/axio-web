@@ -118,7 +118,13 @@ it("publishes the approved launch prices without online checkout", () => {
     const card = within(comparison).getByTestId(
       "package-" + option.name.toLowerCase(),
     );
-    expect(within(card).getByText(option.regularPrice)).toBeVisible();
+    expect(
+      within(card).getByRole("heading", {
+        level: 2,
+        name: `AXIO ${option.chineseName} ${option.name}`,
+      }),
+    ).toBeVisible();
+    expect(within(card).getByText(option.annualPrice)).toBeVisible();
     expect(within(card).getByText(option.launchPrice)).toBeVisible();
   }
   expect(screen.getByText("首发仅限 20 席")).toBeVisible();

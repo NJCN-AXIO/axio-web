@@ -32,26 +32,30 @@ describe("Simplified Chinese site content", () => {
     expect(
       zhCN.packages.map((item) => ({
         name: item.name,
-        regularPrice: item.regularPrice,
+        chineseName: item.chineseName,
+        annualPrice: item.annualPrice,
         launchPrice: item.launchPrice,
         featured: item.featured,
       })),
     ).toEqual([
       {
         name: "Starter",
-        regularPrice: "¥999",
+        chineseName: "启航版",
+        annualPrice: "¥999",
         launchPrice: "¥399",
         featured: false,
       },
       {
         name: "Professional",
-        regularPrice: "¥1,999",
+        chineseName: "专业版",
+        annualPrice: "¥1,999",
         launchPrice: "¥699",
         featured: true,
       },
       {
         name: "Team",
-        regularPrice: "¥4,999",
+        chineseName: "团队版",
+        annualPrice: "¥4,999",
         launchPrice: "¥1,999",
         featured: false,
       },
@@ -60,6 +64,16 @@ describe("Simplified Chinese site content", () => {
       "本地 Windows 客户端执行，敏感凭证留在客户环境",
     );
     expect(zhCN.hero.secondaryCta.href).toBe("#capabilities");
+  });
+
+  it("keeps exactly one promoted public package", () => {
+    expect(
+      zhCN.packages.map((item) => `${item.chineseName} ${item.name}`),
+    ).toEqual(["启航版 Starter", "专业版 Professional", "团队版 Team"]);
+    expect(zhCN.packages.filter((item) => item.featured)).toHaveLength(1);
+    expect(zhCN.packages.find((item) => item.featured)?.name).toBe(
+      "Professional",
+    );
   });
 
   it("expands every operating stage with actionable detail", () => {

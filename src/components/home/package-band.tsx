@@ -26,16 +26,18 @@ export function PackageBand() {
               key={option.name}
             >
               <span>0{index + 1}</span>
-              <h3>{option.name}</h3>
+              <h3>
+                AXIO {option.chineseName} {option.name}
+              </h3>
               <strong>{option.audience}</strong>
               <div className="package-option__price">
                 <span>
-                  {"\u6807\u51c6\u4ef7"} {option.regularPrice} / {"\u6708"}
+                  {"正式售价"} {option.annualPrice} / {"年"}
                 </span>
                 <div>
                   <strong>{option.launchPrice}</strong>
                   <small>
-                    / {"\u6708"} {"\u9996\u53d1"} {option.launchLabel}
+                    / {"年"} · {option.launchLabel}
                   </small>
                 </div>
               </div>

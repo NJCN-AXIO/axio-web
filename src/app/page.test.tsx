@@ -49,6 +49,12 @@ it("renders the approved homepage identity, proof, and capability boundaries", (
     { name: watchDemoLabel },
   );
   expect(packageCtas).toHaveLength(3);
+  const packageBand = screen.getByTestId("package-band");
+  expect(within(packageBand).getByText("AXIO 启航版 Starter")).toBeVisible();
+  expect(
+    within(packageBand).getByText("AXIO 专业版 Professional"),
+  ).toBeVisible();
+  expect(within(packageBand).getByText("AXIO 团队版 Team")).toBeVisible();
   for (const link of packageCtas) {
     expect(link).toHaveAttribute("href", "/demo");
   }
