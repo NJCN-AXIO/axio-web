@@ -1,6 +1,7 @@
 import { render, screen, within } from "@testing-library/react";
 
 import DemoPage, { metadata as demoMetadata } from "./demo/page";
+import DownloadPage, { metadata as downloadMetadata } from "./download/page";
 import PricingPage, { metadata as pricingMetadata } from "./pricing/page";
 import PrivacyPage, { metadata as privacyMetadata } from "./privacy/page";
 import ProductPage, { metadata as productMetadata } from "./product/page";
@@ -32,6 +33,11 @@ const publicRoutes = [
     Page: DemoPage,
     heading: "AXIO 产品演示",
     metadata: demoMetadata,
+  },
+  {
+    Page: DownloadPage,
+    heading: "下载 AXIO 客户端",
+    metadata: downloadMetadata,
   },
   {
     Page: PrivacyPage,
@@ -133,6 +139,22 @@ it("publishes the approved launch prices without online checkout", () => {
   expect(screen.getAllByText("不支持在线付款")).toHaveLength(2);
   expect(screen.getByText("具体交付以确认范围为准")).toBeVisible();
   expect(screen.queryByRole("button", { name: /购买|付款|结算/ })).toBeNull();
+});
+
+it("publishes a fail-closed download center with installation boundaries", () => {
+  render(<DownloadPage />);
+
+  expect(
+    screen.getByRole("heading", { level: 1, name: "下载 AXIO 客户端" }),
+  ).toBeVisible();
+  expect(
+    screen.getByText("正式下载链接准备中，请联系 AXIO 获取"),
+  ).toBeVisible();
+  expect(screen.getAllByText("Windows 10/11 x64")).toHaveLength(2);
+  expect(screen.getByText("不需要安装 Python")).toBeVisible();
+  expect(screen.getByText(/API Key 由客户自行配置/)).toBeVisible();
+  expect(screen.getByText("手动并排升级，失败时回滚旧版本")).toBeVisible();
+  expect(screen.queryByRole("link", { name: /下载 AXIO/ })).toBeNull();
 });
 
 it("orders the interactive preview, full product demo, then core workflow", () => {

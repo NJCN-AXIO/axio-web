@@ -433,6 +433,133 @@
   font-size: 14px;
 }
 
+.release-download {
+  display: grid;
+  padding: 34px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  gap: 30px;
+}
+
+.release-download__heading {
+  display: grid;
+  max-width: 760px;
+  gap: 12px;
+}
+
+.release-download__heading h2,
+.download-guidance h3 {
+  margin: 0;
+  color: var(--text);
+  font-size: 30px;
+  line-height: 1.25;
+}
+
+.release-download__heading p:not(.marketing-eyebrow),
+.release-download__notes {
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.release-download__metadata {
+  display: grid;
+  margin: 0;
+  border-top: 1px solid var(--border);
+  border-left: 1px solid var(--border);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.release-download__metadata div {
+  display: grid;
+  min-width: 0;
+  padding: 18px;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  gap: 7px;
+}
+
+.release-download__metadata dt {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.release-download__metadata dd {
+  overflow-wrap: anywhere;
+  margin: 0;
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 750;
+}
+
+.release-download__action {
+  display: flex;
+  align-items: center;
+}
+
+.release-download__action .button {
+  min-width: 240px;
+  justify-content: center;
+}
+
+.release-download__action .button:disabled {
+  cursor: not-allowed;
+  opacity: 0.58;
+}
+
+.download-guidance {
+  display: grid;
+  gap: 40px;
+}
+
+.download-guidance__grid {
+  display: grid;
+  border-top: 1px solid var(--border);
+  border-left: 1px solid var(--border);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.download-guidance__grid article {
+  min-width: 0;
+  padding: 28px;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.download-guidance ul,
+.download-guidance ol {
+  display: grid;
+  margin: 22px 0 0;
+  padding-left: 22px;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.75;
+  gap: 10px;
+}
+
+.download-template-links,
+.download-guidance__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.download-template-links a,
+.download-guidance__links a {
+  display: inline-flex;
+  min-height: 44px;
+  padding: 0 16px;
+  align-items: center;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 750;
+}
+
 .marketing-preview-stage {
   border-bottom: 1px solid var(--border);
   background: var(--surface);
@@ -703,6 +830,19 @@
 
   .package-custom-delivery {
     grid-template-columns: 1fr;
+  }
+
+  .release-download {
+    padding: 26px 22px;
+  }
+
+  .release-download__metadata,
+  .download-guidance__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .release-download__action .button {
+    width: 100%;
   }
 
   .package-boundary {
