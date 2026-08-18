@@ -35,6 +35,8 @@ $env:PLAYWRIGHT_BASE_URL='http://127.0.0.1:3001'
 npm run test:e2e
 ```
 
+本地 Next 开发服务器不会把 `/preview/` 自动回退到 `public/preview/index.html`；预览 E2E 因此直接打开 `./preview/index.html`，避免把开发服务器的 404 当成静态预览回归。GitHub Pages 静态导出仍需按下方子路径规则验收 `/preview/`。
+
 ## 3. GitHub 仓库设置
 
 首次发布需要：
