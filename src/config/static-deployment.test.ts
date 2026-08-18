@@ -51,6 +51,28 @@ describe("static branch boundary", () => {
     expect(existsSync(join(process.cwd(), "prisma"))).toBe(false);
     expect(existsSync(join(process.cwd(), "vitest.db.config.ts"))).toBe(false);
   });
+
+  it("keeps the download center static and free of server entry points", () => {
+    const downloadPagePath = join(
+      process.cwd(),
+      "src/app/(marketing)/download/page.tsx",
+    );
+
+    expect(existsSync(downloadPagePath)).toBe(true);
+    const source = readFileSync(downloadPagePath, "utf8");
+    expect(source).not.toMatch(/use server|next\/headers|cookies\(|\/api\//);
+    for (const path of [
+      "public/downloads/templates/stores.csv",
+      "public/downloads/templates/products.csv",
+      "public/downloads/templates/categories.csv",
+      "public/downloads/templates/keywords.csv",
+      "public/downloads/templates/pricing.csv",
+      "public/downloads/manual/customer-installation.md",
+      "public/downloads/manual/api-configuration.md",
+    ]) {
+      expect(existsSync(join(process.cwd(), path))).toBe(true);
+    }
+  });
 });
 describe("Pages release workflow", () => {
   it("builds and deploys the exported out directory", () => {

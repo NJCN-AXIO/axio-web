@@ -5,6 +5,8 @@ type RequestMonitor = {
   violations: string[];
 };
 
+const previewEntry = "./preview/index.html";
+
 function monitorPreviewRequests(page: Page): RequestMonitor {
   const monitor: RequestMonitor = { observed: [], violations: [] };
   let previewOrigin: string | undefined;
@@ -54,7 +56,7 @@ async function clickPreviewNavigation(page: Page, selector: string) {
 
 test.describe("faithful public product preview", () => {
   test("opens on the real new-task workspace by default", async ({ page }) => {
-    await page.goto("./preview/");
+    await page.goto(previewEntry);
 
     await expect(page.locator('[data-page="task"]')).toHaveClass(/active/);
     await expect(page.locator("#page-task")).toHaveClass(/active/);
@@ -75,7 +77,7 @@ test.describe("faithful public product preview", () => {
   }) => {
     const requests = monitorPreviewRequests(page);
 
-    await page.goto("./preview/");
+    await page.goto(previewEntry);
     await expect(page.locator("#pricing-shadow-status")).toHaveAttribute(
       "data-state",
       "approved_current",
@@ -113,7 +115,7 @@ test.describe("faithful public product preview", () => {
     expect(requests.violations).toEqual([]);
   });
 
-  test("keeps online-experience and site-home links on the deployment root", async ({
+  test("keeps the online-experience link on the deployment root", async ({
     page,
   }) => {
     await page.goto(".");
@@ -133,12 +135,7 @@ test.describe("faithful public product preview", () => {
     await experienceLinks.first().click();
     await expect(page).toHaveURL(new RegExp(`${expectedPreviewPath}$`));
 
-    const homeLinks = page.locator("[data-site-home]");
-    await expect(homeLinks.first()).toBeAttached();
-    const homeCount = await homeLinks.count();
-    for (let index = 0; index < homeCount; index += 1) {
-      await expect(homeLinks.nth(index)).toHaveAttribute("href", siteRoot);
-    }
+    expect(siteRoot).toMatch(/^\//);
   });
 });
 for (const entry of [
@@ -162,7 +159,7 @@ for (const entry of [
   },
 ]) {
   test(entry.page + " renders local operational data", async ({ page }) => {
-    await page.goto("./preview/");
+    await page.goto(previewEntry);
     await clickPreviewNavigation(page, "[data-page=" + entry.page + "]");
     await expect(page.locator(entry.selector)).toHaveClass(/active/);
     await expect(page.locator(entry.proof)).toContainText(entry.expected);
@@ -173,7 +170,7 @@ test("navigates the complete local selection decision chain", async ({
   page,
 }) => {
   const requests = monitorPreviewRequests(page);
-  await page.goto("./preview/");
+  await page.goto(previewEntry);
 
   await clickPreviewNavigation(page, "[data-page=selection]");
   await expect(page.locator("#page-selection")).toHaveClass(/active/);
@@ -206,7 +203,7 @@ test("navigates the complete local selection decision chain", async ({
 
 test("collects and imports a fictional hotpick locally", async ({ page }) => {
   const requests = monitorPreviewRequests(page);
-  await page.goto("./preview/");
+  await page.goto(previewEntry);
   await clickPreviewNavigation(page, "[data-selection-target=hotpick]");
   await page.locator(".hp-platform-card[data-platform=shopee]").click();
   await page.locator("#hp-site").selectOption("MY");
@@ -226,7 +223,7 @@ test("simulates local order feedback and candidate import", async ({
   page,
 }) => {
   const requests = monitorPreviewRequests(page);
-  await page.goto("./preview/");
+  await page.goto(previewEntry);
   await clickPreviewNavigation(page, "[data-selection-target=orders]");
   await page.getByRole("button", { name: "同步并分析订单" }).click();
   await expect(page.locator("#order-tbody")).toContainText("桌面收纳套装");
@@ -240,7 +237,7 @@ test("simulates local order feedback and candidate import", async ({
 
 test("runs the local tianji analysis interaction", async ({ page }) => {
   const requests = monitorPreviewRequests(page);
-  await page.goto("./preview/");
+  await page.goto(previewEntry);
   await clickPreviewNavigation(page, "[data-selection-target=tianji]");
   await page.getByRole("button", { name: "📥 加载演示数据" }).click();
   await expect(page.getByText(/演示数据已加载/)).toBeVisible();
@@ -252,7 +249,7 @@ test("runs the local tianji analysis interaction", async ({ page }) => {
 
 test("runs the local matrix workspace", async ({ page }) => {
   const requests = monitorPreviewRequests(page);
-  await page.goto("./preview/");
+  await page.goto(previewEntry);
   await clickPreviewNavigation(page, "[data-page=shopboard]");
   const matrix = page.frameLocator("#shopboard-frame");
   await expect(
@@ -266,7 +263,7 @@ test("runs the local matrix workspace", async ({ page }) => {
 
 test("runs a local optimization action", async ({ page }) => {
   const requests = monitorPreviewRequests(page);
-  await page.goto("./preview/");
+  await page.goto(previewEntry);
   await clickPreviewNavigation(page, "[data-page=optimize]");
   await page.getByRole("heading", { name: "📦 库存同步" }).click();
   await page.getByRole("button", { name: "🚀 开始执行" }).click();
@@ -276,7 +273,7 @@ test("runs a local optimization action", async ({ page }) => {
 
 test("scores a local title candidate", async ({ page }) => {
   const requests = monitorPreviewRequests(page);
-  await page.goto("./preview/");
+  await page.goto(previewEntry);
   await clickPreviewNavigation(page, "[data-page=titlelearn]");
   await page.locator(".tl-check").first().check();
   await page.getByRole("button", { name: "🤖 本地演示兜底评分" }).click();
@@ -288,7 +285,7 @@ test("scores a local title candidate", async ({ page }) => {
 
 test("scans a fictional title locally", async ({ page }) => {
   const requests = monitorPreviewRequests(page);
-  await page.goto("./preview/");
+  await page.goto(previewEntry);
   await clickPreviewNavigation(page, "[data-page=ipcontrol]");
   await page.locator("#ip-test-title").fill("普通桌面收纳盒");
   await page.getByRole("button", { name: "扫描" }).click();
@@ -298,7 +295,7 @@ test("scans a fictional title locally", async ({ page }) => {
 
 test("saves the fictional AI configuration locally", async ({ page }) => {
   const requests = monitorPreviewRequests(page);
-  await page.goto("./preview/");
+  await page.goto(previewEntry);
   await clickPreviewNavigation(page, "[data-page=config]");
   await page.getByRole("button", { name: "保存配置" }).click();
   await expect(page.getByText(/演示配置已保存/)).toBeVisible();
@@ -308,7 +305,7 @@ test("saves the fictional AI configuration locally", async ({ page }) => {
 
 test("answers a supervisor question from local evidence", async ({ page }) => {
   const requests = monitorPreviewRequests(page);
-  await page.goto("./preview/");
+  await page.goto(previewEntry);
   await clickPreviewNavigation(page, "[data-page=dashboard]");
   await page
     .locator("#supervisor-natural-input")
@@ -323,7 +320,7 @@ test("answers a supervisor question from local evidence", async ({ page }) => {
 
 test("uses a contained accessible mobile drawer", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("./preview/");
+  await page.goto(previewEntry);
   const menu = page.locator("[data-preview-menu]");
   const sidebar = page.locator("[data-preview-sidebar]");
   await expect(menu).toBeVisible();

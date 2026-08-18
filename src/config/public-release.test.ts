@@ -16,18 +16,15 @@ const release: PublicRelease = {
 };
 
 describe("getDownloadState", () => {
-  it.each(["", "   "])(
-    "fails closed for a missing URL: %j",
-    (downloadUrl) => {
-      const result = getDownloadState({ ...release, downloadUrl });
+  it.each(["", "   "])("fails closed for a missing URL: %j", (downloadUrl) => {
+    const result = getDownloadState({ ...release, downloadUrl });
 
-      expect(result).toEqual({
-        kind: "missing",
-        message: "正式下载链接准备中，请联系 AXIO 获取",
-      });
-      expect(result).not.toHaveProperty("href");
-    },
-  );
+    expect(result).toEqual({
+      kind: "missing",
+      message: "正式下载链接准备中，请联系 AXIO 获取",
+    });
+    expect(result).not.toHaveProperty("href");
+  });
 
   it.each([
     "http://downloads.example.com/axio.zip",

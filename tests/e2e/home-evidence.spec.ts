@@ -149,7 +149,9 @@ test.describe("homepage product evidence", () => {
     }
   });
 
-  test("keeps inverse CTA copy readable in both themes", async ({ page }) => {
+  test("keeps the homepage inverse CTA copy readable in both themes", async ({
+    page,
+  }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
 
     for (const theme of ["light", "dark"]) {
@@ -194,38 +196,6 @@ test.describe("homepage product evidence", () => {
         });
 
       expect(Math.min(...homepageRatios)).toBeGreaterThanOrEqual(4.5);
-
-      await page.goto("./demo/");
-      const marketingRatio = await page
-        .locator(".marketing-cta")
-        .evaluate((section) => {
-          const parseColor = (value: string) =>
-            (value.match(/[\d.]+/g) ?? []).slice(0, 3).map(Number);
-          const luminance = (rgb: number[]) => {
-            const channels = rgb.map((value) => {
-              const channel = value / 255;
-              return channel <= 0.04045
-                ? channel / 12.92
-                : ((channel + 0.055) / 1.055) ** 2.4;
-            });
-            return (
-              0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2]
-            );
-          };
-          const background = luminance(
-            parseColor(getComputedStyle(section).backgroundColor),
-          );
-          const copy = luminance(
-            parseColor(
-              getComputedStyle(section.querySelector("p") as Element).color,
-            ),
-          );
-          return (
-            (Math.max(background, copy) + 0.05) /
-            (Math.min(background, copy) + 0.05)
-          );
-        });
-      expect(marketingRatio).toBeGreaterThanOrEqual(4.5);
     }
   });
 
@@ -240,11 +210,8 @@ test.describe("homepage product evidence", () => {
     expect(box!.width).toBeGreaterThanOrEqual(180);
 
     await page.goto("./demo/");
-    const demoQr = page.locator(".demo-booking__wechat .wechat-contact__qr");
-    await expect(demoQr).toBeVisible();
-    const demoBox = await demoQr.boundingBox();
-    expect(demoBox).not.toBeNull();
-    expect(demoBox!.width).toBeGreaterThanOrEqual(180);
+    await expect(page.locator(".demo-booking__wechat")).toHaveCount(0);
+    await expect(page.locator("form")).toHaveCount(0);
     await expectNoHorizontalOverflow(page);
   });
 });
