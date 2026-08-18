@@ -16,3 +16,11 @@ describe("global theme contrast tokens", () => {
     );
   });
 });
+
+describe("site navigation responsive boundary", () => {
+  it("switches to the mobile menu at 1080px before five links can overlap", () => {
+    expect(css).toMatch(
+      /@media \(max-width: 1080px\)[\s\S]*\.site-header__desktop-nav,[\s\S]*\.site-header__cta\s*{\s*display:\s*none;/,
+    );
+  });
+});

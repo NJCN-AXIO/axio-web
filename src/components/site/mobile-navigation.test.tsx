@@ -112,6 +112,10 @@ describe("MobileNavigation", () => {
 
     const productLink = screen.getByRole("link", { name: "产品能力" });
     expect(productLink).toHaveAttribute("aria-current", "page");
+    expect(screen.getByRole("link", { name: "下载中心" })).toHaveAttribute(
+      "href",
+      "/download",
+    );
     productLink.addEventListener("click", (event) => event.preventDefault());
     fireEvent.click(productLink);
     expect(

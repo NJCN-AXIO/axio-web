@@ -12,6 +12,16 @@ describe("Simplified Chinese site content", () => {
     });
   });
 
+  it("links the download center and states the public delivery boundary", () => {
+    expect(zhCN.navigation).toContainEqual({
+      label: "下载中心",
+      href: "/download",
+    });
+    expect(zhCN.footer.boundary).toBe(
+      "不提供账号鉴权下载；仅提供需设备许可激活的通用客户包",
+    );
+  });
+
   it("contains exactly the approved six groups and 21 NOW / 3 NEXT items", () => {
     const items = zhCN.capabilityGroups.flatMap((group) => group.items);
 
@@ -60,9 +70,7 @@ describe("Simplified Chinese site content", () => {
         featured: false,
       },
     ]);
-    expect(zhCN.footer.boundary).toBe(
-      "本地 Windows 客户端执行，敏感凭证留在客户环境",
-    );
+    expect(zhCN.footer.boundary).toContain("需设备许可激活的通用客户包");
     expect(zhCN.hero.secondaryCta.href).toBe("#capabilities");
   });
 

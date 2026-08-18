@@ -4,8 +4,10 @@ import { describe, expect, it, vi } from "vitest";
 import { ThemeProvider } from "../theme/theme-provider";
 import { SiteHeader } from "./site-header";
 
+const mockUsePathname = vi.hoisted(() => vi.fn(() => "/solutions"));
+
 vi.mock("next/navigation", () => ({
-  usePathname: () => "/solutions",
+  usePathname: mockUsePathname,
 }));
 
 describe("SiteHeader", () => {
@@ -37,11 +39,30 @@ describe("SiteHeader", () => {
       "href",
       "/pricing",
     );
+    expect(screen.getByRole("link", { name: "下载中心" })).toHaveAttribute(
+      "href",
+      "/download",
+    );
     expect(screen.queryByRole("link", { name: "预约演示" })).toBeNull();
     expect(screen.queryByRole("link", { name: "登录" })).toBeNull();
     expect(screen.getByRole("link", { name: "在线体验" })).toHaveAttribute(
       "href",
       "/preview",
+    );
+  });
+
+  it("marks the download route as active", () => {
+    mockUsePathname.mockReturnValue("/download");
+
+    render(
+      <ThemeProvider>
+        <SiteHeader />
+      </ThemeProvider>,
+    );
+
+    expect(screen.getByRole("link", { name: "下载中心" })).toHaveAttribute(
+      "aria-current",
+      "page",
     );
   });
 });

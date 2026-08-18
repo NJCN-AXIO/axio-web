@@ -70,6 +70,7 @@ export const zhCN: SiteContent = {
     { label: "解决方案", href: "/solutions" },
     { label: "能力矩阵", href: "/#capabilities" },
     { label: "版本方案", href: "/pricing" },
+    { label: "下载中心", href: "/download" },
   ],
   hero: {
     title: "AXIO 智核",
@@ -402,7 +403,7 @@ export const zhCN: SiteContent = {
     finalDescription: "\u89c2\u770b AXIO 产品演示。",
   },
   footer: {
-    boundary: "本地 Windows 客户端执行，敏感凭证留在客户环境",
+    boundary: "不提供账号鉴权下载；仅提供需设备许可激活的通用客户包",
     links: [
       { label: "隐私政策", href: "/privacy" },
       { label: "服务条款", href: "/terms" },
