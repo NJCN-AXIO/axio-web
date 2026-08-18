@@ -12,12 +12,13 @@ AXIO 智核的公开产品官网，主要介绍面向 Shopee 店群运营的自�
 | `/product`   | 产品能力总览                                           |
 | `/solutions` | 适用场景与解决方案                                     |
 | `/pricing`   | Starter、Professional、Team 三档方案对比               |
-| `/demo`      | Interactive preview and product demonstration videos   |
+| `/demo`      | 产品演示视频与只读交互预览                             |
 | `/preview`   | 使用虚构数据的静态交互产品预览，不连接真实店铺或后端   |
+| `/download`  | 通用客户包元数据、安装、导入、FAQ 和升级回滚说明       |
 | `/privacy`   | 隐私政策                                               |
 | `/terms`     | 服务条款                                               |
 
-静态版明确不提供：账号注册、邮箱验证、登录、会员中心、数据库写入、授权下载、本地客户端唤起和在线支付。
+静态版明确不提供：账号注册、邮箱验证、登录、会员中心、数据库写入、账号鉴权下载、本地客户端唤起和在线支付。`/download` 只展示手动维护的版本元数据；真实 ZIP 链接为空时必须显示“正式下载链接准备中，请联系 AXIO 获取”，不得渲染空链接或假链接。
 
 ## 技术栈
 
@@ -112,6 +113,16 @@ docs/                       架构、发布、维护和历史设计记录
 3. 推送到 `master`，或手动运行 `Deploy static site to Pages`。
 
 工作流会自动识别用户主页仓库和普通项目仓库，并设置正确的 `basePath`。完整发布、回滚和故障排查见 `docs/operations/github-pages-deployment.md`。
+
+## 客户包手动发布清单
+
+官网不自动构建、签名、托管或授权客户 ZIP。每次发布客户包必须由维护者完成以下步骤：
+
+1. 在产品仓库完成功能冻结、清洁工作树检查和正式签名 ZIP 构建；客户包必须是空白客户数据包，不含源码、私钥、许可、API Key、Cookie、Founder/ACCIO 数据或内部路径。
+2. 将同一个签名 ZIP 上传到已确认可访问的 HTTPS 网盘或发布渠道；人工下载一次并记录文件大小与 SHA-256。
+3. 在 `src/content/zh-cn.ts` 的 `publicRelease` 中同步 `releaseVersion`、`releaseDate`、`downloadUrl`、`sha256`、`fileSize` 和 `releaseNotes`。产品包或链接未完成验收时，保持 `downloadUrl` 为空。
+4. 运行 `npm run verify`、`npm run test:e2e` 和 `git diff --check`，检查 `/download` 的空链接状态、桌面/手机布局、模板/手册链接、外链 `target="_blank" rel="noreferrer"` 和公开产物敏感信息。
+5. 推送官网 `master`，等待 GitHub Pages 工作流完成，再人工刷新根路径与项目子路径页面。若 ZIP、大小或 SHA-256 任何一项改变，必须重新更新元数据并重建 Pages。
 
 ## 分支边界
 

@@ -87,6 +87,21 @@ describe("Pages release workflow", () => {
     expect(workflow).toContain("path: ./out");
     expect(workflow).toContain("actions/deploy-pages@v4");
   });
+
+  it("documents the fail-closed customer release checklist", () => {
+    const readme = readFileSync(join(process.cwd(), "README.md"), "utf8");
+    const deployment = readFileSync(
+      join(process.cwd(), "docs/operations/github-pages-deployment.md"),
+      "utf8",
+    );
+
+    for (const text of [readme, deployment]) {
+      expect(text).toContain("正式下载链接准备中，请联系 AXIO 获取");
+      expect(text).toContain("downloadUrl");
+      expect(text).toContain("SHA-256");
+      expect(text).toContain("npm run test:e2e");
+    }
+  });
 });
 describe("static asset paths", () => {
   it("prefixes root-relative media with the repository path", async () => {
