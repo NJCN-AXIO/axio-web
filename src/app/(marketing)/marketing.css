@@ -560,6 +560,10 @@
   font-weight: 750;
 }
 
+.download-faq-jump {
+  margin-top: 20px;
+}
+
 .faq-list,
 .faq-priority,
 .faq-groups,
@@ -573,6 +577,9 @@
 }
 
 .faq-priority {
+  padding: 28px;
+  border: 1px solid var(--border);
+  background: var(--surface);
   gap: 4px;
 }
 

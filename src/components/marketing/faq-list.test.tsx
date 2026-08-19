@@ -12,6 +12,7 @@ describe("FaqList", () => {
 
     const priority = screen.getByTestId("faq-priority");
     expect(within(priority).getAllByRole("group")).toHaveLength(15);
+    expect(priority.querySelectorAll("details[open]")).toHaveLength(5);
     expect(screen.getAllByRole("heading", { level: 3 })).toHaveLength(
       groups.length,
     );

@@ -36,6 +36,9 @@ export default function DownloadPage() {
               配置、空白数据导入和手动升级路径。
               当前不提供账号鉴权下载，也不填写未经验收的真实下载链接。
             </p>
+            <a className="button button--quiet download-faq-jump" href="#faq">
+              查看客户 FAQ
+            </a>
           </div>
           <aside className="marketing-hero__aside">
             <strong>静态官网，链接手动发布</strong>
@@ -68,6 +71,16 @@ export default function DownloadPage() {
             </p>
           </header>
           <WechatContact className="download-wechat-contact" />
+        </div>
+      </section>
+
+      <section
+        className="marketing-section marketing-section--surface"
+        aria-label="客户常见问题"
+        id="faq"
+      >
+        <div className="marketing-section__inner">
+          <FaqList groups={content.faqGroups} />
         </div>
       </section>
 
@@ -146,15 +159,6 @@ export default function DownloadPage() {
               查看 API 配置手册
             </a>
           </div>
-        </div>
-      </section>
-
-      <section
-        className="marketing-section marketing-section--surface"
-        aria-label="客户常见问题"
-      >
-        <div className="marketing-section__inner">
-          <FaqList groups={content.faqGroups} />
         </div>
       </section>
 

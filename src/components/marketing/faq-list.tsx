@@ -1,8 +1,14 @@
 import type { FaqGroup, FaqItem } from "../../content";
 
-function FaqEntry({ item }: { item: FaqItem }) {
+function FaqEntry({
+  item,
+  defaultOpen = false,
+}: {
+  item: FaqItem;
+  defaultOpen?: boolean;
+}) {
   return (
-    <details className="faq-entry">
+    <details className="faq-entry" open={defaultOpen}>
       <summary>{item.question}</summary>
       <p>{item.answer}</p>
     </details>
@@ -25,8 +31,8 @@ export function FaqList({ groups }: { groups: readonly FaqGroup[] }) {
           </p>
         </header>
         <div className="faq-list__entries">
-          {priorityItems.map((item) => (
-            <FaqEntry item={item} key={item.question} />
+          {priorityItems.map((item, index) => (
+            <FaqEntry defaultOpen={index < 5} item={item} key={item.question} />
           ))}
         </div>
       </section>
