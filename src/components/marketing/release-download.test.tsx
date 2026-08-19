@@ -51,6 +51,16 @@ describe("ReleaseDownload", () => {
     ).toHaveAttribute("rel", "noreferrer");
   });
 
+  it("renders the configured Thunder cloud-drive URL", () => {
+    const downloadUrl =
+      "https://pan.xunlei.com/s/VP-P3BI7hG8hv-roJdqimWq9A1?pwd=ix5s";
+    render(<ReleaseDownload release={{ ...baseRelease, downloadUrl }} />);
+
+    expect(
+      screen.getByRole("link", { name: "下载 AXIO 客户端" }),
+    ).toHaveAttribute("href", downloadUrl);
+  });
+
   it("fails closed for an invalid release link", () => {
     render(
       <ReleaseDownload

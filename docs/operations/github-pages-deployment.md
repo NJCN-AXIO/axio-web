@@ -98,7 +98,7 @@ GitHub Pages 自身不能接收表单。当前站点可将表单直接 POST 到 
 - 桌面导航当前页高亮，首页能力矩阵锚点高亮。
 - 浅色和深色主题切换后刷新仍保留。
 - 未配置 Formspree 时表单禁用；配置后表单 action 指向预期 Formspree 地址。
-- `/download` 在 `downloadUrl` 为空时显示“正式下载链接准备中，请联系 AXIO 获取”，不生成空 `href`；只有经过验收的 HTTPS ZIP 才能显示外部下载链接。
+- `/download` 可以预先显示固定 HTTPS 云盘文件夹，但签名 ZIP 未上传或未验收时，版本、文件大小和 SHA-256 必须保持“待发布”；`downloadUrl` 为空时仍显示“正式下载链接准备中，请联系 AXIO 获取”，不生成空 `href`。
 - `/download` 的五份 CSV 模板和两份客户手册可在根路径与项目子路径打开，且不含凭据、许可文件、Cookie、浏览器 Profile、Founder/ACCIO 数据或内部路径。
 - FAQ 的原生 `<details>/<summary>` 可展开，回答明确隐私、费用、失败关闭、未知写入不自动重试和理论利润/妙手结算净利润边界。
 - 浏览器控制台没有资源 404 或混合内容错误。
@@ -119,7 +119,7 @@ GitHub Pages 自身不能接收表单。当前站点可将表单直接 POST 到 
 4. 运行 `npm run verify`、`npm run test:e2e`、`git diff --check`，在 1440×900、1024×768 和 390×844 检查 `/download`，并确认外部链接使用 `target="_blank" rel="noreferrer"`。
 5. 推送 `master` 并等待 Pages 工作流；发布后再次打开根路径和项目子路径，检查 ZIP 链接、模板、手册、FAQ 和 SHA-256 文案一致。
 
-只要签名 ZIP、网盘链接或哈希尚未完成产品验收，保持 `downloadUrl: ""`，页面按钮必须禁用并显示“正式下载链接准备中，请联系 AXIO 获取”。
+固定 HTTPS 云盘文件夹可以在签名 ZIP 之前配置，页面必须明确文件仍待上传，并将版本、文件大小和 SHA-256 保持为“待发布”。如果没有稳定云盘文件夹，则保持 `downloadUrl: ""`，页面按钮禁用并显示“正式下载链接准备中，请联系 AXIO 获取”。
 
 ## 8. 回滚
 

@@ -134,9 +134,8 @@ it("publishes the approved launch prices without online checkout", () => {
     expect(within(card).getByText(option.launchPrice)).toBeVisible();
   }
   expect(screen.getByText("首发仅限 20 席")).toBeVisible();
-  expect(screen.getByText("最多 10 店")).toBeVisible();
-  expect(screen.getByText("最多 50 店")).toBeVisible();
-  expect(screen.getByText("最多 200 店")).toBeVisible();
+  expect(screen.getAllByText("按签发许可范围")).toHaveLength(3);
+  expect(screen.getByText("团队范围待验收")).toBeVisible();
   expect(screen.getByText("定制部署 ¥6,800 起")).toBeVisible();
   expect(screen.getByText("源码交付单独报价")).toBeVisible();
   expect(screen.getAllByText("不支持在线付款")).toHaveLength(2);
@@ -150,13 +149,24 @@ it("publishes a fail-closed download center with installation boundaries", () =>
   expect(
     screen.getByRole("heading", { level: 1, name: "下载 AXIO 客户端" }),
   ).toBeVisible();
-  expect(
-    screen.getByText("正式下载链接准备中，请联系 AXIO 获取"),
-  ).toBeVisible();
+  const downloadLink = screen.getByRole("link", {
+    name: "打开 AXIO 客户端下载文件夹",
+  });
+  expect(downloadLink).toHaveAttribute(
+    "href",
+    getSiteContent().publicRelease.downloadUrl,
+  );
+  expect(downloadLink).toHaveAttribute("target", "_blank");
+  expect(downloadLink).toHaveAttribute("rel", "noreferrer");
   expect(screen.getAllByText("Windows 10/11 x64")).toHaveLength(2);
   expect(screen.getByText("不需要安装 Python")).toBeVisible();
   expect(screen.getByText(/API Key 由客户自行配置/)).toBeVisible();
   expect(screen.getByText("手动并排升级，失败时回滚旧版本")).toBeVisible();
+  expect(
+    within(screen.getByRole("region", { name: "升级和回滚" })).getByText(
+      /同卷临时副本.*原子切换.*原子恢复/,
+    ),
+  ).toBeVisible();
   expect(screen.getByRole("link", { name: "查看客户 FAQ" })).toHaveAttribute(
     "href",
     "#faq",
@@ -176,7 +186,7 @@ it("publishes a fail-closed download center with installation boundaries", () =>
   expect(
     screen.getByRole("heading", { level: 2, name: "客户常见问题" }),
   ).toBeVisible();
-  expect(screen.queryByRole("link", { name: /下载 AXIO/ })).toBeNull();
+  expect(screen.getByText(/签名客户 ZIP 待上传到已配置/)).toBeVisible();
 });
 
 it("orders the interactive preview, full product demo, then core workflow", () => {

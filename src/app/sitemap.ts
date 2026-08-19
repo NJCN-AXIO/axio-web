@@ -1,7 +1,5 @@
 import type { MetadataRoute } from "next";
-
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://njcn-axio.github.io/axio-web";
+import { siteUrl } from "../config/site-url";
 
 export const dynamic = "force-static";
 

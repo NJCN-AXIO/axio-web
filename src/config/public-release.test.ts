@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import { getDownloadState } from "./public-release";
+import {
+  getDownloadState,
+  getPublicLink,
+  isSafePublicLink,
+} from "./public-release";
 import type { PublicRelease } from "./public-release";
 
 const release: PublicRelease = {
@@ -48,5 +52,37 @@ describe("getDownloadState", () => {
     });
     expect(release.sha256).toMatch(/^[a-f0-9]{64}$/);
     expect(release.fileSize).toBe("128 MB");
+  });
+
+  it("accepts the configured Thunder cloud-drive URL", () => {
+    const downloadUrl =
+      "https://pan.xunlei.com/s/VP-P3BI7hG8hv-roJdqimWq9A1?pwd=ix5s";
+
+    expect(getDownloadState({ ...release, downloadUrl })).toEqual({
+      kind: "ready",
+      href: downloadUrl,
+      message: release.downloadLabel,
+    });
+  });
+
+  it("accepts only HTTPS external public links", () => {
+    expect(isSafePublicLink("http://example.com/template.csv")).toBe(false);
+    expect(isSafePublicLink("https://example.com/template.csv")).toBe(true);
+  });
+
+  it("preserves local links and rejects unsafe configured resource links", () => {
+    expect(getPublicLink("/downloads/manual/customer-installation.md")).toEqual(
+      {
+        href: "/downloads/manual/customer-installation.md",
+        external: false,
+      },
+    );
+    expect(getPublicLink("http://example.com/manual.md")).toBeNull();
+    expect(getPublicLink("//example.com/manual.md")).toBeNull();
+    expect(getPublicLink("/downloads\\manual.md")).toBeNull();
+    expect(getPublicLink("https://example.com/manual.md")).toEqual({
+      href: "https://example.com/manual.md",
+      external: true,
+    });
   });
 });

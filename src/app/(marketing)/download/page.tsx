@@ -4,6 +4,7 @@ import { MarketingCta } from "../../../components/marketing/marketing-cta";
 import { WechatContact } from "../../../components/contact/wechat-contact";
 import { FaqList } from "../../../components/marketing/faq-list";
 import { ReleaseDownload } from "../../../components/marketing/release-download";
+import { getPublicLink } from "../../../config/public-release";
 import { getSiteContent } from "../../../content";
 import { withBasePath } from "../../../config/site-path";
 
@@ -35,7 +36,8 @@ export default function DownloadPage() {
             <p className="marketing-hero__lead">
               下载中心提供版本元数据、安装准备、API
               配置、空白数据导入和手动升级路径。
-              当前不提供账号鉴权下载，也不填写未经验收的真实下载链接。
+              当前不提供账号鉴权下载。已配置固定迅雷云盘文件夹；签名 ZIP
+              上传前，版本、文件大小和 SHA-256 继续标记为待发布。
             </p>
             <a className="button button--quiet download-faq-jump" href="#faq">
               查看客户 FAQ
@@ -67,7 +69,7 @@ export default function DownloadPage() {
             <p className="marketing-eyebrow">SUPPORT / WECHAT</p>
             <h2>需要确认交付范围？直接联系 AXIO</h2>
             <p>
-              下载链接准备中、版本核对或安装边界有疑问时，请通过微信咨询。请勿发送店铺密码、Cookie、API
+              云盘文件夹暂为空、版本核对或安装边界有疑问时，请通过微信咨询。请勿发送店铺密码、Cookie、API
               Key 或完整业务数据。
             </p>
           </header>
@@ -131,11 +133,21 @@ export default function DownloadPage() {
             </p>
           </header>
           <nav className="download-template-links" aria-label="空白导入模板">
-            {templateLinks.map(([label, href]) => (
-              <a href={withBasePath(href)} key={href}>
-                {label}
-              </a>
-            ))}
+            {templateLinks.map(([label, href]) => {
+              const link = getPublicLink(href);
+              if (!link) return null;
+              return (
+                <a
+                  href={link.external ? link.href : withBasePath(link.href)}
+                  key={href}
+                  {...(link.external
+                    ? { rel: "noreferrer", target: "_blank" }
+                    : {})}
+                >
+                  {label}
+                </a>
+              );
+            })}
           </nav>
         </div>
       </section>
@@ -146,25 +158,37 @@ export default function DownloadPage() {
             <p className="marketing-eyebrow">UPDATE / RECOVERY</p>
             <h2>手动并排升级，失败时回滚旧版本</h2>
             <p>
-              新旧版本使用独立目录；客户数据和备份目录不随版本目录删除。先备份并迁移，
-              完成健康检查后再切换；迁移失败保留旧版本和备份，不自动覆盖。
+              新旧版本使用独立目录；客户数据和备份目录不随版本目录删除。先在同卷临时副本中
+              备份并迁移，完成健康检查和旧版可读回后再原子切换；切换后若回读失败，原子恢复
+              已校验备份并确认旧版可读，再启动旧版本。未知迁移状态不宣称成功。
             </p>
           </header>
           <div className="download-guidance__links">
-            <a
-              href={withBasePath("/downloads/manual/customer-installation.md")}
-            >
-              查看客户安装手册
-            </a>
-            <a href={withBasePath("/downloads/manual/api-configuration.md")}>
-              查看 API 配置手册
-            </a>
+            {["查看客户安装手册", "查看 API 配置手册"].map((label, index) => {
+              const configuredHref =
+                index === 0
+                  ? release.manualUrl
+                  : "/downloads/manual/api-configuration.md";
+              const link = getPublicLink(configuredHref);
+              if (!link) return null;
+              return (
+                <a
+                  href={link.external ? link.href : withBasePath(link.href)}
+                  key={label}
+                  {...(link.external
+                    ? { rel: "noreferrer", target: "_blank" }
+                    : {})}
+                >
+                  {label}
+                </a>
+              );
+            })}
           </div>
         </div>
       </section>
 
       <MarketingCta
-        description="如果下载链接尚未发布，请联系 AXIO 获取经过验收的版本信息。"
+        description="云盘文件夹已固定；签名 ZIP 尚未上传时，请联系 AXIO 获取经过验收的版本信息。"
         title="先确认交付边界，再开始安装"
       />
     </main>

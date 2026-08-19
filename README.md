@@ -18,7 +18,7 @@ AXIO 智核的公开产品官网，主要介绍面向 Shopee 店群运营的自�
 | `/privacy`   | 隐私政策                                               |
 | `/terms`     | 服务条款                                               |
 
-静态版明确不提供：账号注册、邮箱验证、登录、会员中心、数据库写入、账号鉴权下载、本地客户端唤起和在线支付。`/download` 只展示手动维护的版本元数据；真实 ZIP 链接为空时必须显示“正式下载链接准备中，请联系 AXIO 获取”，不得渲染空链接或假链接。
+静态版明确不提供：账号注册、邮箱验证、登录、会员中心、数据库写入、账号鉴权下载、本地客户端唤起和在线支付。`/download` 只展示手动维护的版本元数据；可以预先配置稳定的 HTTPS 云盘文件夹，签名 ZIP 上传前版本、文件大小和 SHA-256 必须保持“待发布”。链接为空时仍显示“正式下载链接准备中，请联系 AXIO 获取”，不得渲染空链接或假链接。
 
 ## 技术栈
 
@@ -120,7 +120,7 @@ docs/                       架构、发布、维护和历史设计记录
 
 1. 在产品仓库完成功能冻结、清洁工作树检查和正式签名 ZIP 构建；客户包必须是空白客户数据包，不含源码、私钥、许可、API Key、Cookie、Founder/ACCIO 数据或内部路径。
 2. 将同一个签名 ZIP 上传到已确认可访问的 HTTPS 网盘或发布渠道；人工下载一次并记录文件大小与 SHA-256。
-3. 在 `src/content/zh-cn.ts` 的 `publicRelease` 中同步 `releaseVersion`、`releaseDate`、`downloadUrl`、`sha256`、`fileSize` 和 `releaseNotes`。产品包或链接未完成验收时，保持 `downloadUrl` 为空。
+3. 在 `src/content/zh-cn.ts` 的 `publicRelease` 中同步 `releaseVersion`、`releaseDate`、`downloadUrl`、`sha256`、`fileSize` 和 `releaseNotes`。稳定云盘文件夹可提前配置；签名 ZIP 未上传或未验收时，版本、文件大小和 SHA-256 保持“待发布”，不得把文件夹链接描述成已发布安装包。
 4. 运行 `npm run verify`、`npm run test:e2e` 和 `git diff --check`，检查 `/download` 的空链接状态、桌面/手机布局、模板/手册链接、外链 `target="_blank" rel="noreferrer"` 和公开产物敏感信息。
 5. 推送官网 `master`，等待 GitHub Pages 工作流完成，再人工刷新根路径与项目子路径页面。若 ZIP、大小或 SHA-256 任何一项改变，必须重新更新元数据并重建 Pages。
 

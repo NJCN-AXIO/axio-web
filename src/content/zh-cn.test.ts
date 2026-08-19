@@ -74,11 +74,11 @@ describe("Simplified Chinese site content", () => {
     expect(zhCN.hero.secondaryCta.href).toBe("#capabilities");
   });
 
-  it("publishes explicit package capacity boundaries", () => {
+  it("publishes governed package capacity boundaries", () => {
     expect(zhCN.packages.map((item) => item.limits)).toEqual([
-      ["最多 10 店", "6 站点 · 并发 1", "单人使用"],
-      ["最多 50 店", "6 站点 · 并发 3", "单人专业运营"],
-      ["最多 200 店", "12 站点 · 并发 10", "3 席位协作"],
+      ["按签发许可范围", "受控任务排队", "单人使用"],
+      ["按签发许可范围", "受控任务排队", "单人专业运营"],
+      ["按签发许可范围", "受控任务排队", "团队范围待验收"],
     ]);
   });
 
@@ -92,10 +92,11 @@ describe("Simplified Chinese site content", () => {
     );
   });
 
-  it("keeps unreleased public download URLs empty", () => {
+  it("keeps the public download URL stable while the artifact is pending", () => {
     expect(zhCN.publicRelease).toMatchObject({
       releaseVersion: "待发布",
-      downloadUrl: "",
+      downloadUrl:
+        "https://pan.xunlei.com/s/VP-P3BI7hG8hv-roJdqimWq9A1?pwd=ix5s",
       templateUrl: "/downloads/templates/stores.csv",
       manualUrl: "/downloads/manual/customer-installation.md",
     });

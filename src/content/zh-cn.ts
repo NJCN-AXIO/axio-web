@@ -126,7 +126,7 @@ export const zhCN: SiteContent = {
       launchPrice: "¥399",
       launchLabel: "首发价",
       delivery: "标准客户端与基础流程，自助使用",
-      limits: ["最多 10 店", "6 站点 · 并发 1", "单人使用"],
+      limits: ["按签发许可范围", "受控任务排队", "单人使用"],
       featured: false,
     },
     {
@@ -138,7 +138,7 @@ export const zhCN: SiteContent = {
       launchPrice: "¥699",
       launchLabel: "首发 20 席",
       delivery: "完整运营闭环与标准支持",
-      limits: ["最多 50 店", "6 站点 · 并发 3", "单人专业运营"],
+      limits: ["按签发许可范围", "受控任务排队", "单人专业运营"],
       featured: true,
     },
     {
@@ -150,18 +150,19 @@ export const zhCN: SiteContent = {
       launchPrice: "¥1,999",
       launchLabel: "首发价",
       delivery: "团队使用、优先支持与有限规则配置",
-      limits: ["最多 200 店", "12 站点 · 并发 10", "3 席位协作"],
+      limits: ["按签发许可范围", "受控任务排队", "团队范围待验收"],
       featured: false,
     },
   ],
   publicRelease: {
     releaseVersion: "待发布",
     releaseDate: "待发布",
-    downloadUrl: "",
-    downloadLabel: "下载 AXIO 客户端",
+    downloadUrl: "https://pan.xunlei.com/s/VP-P3BI7hG8hv-roJdqimWq9A1?pwd=ix5s",
+    downloadLabel: "打开 AXIO 客户端下载文件夹",
     sha256: "待发布",
     fileSize: "待发布",
-    releaseNotes: "正式客户 ZIP 尚未发布。",
+    releaseNotes:
+      "签名客户 ZIP 待上传到已配置的迅雷云盘文件夹；上传后无需修改官网链接。",
     templateUrl: "/downloads/templates/stores.csv",
     manualUrl: "/downloads/manual/customer-installation.md",
   },
@@ -185,7 +186,7 @@ export const zhCN: SiteContent = {
         {
           question: "启航版、专业版和团队版如何选择？",
           answer:
-            "启航版适合最多 10 店的起步场景，专业版面向最多 50 店并提供完整核心能力，团队版面向最多 200 店、3 席位和更高并发。Professional 专业版是唯一公开主推；Trial 仅限邀请，Private Enterprise 按独立范围报价。",
+            "启航版、专业版和团队版均按签发许可范围提供能力。Professional 专业版是唯一公开主推；Team 的席位、协作权限和额度须在真实验收后再写入正式许可，Trial 仅限邀请，Private Enterprise 按独立范围报价。",
           priority: true,
         },
         {
@@ -215,7 +216,7 @@ export const zhCN: SiteContent = {
         {
           question: "店铺、站点、并发和团队席位如何计算？",
           answer:
-            "Starter 为最多 10 店、6 站点、并发 1；Professional 为最多 50 店、6 站点、并发 3；Team 为最多 200 店、12 站点、3 席位、并发 10。客户按合同导入并分配额度，系统在任务排队前校验上限；超限不会偷偷执行，升级或调整需重新签发许可。",
+            "套餐容量、站点、并发和团队席位不在官网固定承诺，统一以签发许可和真实验收记录为准。系统在任务排队前校验上限；超限不会偷偷执行，升级或调整需重新签发许可。",
           priority: false,
         },
         {
@@ -299,7 +300,7 @@ export const zhCN: SiteContent = {
         {
           question: "如何备份、恢复和迁移到新版本或新电脑？",
           answer:
-            "升级或设备迁移前先生成可验证备份，再在新目录执行迁移和健康检查。迁移失败保留旧版本和原备份，不覆盖唯一副本；设备迁移还需要按许可流程重新绑定。",
+            "升级或设备迁移前先生成可验证备份，在同卷临时副本中执行迁移和健康检查，确认旧版可读后再原子切换。切换后回读失败时原子恢复已校验备份并确认旧版可读；迁移失败不覆盖唯一副本，设备迁移还需要按许可流程重新绑定。",
           priority: true,
         },
         {
@@ -426,7 +427,7 @@ export const zhCN: SiteContent = {
         {
           question: "更新是否覆盖数据，升级失败如何回滚？",
           answer:
-            "新旧版本并排安装，客户数据位于版本目录之外。升级前备份，迁移和健康检查通过后才切换；失败则继续使用旧版本和备份，不删除旧目录，也不把未知迁移状态宣称为成功。",
+            "新旧版本并排安装，客户数据位于版本目录之外。升级前在同卷临时副本中备份和迁移，旧版可读回后才原子切换；切换后回读失败则原子恢复已校验备份并确认旧版可读，不删除旧目录，也不把未知迁移状态宣称为成功。",
           priority: true,
         },
         {

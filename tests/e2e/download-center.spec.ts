@@ -13,21 +13,28 @@ test.describe("download center", () => {
     await page.goto("./download/");
   });
 
-  test("fails closed while the real customer ZIP is unavailable", async ({
+  test("opens the stable cloud folder while release metadata remains pending", async ({
     page,
   }) => {
     await expect(
       page.getByRole("heading", { level: 1, name: "下载 AXIO 客户端" }),
     ).toBeVisible();
+    const download = page.getByRole("link", {
+      name: "打开 AXIO 客户端下载文件夹",
+    });
+    await expect(download).toHaveAttribute(
+      "href",
+      "https://pan.xunlei.com/s/VP-P3BI7hG8hv-roJdqimWq9A1?pwd=ix5s",
+    );
+    await expect(download).toHaveAttribute("target", "_blank");
+    await expect(download).toHaveAttribute("rel", "noreferrer");
     await expect(
-      page.getByRole("button", {
-        name: "正式下载链接准备中，请联系 AXIO 获取",
-      }),
-    ).toBeDisabled();
+      page
+        .getByTestId("release-download")
+        .locator("dd")
+        .filter({ hasText: /^待发布$/ }),
+    ).toHaveCount(4);
     await expect(page.locator('a[href=""]')).toHaveCount(0);
-    await expect(
-      page.getByRole("link", { name: /下载 AXIO 客户端/ }),
-    ).toHaveCount(0);
     await expect(page.getByTestId("wechat-contact")).toBeVisible();
   });
 

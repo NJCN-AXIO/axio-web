@@ -5,13 +5,11 @@ import { SiteFooter } from "../components/site/site-footer";
 import { SiteHeader } from "../components/site/site-header";
 import { ThemeProvider } from "../components/theme/theme-provider";
 import { ThemeScript } from "../components/theme/theme-script";
+import { siteUrl } from "../config/site-url";
 
 import "./globals.css";
 
 const description = "Shopee 店群受控自动化运营系统";
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://njcn-axio.github.io/axio-web";
-
 export const metadata: Metadata = {
   title: {
     default: "AXIO 智核",
