@@ -126,6 +126,7 @@ export const zhCN: SiteContent = {
       launchPrice: "¥399",
       launchLabel: "首发价",
       delivery: "标准客户端与基础流程，自助使用",
+      limits: ["最多 10 店", "6 站点 · 并发 1", "单人使用"],
       featured: false,
     },
     {
@@ -137,6 +138,7 @@ export const zhCN: SiteContent = {
       launchPrice: "¥699",
       launchLabel: "首发 20 席",
       delivery: "完整运营闭环与标准支持",
+      limits: ["最多 50 店", "6 站点 · 并发 3", "单人专业运营"],
       featured: true,
     },
     {
@@ -148,6 +150,7 @@ export const zhCN: SiteContent = {
       launchPrice: "¥1,999",
       launchLabel: "首发价",
       delivery: "团队使用、优先支持与有限规则配置",
+      limits: ["最多 200 店", "12 站点 · 并发 10", "3 席位协作"],
       featured: false,
     },
   ],

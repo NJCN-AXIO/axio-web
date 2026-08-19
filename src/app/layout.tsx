@@ -8,7 +8,9 @@ import { ThemeScript } from "../components/theme/theme-script";
 
 import "./globals.css";
 
-const description = "跨境电商店群全自动化运营系统";
+const description = "Shopee 店群受控自动化运营系统";
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://njcn-axio.github.io/axio-web";
 
 export const metadata: Metadata = {
   title: {
@@ -16,6 +18,19 @@ export const metadata: Metadata = {
     template: "%s | AXIO 智核",
   },
   description,
+  metadataBase: new URL(siteUrl),
+  openGraph: {
+    title: "AXIO 智核",
+    description,
+    siteName: "AXIO 智核",
+    type: "website",
+    locale: "zh_CN",
+  },
+  twitter: {
+    card: "summary",
+    title: "AXIO 智核",
+    description,
+  },
 };
 
 export default function RootLayout({
@@ -28,8 +43,11 @@ export default function RootLayout({
       </head>
       <body>
         <ThemeProvider>
+          <a className="skip-link" href="#main-content">
+            跳到主要内容
+          </a>
           <SiteHeader />
-          {children}
+          <div id="main-content">{children}</div>
           <SiteFooter />
         </ThemeProvider>
       </body>

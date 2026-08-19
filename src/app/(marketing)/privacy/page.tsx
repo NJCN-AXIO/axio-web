@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "\u9690\u79c1\u653f\u7b56",
   description:
     "\u5b98\u7f51\u4e0d\u63d0\u4f9b\u6f14\u793a\u9884\u7ea6\u8868\u5355\uff0c\u4e5f\u4e0d\u6536\u96c6\u7528\u4e8e\u9884\u7ea6\u6f14\u793a\u7684\u4e2a\u4eba\u4fe1\u606f\u3002",
+  alternates: { canonical: "/privacy/" },
 };
 
 const policies = [

@@ -39,6 +39,7 @@ export type PackageOption = {
   readonly launchPrice: string;
   readonly launchLabel: string;
   readonly delivery: string;
+  readonly limits: readonly string[];
   readonly featured: boolean;
 };
 

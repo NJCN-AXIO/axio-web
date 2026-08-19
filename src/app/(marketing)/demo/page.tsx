@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { DemoVideoPlayer } from "../../../components/media/demo-video-player";
 import { ProductPreviewStage } from "../../../components/marketing/product-preview-stage";
+import { MarketingCta } from "../../../components/marketing/marketing-cta";
 import { demoVideos } from "../../../content/videos";
 
 const productDemoTitle = "AXIO 产品演示";
@@ -12,6 +13,7 @@ const previewBody = "演示使用虚构数据，不连接店铺，也不会执�
 export const metadata: Metadata = {
   title: productDemoTitle,
   description: productDemoLead,
+  alternates: { canonical: "/demo/" },
 };
 
 export default function DemoPage() {
@@ -55,6 +57,14 @@ export default function DemoPage() {
           <DemoVideoPlayer video={demoVideos.coreWorkflow} />
         </div>
       </section>
+      <MarketingCta
+        description="看完演示后，可查看三档年度方案或阅读安装、导入和授权边界。"
+        secondaryLinks={[
+          { label: "查看版本方案", href: "/pricing" },
+          { label: "下载中心", href: "/download" },
+        ]}
+        title="继续了解交付方式"
+      />
     </main>
   );
 }

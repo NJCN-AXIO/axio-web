@@ -15,6 +15,10 @@ import { demoVideos } from "../content/videos";
 
 import "./home.css";
 
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
+
 export default function HomePage() {
   const content = getSiteContent();
 
@@ -35,3 +39,4 @@ export default function HomePage() {
     </main>
   );
 }
+import type { Metadata } from "next";

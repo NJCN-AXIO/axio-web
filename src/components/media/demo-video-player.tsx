@@ -31,7 +31,7 @@ export function DemoVideoPlayer({ video }: { video: DemoVideo }) {
         controls
         playsInline
         poster={video.poster}
-        preload="metadata"
+        preload="none"
       >
         <source src={video.src ?? undefined} type="video/mp4" />
         您的浏览器暂不支持视频播放。

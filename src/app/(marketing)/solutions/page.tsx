@@ -5,6 +5,7 @@ import { MarketingCta } from "../../../components/marketing/marketing-cta";
 export const metadata: Metadata = {
   title: "解决方案",
   description: "按跨境卖家的团队协作方式与店群规模规划 AXIO 智核交付路径。",
+  alternates: { canonical: "/solutions/" },
 };
 
 const solutions = [

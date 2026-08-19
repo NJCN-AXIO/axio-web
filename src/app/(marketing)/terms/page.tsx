@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "\u670d\u52a1\u6761\u6b3e",
   description:
     "\u4e86\u89e3 AXIO \u5b98\u7f51\u548c\u54a8\u8be2\u670d\u52a1\u3001\u672c\u5730\u5ba2\u6237\u7aef\u6267\u884c\u4e0e\u4ea4\u4ed8\u786e\u8ba4\u8fb9\u754c\u3002",
+  alternates: { canonical: "/terms/" },
 };
 
 const terms = [

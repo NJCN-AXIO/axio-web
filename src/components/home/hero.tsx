@@ -24,6 +24,9 @@ export function Hero() {
           <h1 id="home-hero-title">{content.hero.title}</h1>
           <p className="hero__subtitle">{content.hero.subtitle}</p>
           <p className="hero__description">{content.hero.description}</p>
+          <p className="hero__boundary-note">
+            受控自动化：高风险操作保留人工确认与结果回读，不承诺平台经营结果。
+          </p>
           <div className="hero__actions">
             <Link
               className="button button--primary home-button"
@@ -39,6 +42,10 @@ export function Hero() {
               {content.hero.secondaryCta.label}
             </Link>
           </div>
+          <nav aria-label="继续了解 AXIO" className="hero__next-links">
+            <Link href="/pricing">查看版本方案</Link>
+            <Link href="/download">下载中心</Link>
+          </nav>
         </div>
 
         <figure className="hero__product" data-reveal>

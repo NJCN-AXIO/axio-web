@@ -42,6 +42,11 @@ export function PackageBand() {
                 </div>
               </div>
               <p>{option.description}</p>
+              <ul className="package-option__limits" aria-label="方案容量边界">
+                {option.limits.map((limit) => (
+                  <li key={limit}>{limit}</li>
+                ))}
+              </ul>
               <Link href="/demo">
                 观看产品演示 <ArrowRight aria-hidden="true" size={16} />
               </Link>

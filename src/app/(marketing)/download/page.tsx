@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   title: "下载 AXIO 客户端",
   description:
     "获取 AXIO 通用客户包、安装配置说明、空白导入模板和手动升级回滚指南。",
+  alternates: { canonical: "/download/" },
 };
 
 export default function DownloadPage() {

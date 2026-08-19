@@ -74,6 +74,14 @@ describe("Simplified Chinese site content", () => {
     expect(zhCN.hero.secondaryCta.href).toBe("#capabilities");
   });
 
+  it("publishes explicit package capacity boundaries", () => {
+    expect(zhCN.packages.map((item) => item.limits)).toEqual([
+      ["最多 10 店", "6 站点 · 并发 1", "单人使用"],
+      ["最多 50 店", "6 站点 · 并发 3", "单人专业运营"],
+      ["最多 200 店", "12 站点 · 并发 10", "3 席位协作"],
+    ]);
+  });
+
   it("keeps exactly one promoted public package", () => {
     expect(
       zhCN.packages.map((item) => `${item.chineseName} ${item.name}`),

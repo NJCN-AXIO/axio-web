@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "产品能力",
   description:
     "查看 AXIO 智核覆盖选品、任务、定价、上架、存量经营与风险回读的能力边界。",
+  alternates: { canonical: "/product/" },
 };
 
 export default function ProductPage() {

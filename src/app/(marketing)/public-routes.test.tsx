@@ -134,6 +134,9 @@ it("publishes the approved launch prices without online checkout", () => {
     expect(within(card).getByText(option.launchPrice)).toBeVisible();
   }
   expect(screen.getByText("首发仅限 20 席")).toBeVisible();
+  expect(screen.getByText("最多 10 店")).toBeVisible();
+  expect(screen.getByText("最多 50 店")).toBeVisible();
+  expect(screen.getByText("最多 200 店")).toBeVisible();
   expect(screen.getByText("定制部署 ¥6,800 起")).toBeVisible();
   expect(screen.getByText("源码交付单独报价")).toBeVisible();
   expect(screen.getAllByText("不支持在线付款")).toHaveLength(2);

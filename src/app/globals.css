@@ -91,6 +91,22 @@ a {
   text-decoration: none;
 }
 
+.skip-link {
+  position: fixed;
+  z-index: 100;
+  top: 10px;
+  left: 10px;
+  padding: 10px 14px;
+  transform: translateY(-160%);
+  background: var(--action);
+  color: var(--on-action);
+  font-weight: 750;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
 button,
 .button {
   min-height: 44px;
@@ -124,6 +140,11 @@ button {
   border-color: var(--action);
   background: var(--action);
   color: var(--on-action);
+}
+
+.button--quiet {
+  background: transparent;
+  color: var(--text);
 }
 
 .wechat-contact {

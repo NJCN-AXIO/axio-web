@@ -36,6 +36,14 @@ export function PackageComparison({ packages }: { packages: PackageSet }) {
               </div>
             </div>
             <p>{option.description}</p>
+            <ul
+              className="package-comparison__limits"
+              aria-label="方案容量边界"
+            >
+              {option.limits.map((limit) => (
+                <li key={limit}>{limit}</li>
+              ))}
+            </ul>
             <p className="package-comparison__delivery">{option.delivery}</p>
             <Link href="/demo">
               观看产品演示

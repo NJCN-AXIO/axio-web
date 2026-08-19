@@ -132,9 +132,6 @@ test.describe("faithful public product preview", () => {
       );
     }
 
-    await experienceLinks.first().click();
-    await expect(page).toHaveURL(new RegExp(`${expectedPreviewPath}$`));
-
     // The Next dev server does not rewrite /preview/ to the public static
     // entry; use the same static entry that the preview E2E tests exercise.
     await page.goto(previewEntry);

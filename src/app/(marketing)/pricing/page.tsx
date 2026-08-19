@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: "首发版本方案",
   description:
     "比较 AXIO 智核 Starter、Professional 与 Team 三种首发年度方案。",
+  alternates: { canonical: "/pricing/" },
 };
 
 export default function PricingPage() {

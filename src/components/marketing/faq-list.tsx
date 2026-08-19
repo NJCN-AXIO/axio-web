@@ -30,6 +30,13 @@ export function FaqList({ groups }: { groups: readonly FaqGroup[] }) {
             先确认最常见的交付、安装、隐私、自动化和授权边界。点击问题即可展开完整回答。
           </p>
         </header>
+        <nav aria-label="FAQ 分类跳转" className="faq-jump">
+          {groups.map((group) => (
+            <a href={`#faq-${group.id}`} key={group.id}>
+              {group.title}
+            </a>
+          ))}
+        </nav>
         <div className="faq-list__entries">
           {priorityItems.map((item, index) => (
             <FaqEntry defaultOpen={index < 5} item={item} key={item.question} />
@@ -42,7 +49,11 @@ export function FaqList({ groups }: { groups: readonly FaqGroup[] }) {
           const remainingItems = group.items.filter((item) => !item.priority);
 
           return (
-            <section className="faq-group" key={group.id}>
+            <section
+              className="faq-group"
+              id={`faq-${group.id}`}
+              key={group.id}
+            >
               <h3>{group.title}</h3>
               <div className="faq-list__entries">
                 {remainingItems.map((item) => (

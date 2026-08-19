@@ -580,7 +580,38 @@
   padding: 28px;
   border: 1px solid var(--border);
   background: var(--surface);
-  gap: 4px;
+  gap: 16px;
+}
+
+.faq-jump {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.faq-jump a {
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.package-comparison__limits {
+  display: grid;
+  gap: 6px;
+  margin: 18px 0 0;
+  padding: 0;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 720;
+  list-style: none;
+}
+
+.package-comparison__limits li::before {
+  margin-right: 8px;
+  color: var(--brand);
+  content: "✓";
 }
 
 .faq-groups {
@@ -811,6 +842,18 @@
   gap: 9px;
 }
 
+.marketing-cta .button--quiet {
+  border-color: var(--inverse-muted);
+  color: var(--page);
+}
+
+.marketing-cta__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
 @media (max-width: 1080px) {
   .marketing-hero {
     padding-top: 64px;
@@ -941,6 +984,10 @@
   }
 
   .marketing-cta .button {
+    width: 100%;
+  }
+
+  .marketing-cta__actions {
     width: 100%;
   }
 }
