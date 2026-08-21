@@ -96,7 +96,7 @@ describe("Simplified Chinese site content", () => {
     expect(zhCN.publicRelease).toMatchObject({
       releaseVersion: "待发布",
       downloadUrl:
-        "https://pan.xunlei.com/s/VP-P3BI7hG8hv-roJdqimWq9A1?pwd=ix5s",
+        "https://pan.xunlei.com/s/VP-Xwoc1fhDlvzw4Yd_VcFjHA1?pwd=79z9",
       templateUrl: "/downloads/templates/stores.csv",
       manualUrl: "/downloads/manual/customer-installation.md",
     });
