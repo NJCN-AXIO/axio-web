@@ -186,7 +186,7 @@ it("publishes a fail-closed download center with installation boundaries", () =>
   expect(
     screen.getByRole("heading", { level: 2, name: "客户常见问题" }),
   ).toBeVisible();
-  expect(screen.getByText(/签名客户 ZIP 待上传到已配置/)).toBeVisible();
+  expect(screen.getByText(/签名客户 ZIP 已上传到迅雷云盘/)).toBeVisible();
 });
 
 it("orders the interactive preview, full product demo, then core workflow", () => {
