@@ -37,7 +37,8 @@ export default function DownloadPage() {
               下载中心提供版本元数据、安装准备、API
               配置、空白数据导入和手动升级路径。
               当前不提供账号鉴权下载。已配置固定迅雷云盘文件夹；签名 ZIP
-              上传前，版本、文件大小和 SHA-256 继续标记为待发布。
+              当前客户 ZIP
+              已完成下载回读验收；安装前仍请逐项核对版本、文件大小和 SHA-256。
             </p>
             <a className="button button--quiet download-faq-jump" href="#faq">
               查看客户 FAQ

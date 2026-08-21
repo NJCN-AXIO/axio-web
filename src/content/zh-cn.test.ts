@@ -92,11 +92,15 @@ describe("Simplified Chinese site content", () => {
     );
   });
 
-  it("keeps the public download URL stable while the artifact is pending", () => {
+  it("publishes the independently accepted customer artifact", () => {
     expect(zhCN.publicRelease).toMatchObject({
-      releaseVersion: "待发布",
+      releaseVersion: "v1.0.0",
+      releaseDate: "2026-08-21",
       downloadUrl:
         "https://pan.xunlei.com/s/VP-Xwoc1fhDlvzw4Yd_VcFjHA1?pwd=79z9",
+      sha256:
+        "0510008c23d7115c08b6b42f751a9757f6fdcd255763408e9f6fd01cbc285f19",
+      fileSize: "92,850,588 字节（约 88.55 MB）",
       templateUrl: "/downloads/templates/stores.csv",
       manualUrl: "/downloads/manual/customer-installation.md",
     });
