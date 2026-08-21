@@ -31,11 +31,7 @@ export function getPublicLink(
   value: string,
 ): { readonly href: string; readonly external: boolean } | null {
   const href = value.trim();
-  if (
-    href.startsWith("/") &&
-    !href.startsWith("//") &&
-    !href.includes("\\")
-  ) {
+  if (href.startsWith("/") && !href.startsWith("//") && !href.includes("\\")) {
     return { href, external: false };
   }
   if (isSafePublicLink(href)) return { href, external: true };
