@@ -157,12 +157,12 @@ export const zhCN: SiteContent = {
   publicRelease: {
     releaseVersion: "待发布",
     releaseDate: "待发布",
-    downloadUrl: "https://pan.xunlei.com/s/VP-P3BI7hG8hv-roJdqimWq9A1?pwd=ix5s",
+    downloadUrl: "https://pan.xunlei.com/s/VP-Xwoc1fhDlvzw4Yd_VcFjHA1?pwd=79z9",
     downloadLabel: "打开 AXIO 客户端下载文件夹",
     sha256: "待发布",
     fileSize: "待发布",
     releaseNotes:
-      "签名客户 ZIP 待上传到已配置的迅雷云盘文件夹；上传后无需修改官网链接。",
+      "签名客户 ZIP 已上传到迅雷云盘；版本、大小和 SHA-256 将在独立下载回读完成后登记。",
     templateUrl: "/downloads/templates/stores.csv",
     manualUrl: "/downloads/manual/customer-installation.md",
   },
